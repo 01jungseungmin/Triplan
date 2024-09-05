@@ -109,17 +109,8 @@ function MyTripDetail() {
     };
 
     const handleCommunityCreate = () => {
-        navigate('/write');
-    };
-
-    const handleMyTripEdit = () => {
-        setIsModalOpen(true); // 모달 열기
-    };
-
-    const handleCreate = () => {
-        console.log('수정된 일정 정보:', { tripName, startDate, endDate });
-        setIsModalOpen(false); // 모달 닫기
-    };
+        navigate(`/write/${crewId}`);
+    }
 
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;

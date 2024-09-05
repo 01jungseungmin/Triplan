@@ -169,5 +169,10 @@ hr {
     font-size: 1.2rem;
 }
 
-
+.travelPostCommentItem{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 카드 크기 및 그리드 자동 채우기 */
+    gap: 34px; /* 카드 간격 */
+    margin: 4%;
+}
 

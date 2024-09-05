@@ -36,10 +36,10 @@ public class BoardReadService {
 
         // 로그인하지 않은 사용자의 조회수 증가 방지 (쿠키 확인)
         String cookieName = "boardViewed-" + boardId;
-        Cookie[] cookies = request.getCookies();
         boolean hasViewed = false;
 
         // 쿠키가 있는지 확인
+        Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals(cookieName)) {
@@ -51,12 +51,16 @@ public class BoardReadService {
 
         // 조회하지 않은 경우 조회수 증가 및 쿠키 설정
         if (!hasViewed) {
-            board.increaseCount();
-            boardRepository.save(board);
+            synchronized (this) { // 동시성 문제 방지
+                board.increaseCount();
+                boardRepository.save(board);
+            }
 
-            // 쿠키 설정: 사용자가 이미 조회한 게시글에 대해서만 쿠키 설정
+            // 쿠키 설정
             Cookie viewedCookie = new Cookie(cookieName, "true");
-            viewedCookie.setMaxAge(60 * 60 * 24);  // 쿠키의 만료 시간 1일
+            viewedCookie.setHttpOnly(true); // 보안 강화
+            viewedCookie.setSecure(false); // HTTPS에서만 작동 (개발 단계에서는 false)
+            viewedCookie.setMaxAge(60 * 60 * 24); // 쿠키의 만료 시간 1일
             viewedCookie.setPath("/"); // 전체 경로에서 유효
             response.addCookie(viewedCookie);
         }
@@ -66,9 +70,8 @@ public class BoardReadService {
                 .map(BoardImage::getBoardImageUrl) // BoardImage에서 URL 가져오기
                 .collect(Collectors.toList());
 
-
         // 게시글 상세 조회 반환
-        return new BoardDetailResponse(board.getId(), board.getTitle(), board.getContent(), board.getCount(),
-                board.getAccount().getId(), board.getCrew().getId(),imageUrls);
+        return new BoardDetailResponse(board.getId(), board.getTitle(), board.getContent(),
+                imageUrls,board.getCrew().getPlanStartDate(),board.getCrew().getPlanEndDate(),board.getAccount().getNickName());
     }
 }

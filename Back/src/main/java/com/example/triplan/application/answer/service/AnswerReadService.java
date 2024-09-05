@@ -31,7 +31,9 @@ public class AnswerReadService {
                         answer.getId(),
                         answer.getContent(),
                         answer.getAccount().getNickName(),
-                        answer.getBoard().getId()
+                        answer.getBoard().getId(),
+                        answer.getCreatedAt(),
+                        answer.getUpdatedAt()
                 ))
                 .collect(Collectors.toList());
     }

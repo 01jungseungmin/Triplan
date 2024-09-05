@@ -19,11 +19,8 @@ function CommunityBoard() {
     const currentBoards = boards.slice(startIndex, endIndex);
 
     useEffect(() => {
+        let isMounted = true; // 컴포넌트 언마운트 후 API 응답 처리 방지
         const token = localStorage.getItem('token');
-        if (!token) {
-            alert('로그인이 필요합니다.');
-            return;
-        }
 
         fetch('http://localhost:8080/api/boards', {
             method: 'GET',
@@ -38,15 +35,23 @@ function CommunityBoard() {
                 return response.json();
             })
             .then(data => {
-                console.log('API에서 받아온 데이터:', data);
-                setBoards(data);
-                setLoading(false);
+                if (isMounted) {
+                    console.log('API에서 받아온 데이터:', data);
+                    setBoards(data);
+                    setLoading(false);
+                }
             })
             .catch(error => {
-                console.error('에러 발생:', error.message);
-                setError(`커뮤니티 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`);
-                setLoading(false);
+                if (isMounted) {
+                    console.error('에러 발생:', error.message);
+                    setError(`커뮤니티 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`);
+                    setLoading(false);
+                }
             });
+
+        return () => {
+            isMounted = false; // 컴포넌트 언마운트 시 플래그 변경
+        };
     }, []);
 
     const totalPages = Math.ceil(boards.length / itemsPerPage);
@@ -67,8 +72,6 @@ function CommunityBoard() {
             setCurrentPage(currentPage + 1);
         }
     };
-
-    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
     if (loading) {
         return <div>로딩 중...</div>;

@@ -28,6 +28,7 @@ function App() {
         <Route path='/community' element={<CommunityBoard />} />
         <Route path='/api/boards/:boardId' element={<CommunityDetail />} />
         <Route path='/write' element={<CommunityWrite />} />
+        <Route path="/write/:crewId" element={<CommunityWrite />} />
       </Routes>
     </Router>
   );
