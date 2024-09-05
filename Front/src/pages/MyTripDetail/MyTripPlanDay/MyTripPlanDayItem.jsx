@@ -63,7 +63,7 @@ function MyTripPlanDayItem({ dayNumber, date, crewId }) {
                 </button>
             </div>
             <div className="MyTripPlanPlaceItemContainer" ref={placeContainerRef}>
-                <MyTripPlanPlaceItem onClick={openModal} />
+                <MyTripPlanPlaceItem onClick={openModal}  crewId={crewId} date={date} />
             </div>
             {isModalOpen && <PlanPlaceViewModal onClose={closeModal} />}
         </div>

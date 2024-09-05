@@ -1,9 +1,7 @@
 package com.example.triplan.application.plan.service;
 
-import ch.qos.logback.core.joran.conditional.IfAction;
 import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.plan.dto.request.PlanRequest;
-import com.example.triplan.application.plan.dto.response.PlanResponse;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.entity.CrewList;
@@ -12,7 +10,6 @@ import com.example.triplan.domain.crew.repository.CrewListRepository;
 import com.example.triplan.domain.crew.repository.CrewRepository;
 import com.example.triplan.domain.place.entity.Place;
 import com.example.triplan.domain.place.repository.PlaceRepository;
-import com.example.triplan.domain.placeadd.entity.PlaceAdd;
 import com.example.triplan.domain.placeadd.repository.PlaceAddRepository;
 import com.example.triplan.domain.plan.entity.Plan;
 import com.example.triplan.domain.plan.enums.PlaceType;
@@ -102,7 +99,7 @@ public class PlanWriteService {
     }
 
     // 일정 수정 메서드
-    public PlanResponse modify(Long planId, PlanRequest planRequest) {
+    public PlanRequest modify(Long planId, PlanRequest planRequest) {
         Account account = accountService.getCurrentUser();
         Plan plan = validatefindPlanById(planId);
         Crew crew = plan.getCrew();
@@ -126,7 +123,7 @@ public class PlanWriteService {
 
         Plan updatedPlan = planRepository.save(plan);
 
-        return new PlanResponse(updatedPlan.getPlanDate(), updatedPlan.getPlanStartTime(), updatedPlan.getPlanMemo(),
+        return new PlanRequest(updatedPlan.getPlanDate(), updatedPlan.getPlanStartTime(), updatedPlan.getPlanMemo(),
                 updatedPlan.getRefId(), updatedPlan.getPlaceType(), updatedPlan.getCrew().getId());
     }
 

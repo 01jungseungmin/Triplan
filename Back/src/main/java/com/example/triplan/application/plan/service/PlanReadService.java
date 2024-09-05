@@ -3,7 +3,12 @@ package com.example.triplan.application.plan.service;
 import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.plan.dto.response.PlanResponse;
 import com.example.triplan.domain.account.entity.Account;
+import com.example.triplan.domain.place.entity.Place;
+import com.example.triplan.domain.place.repository.PlaceRepository;
+import com.example.triplan.domain.placeadd.entity.PlaceAdd;
+import com.example.triplan.domain.placeadd.repository.PlaceAddRepository;
 import com.example.triplan.domain.plan.entity.Plan;
+import com.example.triplan.domain.plan.enums.PlaceType;
 import com.example.triplan.domain.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,18 +23,47 @@ import java.util.stream.Collectors;
 public class PlanReadService {
     private final AccountService accountService;
     private final PlanRepository planRepository;
+    private final PlaceRepository placeRepository;
+    private final PlaceAddRepository placeAddRepository;
     // 로그인된 사용자의 모든 Plan 정보를 조회
     public List<PlanResponse> findAllPlansForCurrentUser(Long crewId) {
-        Account account = accountService.getCurrentUser(); // 현재 로그인된 사용자 정보 가져오기
-        List<Plan> plans = planRepository.findAllByCrewIdAndCrewAccountId(crewId, account.getId()); // 해당 유저가 속한 Crew의 모든 Plan 조회
+        Account account = accountService.getCurrentUser();
+        List<Plan> plans = planRepository.findAllByCrewIdAndCrewAccountId(crewId, account.getId());
+
         return plans.stream()
-                .map(plan -> new PlanResponse(
-                        plan.getPlanDate(),
-                        plan.getPlanStartTime(),
-                        plan.getPlanMemo(),
-                        plan.getRefId(),
-                        plan.getPlaceType(),
-                        plan.getCrew().getId()))
+                .map(plan -> {
+                    String placeName = "알 수 없음";
+                    String placeAddress = "주소 없음";
+
+                    // 장소 정보 조회
+                    if (plan.getPlaceType() == PlaceType.PLACE) {
+                        Place place = placeRepository.findById(plan.getRefId()).orElse(null);
+                        if (place != null) {
+                            placeName = place.getPlaceName();
+                            placeAddress = place.getPlaceAddress();
+                        }
+                    } else if (plan.getPlaceType() == PlaceType.PLACE_ADD) {
+                        PlaceAdd placeAdd = placeAddRepository.findById(plan.getRefId()).orElse(null);
+                        if (placeAdd != null) {
+                            placeName = placeAdd.getPlaceAddName();
+                            placeAddress = placeAdd.getPlaceAddAddress();
+                        }
+                    }
+
+                    // Crew ID 가져오기
+                    Long crewIdForResponse = plan.getCrew() != null ? plan.getCrew().getId() : null;
+
+                    return new PlanResponse(
+                            plan.getPlanDate(),
+                            plan.getPlanStartTime(),
+                            plan.getPlanMemo(),
+                            plan.getRefId(),
+                            plan.getPlaceType(),
+                            crewIdForResponse,
+                            placeName,
+                            placeAddress
+                    );
+                })
                 .collect(Collectors.toList());
     }
 }
