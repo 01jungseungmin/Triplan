@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Corrected import
 import '../Login/Login.css';
 
 function Login() {
@@ -19,12 +20,12 @@ function Login() {
 
   const loginForm = async (e) => {
     e.preventDefault();
-
+  
     if (!loginInput) {
       alert("이메일, 비밀번호 모두 입력해주세요.");
       return;
     }
-
+  
     try {
       const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
@@ -33,23 +34,21 @@ function Login() {
         },
         body: JSON.stringify({ email: email, password: pass }),
       });
-
+  
       if (response.ok) {
         const data = await response.json();
-
-        // JWT 토큰과 이메일을 로컬 스토리지에 저장
+  
+        // JWT 토큰을 로컬 스토리지에 저장
         localStorage.setItem('token', data.token);
-        localStorage.setItem('email', email); // 이메일 저장
+  
+        // JWT 토큰 디코딩하여 사용자 권한(auth) 추출
+        const decodedToken = jwtDecode(data.token);
+        const userAuth = decodedToken.auth; // 'auth' 필드를 사용
+  
+        alert("로그인 성공!")
 
-        alert("로그인 성공!");
+        navigate('/'); // 기본 홈으로 리디렉션
 
-        // 이메일이 특정 관리자 계정이라면 adminPlace로 리다이렉션
-        if (email === "admin@naver.com") {
-          navigate('/admin/place/list');
-        } else {
-          // 일반 계정은 메인 페이지로 리다이렉션
-          navigate('/');
-        }
       } else {
         const errorData = await response.json();
         alert(errorData.error || "로그인에 실패했습니다.");
@@ -59,6 +58,7 @@ function Login() {
       alert("로그인 중 오류가 발생했습니다.");
     }
   };
+  
 
   return (
     <div className="login">

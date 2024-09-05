@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
 import '../CommunityDetail/CommunityDetail.css';
 import Header from '../../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import CommentItem from '../CommentItem/CommentItem';
+import { jwtDecode } from 'jwt-decode';
 
 function CommunityDetail() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -18,6 +18,7 @@ function CommunityDetail() {
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentnickName, setcurrentnickName] = useState(null);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const itemsPerPage = 4;
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -25,6 +26,21 @@ function CommunityDetail() {
 
     const currentComments = comments.slice(startIndex, endIndex);
     const totalPages = Math.ceil(comments.length / itemsPerPage);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const userAuth = decodedToken.auth; // JWT의 'auth' 필드를 통해 권한 확인
+                if (userAuth === 'ADMIN') {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error('JWT 디코딩 중 오류 발생:', error);
+            }
+        }
+    }, []);
 
     useEffect(() => {
         // 토큰에서 현재 사용자 이메일 추출
@@ -224,15 +240,15 @@ function CommunityDetail() {
                     <>
                         <div className="travelPostContainer">
                             <div className="travelPostHeader">
-                                {currentnickName && community && currentnickName === community.email && (
+                                {(isAdmin ||(currentnickName && community && currentnickName === community.email)) && (
                                     <>
                                         <div className="postDeleteBtnContainer">
                                             <button className="postDeleteBtn" onClick={handleDeletePost}>
                                                 삭제하기
                                             </button>
-                                            <button className="postModifyBtn" onClick={handleModifyPost}>
+                                            { !isAdmin &&(<button className="postModifyBtn" onClick={handleModifyPost}>
                                                 수정하기
-                                            </button>
+                                            </button>)}
                                         </div>
                                     </>
                                 )}

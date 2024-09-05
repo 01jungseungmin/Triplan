@@ -61,6 +61,7 @@ function BestBoard() {
         {topPlaces.map((place, index) => (
           <PlaceBoardItem
             key={index}
+            placeId={place.placeId}
             name={place.placeName} // API 데이터에 맞게 수정
             address={place.placeAddress} // API 데이터에 맞게 수정
             phone={place.placeNumber} // API 데이터에 맞게 수정
