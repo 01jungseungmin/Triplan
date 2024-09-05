@@ -134,7 +134,8 @@ hr {
 }
 
 .commentInput {
-    width: 90%;
+    width: 100%;
+    max-width: 700px;
     height: 40px;
     border-radius: 5px;
     font-size: 0.94rem;
@@ -154,7 +155,7 @@ hr {
     margin-left: 1%;
     border-radius: 5px;
     border: 1px solid #b9b8b880;
-    background-color: #b9b8b880;
+    background-color: #b9b8b880; /* 비활성화 상태 */
     cursor: pointer;
     transition: all 0.3s ease; /* 부드러운 효과 */
 }
@@ -162,6 +163,11 @@ hr {
 .commentAddBtn:hover {
     border: 1px solid #87878780;
     background-color: #87878780;
+}
+
+.commentAddBtn.active {
+    background-color: #67C1C7; /* 활성화된 버튼의 배경색 (파란색) */
+    border-color: #67C1C7; /* 활성화된 버튼의 테두리 색상 */
 }
 
 .commentAddBtnIcon {
@@ -181,4 +187,3 @@ hr {
     font-family: 'PretendardFont-Medium';
     color: #484848;
 }
-
