@@ -4,9 +4,27 @@ import '../Login/Login.css';
 
 function Login() {
   const navigate = useNavigate();
+  const[email, setEmail] = useState("");
+  const[pass, setPass] = useState("");
 
   const logoOnclick = () => {
     navigate('/');
+  }
+
+  const joinOnclick = () => {
+    navigate('/Join')
+  }
+
+  const loginForm= (e) => {
+    e.preventDefault();
+
+    if(!email || !pass) {
+      alert("이메일, 비밀번호 모두 입력해주세요.");
+      return;
+    } else {
+      alert(email + ", " + pass + ", ");
+      return;
+    }
   }
 
   return (
@@ -22,17 +40,17 @@ function Login() {
           <div className="logosubTxt1">맛집부터 관광 명소까지 모두 모여있어요.</div>
           <div className="logosubTxt2">자신의 계획을 다른 사용들에게 공유해요.</div>
         </div>
-        <form>
+        <form onSubmit={loginForm}>
           <div className="login-email-box">
             <div className="email-title">이메일</div>
-            <input type="email" placeholder="Email" className="email-input" />
+            <input type="email" placeholder="Email" className="email-input" value={email} onChange={(e) => setEmail(e.target.value)} />
           </div>
           <div className="login-pass-box">
             <div className="pass-title">비밀번호</div>
-            <input type="password" placeholder="Password" className="pass-input" />
+            <input type="password" placeholder="Password" className="pass-input" value={pass} onChange={(e) => setPass(e.target.value)}/>
           </div>
           <button type="submit" className="login-button">Login</button>
-          <button className="join-button">회원가입</button>
+          <button className="join-button" onClick={joinOnclick} style={{cursor: 'pointer'}}>회원가입</button>
         </form>
       </div>
     </div>

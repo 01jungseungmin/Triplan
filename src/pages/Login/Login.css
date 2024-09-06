@@ -76,19 +76,18 @@
 
   .email-input, .pass-input {
     width: 100%;
-    padding: 10px;
+    padding: 4%;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
     font-size: 16px;
-    font-family: 'PretendardFont';
   }
   
   
   /* 로그인 버튼 스타일 */
   .login-button {
     width: 100%;
-    height: 40px;
+    height: 44px;
     background-color: #ace5ec;
     color: white;
     border: none;
