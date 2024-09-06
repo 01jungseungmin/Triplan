@@ -11,7 +11,7 @@
   }
   
   .content {
-    height: 800px;
+    height: 78vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,7 +87,7 @@
     flex-direction: column;
     align-items: center;
     font-size: 18px;
-    font-family: 'Arial', sans-serif;
+    font-family: 'PretendardFont';
     color: #FF8358;
   }
   

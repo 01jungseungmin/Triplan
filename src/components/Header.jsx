@@ -14,6 +14,11 @@ function Header() {
         navigate('/');
     }
 
+    const handleLoginClick = (e) => {
+        e.preventDefault(); 
+        navigate('/login'); 
+    }
+
     return (
         <header className="header">
             <div className="logo" onClick={logoClick} style={{cursor: 'pointer'}}>
@@ -36,7 +41,7 @@ function Header() {
                 onClick={(e) => {e.preventDefault(); handleMenuClick("navCommunity");}}>커뮤니티</a>
             </nav>
             <div className="auth">
-                <a href="/" className="login-btn">Log in</a>
+                <a href="/login" className="login-btn" onClick={handleLoginClick}>Log in</a>
             </div>
         </header>
     )
