@@ -4,7 +4,7 @@ import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header';
 import './Main.css';
 
-const Main = () => {
+function Main() {
     return (
         <div className="MainContainer">
           <Header />
