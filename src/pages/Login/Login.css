@@ -1,0 +1,54 @@
+/* 전체 화면에서 중앙에 배치되도록 설정 */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  /* 로그인 박스 */
+  .login-box {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    width: 300px;
+  }
+  
+  /* TRIPLAN 제목 스타일 */
+  .logoTxt {
+    margin-bottom: 10px;
+    font-size: 32px;
+    color: #333;
+    font-family: 'JSongMyungFont';
+  }
+  
+  /* 입력 필드 스타일 */
+  .input-field {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+  
+  /* 로그인 버튼 스타일 */
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .login-button:hover {
+    background-color: #0056b3;
+  }
+  
