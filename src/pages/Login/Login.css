@@ -1,10 +1,13 @@
+.login {
+  background-color: #ececec;
+}
+
 /* 전체 화면에서 중앙에 배치되도록 설정 */
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
+  .login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
   }
   
   /* 로그인 박스 */
@@ -14,41 +17,99 @@
     background-color: white;
     border-radius: 10px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: 400px;
   }
-  
-  /* TRIPLAN 제목 스타일 */
-  .logoTxt {
-    margin-bottom: 10px;
-    font-size: 32px;
-    color: #333;
+
+  .loginPage_logo {
+    margin-bottom: 8%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .loginPage-maintitle {
+    font-size: 26px;
+    font-style: italic;
+    color: #00bcd4; /* 밝은 파란색 */
     font-family: 'JSongMyungFont';
   }
-  
-  /* 입력 필드 스타일 */
-  .input-field {
+
+  .loginPage-subtitle {
+    font-size: 26px;
+    font-style: italic;
+    color: black; /* 밝은 파란색 */
+    font-family: 'JSongMyungFont';
+  }
+
+  .logoTxt {
+    font-size: 20px;
+    color: #646464;
+    font-family: 'PretendardFont';
+    font-weight: 700;
+    margin-bottom: 2%;
+  }
+
+  .logosubTxt1 {
+    margin-bottom: 1%;
+  }
+
+  .logosubTxt1, .logosubTxt2 {
+    font-size: 14px;
+    font-family: 'PretendardFont';
+    color: #646464;
+  }
+
+  .login-email-box {
+    margin-top: 12%;
+    margin-bottom: 6%;
+  }
+
+  .login-pass-box {
+    margin-bottom: 10%;
+  }
+
+  .email-title, .pass-title {
+    font-family: 'PretendardFont';
+    margin-bottom: 1%;
+    text-align: left;
+    color: #949494;
+  }
+
+  .email-input, .pass-input {
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
     box-sizing: border-box;
     font-size: 16px;
+    font-family: 'PretendardFont';
   }
+  
   
   /* 로그인 버튼 스타일 */
   .login-button {
     width: 100%;
-    padding: 10px;
-    background-color: #007bff;
+    height: 40px;
+    background-color: #ace5ec;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 16px;
+    font-family: 'PretendardFont';
     cursor: pointer;
   }
   
   .login-button:hover {
-    background-color: #0056b3;
+    background-color: #00bcd4;
+  }
+
+  .join-button {
+    border: none; /* 테두리 제거 */
+    margin-top: 2%;
+    color: rgb(148, 148, 148); /* 버튼 텍스트 색상 설정 */
+    font-family: 'PretendardFont';
+    font-size: 14px;
+    text-align: center; /* 텍스트 중앙 정렬 */
+    background-color: transparent;
+    cursor: pointer; /* 마우스 커서를 포인터로 설정 */
   }
   
