@@ -1,10 +1,21 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import Header from '../../components/Header';
+import BestBoard from "../../components/BestBoard";
+import TopButton from "../../components/TopButton";
 import './Main.css';
 
 function Main() {
+
+  const bestBoardRef = useRef(null);
+
+  const scrollToBestBoard = () => {
+    if(bestBoardRef.current) {
+      bestBoardRef.current.scrollIntoView({behavior : 'smooth'});
+    }
+  }
+
     return (
         <div className="MainContainer">
           <Header />
@@ -30,11 +41,15 @@ function Main() {
             </div>
           </div>
           <div className="scroll-indicator">
-            <button className="scroll-button">
+            <button className="scroll-button" onClick={scrollToBestBoard}>
               <span className="arrow"><FontAwesomeIcon icon={faArrowDown} /></span>
               <span className="text">Scroll down</span>
             </button>
           </div>
+          <div ref={bestBoardRef}>
+            <BestBoard />
+          </div>
+          <TopButton />
         </div>
     );
 }
