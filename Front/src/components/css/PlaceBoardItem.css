@@ -1,0 +1,32 @@
+.board-item {
+  background-color: #f0f0f081;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.board-item-image {
+  background-color: #ccc;
+  height: 150px;
+}
+
+.board-item-info {
+  padding: 2% 4%;
+}
+
+.board-item-title {
+  font-size: 20px;
+  font-family: 'PretendardFont-Bold';
+  margin-bottom: 8%;
+}
+
+.board-item-address {
+  margin-bottom: 1%;
+}
+
+.board-item-address,
+.board-item-phone {
+  font-size: 14px;
+  font-family: 'PretendardFont-Light';
+  color: #505050;
+}
