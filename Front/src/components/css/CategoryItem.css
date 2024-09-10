@@ -1,0 +1,30 @@
+.category-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 20px;
+  color: #555;
+  font-size: 14px;
+  position: relative;
+}
+
+.category-item .category-icon {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.category-item .category-name {
+  margin-top: 5px;
+}
+
+.underline {
+  width: 150%;
+  height: 2px;
+  background-color: #8ed0d7;
+  bottom: -5px;
+}
+
+.selected {
+  color: #000;
+}

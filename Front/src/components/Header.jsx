@@ -6,8 +6,9 @@ function Header() {
     const [selectedMenu, setSelectedMenu] = useState("navHome");
     const navigate = useNavigate();
 
-    const handleMenuClick = (menuId) => {
+    const handleMenuClick = (menuId, path) => {
         setSelectedMenu(menuId);
+        navigate(path);
     }
 
     const logoClick = () => {
@@ -28,13 +29,14 @@ function Header() {
             <nav className="nav-menu">
                 <a href="/" 
                 className={`nav-item ${selectedMenu === "navHome" ? "selected" : ""}`}
-
                 id="navHome"
                 onClick={(e) => {e.preventDefault(); handleMenuClick("navHome");}}>홈</a>
+
                 <a href="/" 
                 className={`nav-item ${selectedMenu === "navMyTrip" ? "selected" : ""}`}
                 id="navMyTrip"
-                onClick={(e) => {e.preventDefault(); handleMenuClick("navMyTrip");}}>내 여행</a>
+                onClick={(e) => {e.preventDefault(); handleMenuClick("navMyTrip", '/placeBoard');}}>내 여행</a>
+
                 <a href="/" 
                 className={`nav-item ${selectedMenu === "navCommunity" ? "selected" : ""}`}
                 id="navCommunity"
