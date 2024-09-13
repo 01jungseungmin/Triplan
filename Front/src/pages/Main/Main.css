@@ -1,116 +1,115 @@
 .MainContainer {
-    text-align: center;
-    margin: 0 auto;
-    padding: 0 18%;
-    box-sizing: border-box;
-  }
-  
-  .App-logo {
-    height: 40vmin;
-    pointer-events: none;
-  }
-  
-  .content {
-    height: 78vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8%;
-  }
-  
-  /* 메인 화면 컨테이너 */
-  .main-container {
-    display: flex;
-    justify-content: space-between; /* 좌우로 배치 */
-    align-items: center; /* 세로 가운데 정렬 */
-    height: 100vh; /* 화면 전체 높이 */
-    padding: 0 80px; /* 좌우 패딩 */
-    background-color: #f9f9f9; /* 배경색 */
-  }
-  
-  /* 메인 타이틀 스타일 */
-  .content-title {
-    font-size: 110px; /* 큰 텍스트 크기 */
-    font-weight: bold;
-    height: 40%;
-    color: #1F1F1F; /* 텍스트 색상 */
-    font-family: 'PretendardFont';
-  }
-  
-  /* 서브 컨텐츠 */
-  .content-sub-container {
-    text-align: left; /* 좌측 정렬 */
-    height: 40%;
-  }
-  
-  .content-sub {
-    display: flex;
-    margin-top: 8%;
-    flex-direction: column;
-  }
-  
-  .content-sub-text {
-    font-size: 34px;
-    color: #1F1F1F;
-    font-family: 'PretendardFont';
-  }
-  
-  .content-sub-title {
-    font-size: 34px;
-    font-weight: bold;
-    color: #1F1F1F;
-    font-family: 'PretendardFont';
-  }
-  
-  .features {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .features li {
-    font-size: 20px;
-    color: #666666;
-    font-family: 'PretendardFont';
-    margin-bottom: 12px;
-  }
-  
-  .features .icon {
-    margin-right: 10px;
-    font-size: 24px; /* 아이콘 크기 */
-  }
-  
-  .scroll-button {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 18px;
-    font-family: 'PretendardFont';
-    color: #FF8358;
-  }
-  
-  .scroll-indicator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: auto;
-    margin-bottom: 10%;
-  }
-  
-  
-  .scroll-button .arrow {
-    font-size: 20px;
-    margin-bottom: 5px;
-  }
-  
-  .scroll-button .text {
-    font-size: 14px;
-  }
-  
-  .scroll-button:hover .arrow,
-  .scroll-button:hover .text {
-    color: #FF5733;
-  }
-  
+  text-align: center;
+  margin: 0 auto;
+  padding: 0 18%;
+  box-sizing: border-box;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.content {
+  height: 78vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8%;
+}
+
+/* 메인 화면 컨테이너 */
+.main-container {
+  display: flex;
+  justify-content: space-between; /* 좌우로 배치 */
+  align-items: center; /* 세로 가운데 정렬 */
+  height: 100vh; /* 화면 전체 높이 */
+  padding: 0 80px; /* 좌우 패딩 */
+  background-color: #f9f9f9; /* 배경색 */
+}
+
+/* 메인 타이틀 스타일 */
+.content-title {
+  font-size: 110px; /* 큰 텍스트 크기 */
+  font-weight: bold;
+  height: 40%;
+  color: #1F1F1F; /* 텍스트 색상 */
+  font-family: 'PretendardFont';
+}
+
+/* 서브 컨텐츠 */
+.content-sub-container {
+  text-align: left; /* 좌측 정렬 */
+  height: 40%;
+}
+
+.content-sub {
+  display: flex;
+  margin-top: 8%;
+  flex-direction: column;
+}
+
+.content-sub-text {
+  font-size: 34px;
+  color: #1F1F1F;
+  font-family: 'PretendardFont';
+}
+
+.content-sub-title {
+  font-size: 34px;
+  font-weight: bold;
+  color: #1F1F1F;
+  font-family: 'PretendardFont';
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+}
+
+.features li {
+  font-size: 20px;
+  color: #666666;
+  font-family: 'PretendardFont';
+  margin-bottom: 12px;
+}
+
+.features .icon {
+  margin-right: 10px;
+  font-size: 24px; /* 아이콘 크기 */
+}
+
+.scroll-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 18px;
+  font-family: 'PretendardFont';
+  color: #FF8358;
+}
+
+.scroll-indicator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  margin-bottom: 10%;
+}
+
+
+.scroll-button .arrow {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.scroll-button .text {
+  font-size: 14px;
+}
+
+.scroll-button:hover .arrow,
+.scroll-button:hover .text {
+  color: #FF5733;
+}

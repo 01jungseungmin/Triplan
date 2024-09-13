@@ -1,63 +1,73 @@
 .header {
-    height: 10vh;
-    padding: 0 20px;
-    padding-top: 1%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #e4e4e4;
-  }
-  
-  .logo {
-    font-family: 'Arial', sans-serif;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .maintitle {
-    font-size: 22px;
-    font-style: italic;
-    color: #00bcd4; /* 밝은 파란색 */
-    align-self: flex-start;
-    font-family: 'JSongMyungFont';
-  } 
-  
-  .subtitle {
-    font-size: 22px;
-    font-style: italic;
-    color: #000;
-    padding-left: 20px;
-    font-family: 'JSongMyungFont';
-  }
-  
-  .nav-menu {
-    margin-left: auto; /* 오른쪽으로 이동 */
-    margin-right: 10%;
-    display: flex;
-    gap: 40px; /* 메뉴 간 간격 조정 */
+  width: 100%;
+  height: 10vh;
+  padding: 0 20px;
+  padding-top: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #e4e4e4;
+}
+
+.logo {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.maintitle {
+  font-size: 22px;
+  font-style: italic;
+  color: #00bcd4;
+  /* 밝은 파란색 */
+  align-self: flex-start;
+  font-family: 'JSongMyungFont';
+}
+
+.subtitle {
+  font-size: 22px;
+  font-style: italic;
+  color: #000;
+  padding-left: 20px;
+  font-family: 'JSongMyungFont';
+}
+
+.nav-menu {
+  margin-left: auto;
+  /* 오른쪽으로 이동 */
+  margin-right: 10%;
+  display: flex;
+  gap: 40px;
 }
 
 .nav-item {
-    text-decoration: none;
-    color: #000; /* 메뉴 링크 기본 색상 */
-    font-size: 16px;
-    font-family: 'PretendardFont';
+  text-decoration: none;
+  color: #000;
+  /* 메뉴 링크 기본 색상 */
+  font-size: 16px;
+  font-family: 'PretendardFont';
 }
 
 .nav-item.selected {
-    border-bottom: 2px solid #1F1F1F; /* 선택된 메뉴 항목에 밑줄 표시 */
-    padding-bottom: 4px;
-}
-
-.auth {
-    margin-right: 2%; /* 오른쪽에서 100px 떨어지게 설정 */
-    margin-bottom: 0.7%;
+  border-bottom: 2px solid #1F1F1F;
+  /* 선택된 메뉴 항목에 밑줄 표시 */
+  padding-bottom: 4px;
 }
 
 .login-btn {
-    text-decoration: none;
-    color: #666666; /* 로그인 버튼 링크 색상 */
-    font-size: 16px;
-    font-family: 'PretendardFont';
+  text-decoration: none;
+  color: #666666;
+  /* 로그인 버튼 링크 색상 */
+  font-size: 16px;
+  font-family: 'PretendardFont';
+}
 
+.logout-section {
+  width: 130px;
+  display: flex;
+  align-items: center;
+}
+
+.login-btn {
+  width: 100%;
 }
