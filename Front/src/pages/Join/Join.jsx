@@ -9,6 +9,7 @@ function Join() {
     const[name, setName] = useState("");
     const[password, setPassword] = useState("");
     const[confirmPassword, setConfirmPassword] = useState("");
+    const[phone, setPhone] = useState("");
 
     const handlesSubmit = (e) => {
         e.preventDefault();
@@ -43,10 +44,6 @@ function Join() {
                         <div className='joinPage-email-title'>이메일</div>
                         <input type="email" className='joinPage-email-input' placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
                     </div>
-                    <div className='joinPage-name'>
-                        <div className='joinPage-name-title'>닉네임</div>
-                        <input type="text" className='joinPage-name-input' placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
-                    </div>
                     <div className='joinPage-pass'>
                         <div className='joinPage-pass-title'>비밀번호</div>
                         <input type="text" className='joinPage-pass-input' placeholder="PassWord" value={password} onChange={(e) => setPassword(e.target.value)}/>
@@ -54,6 +51,10 @@ function Join() {
                     <div className='joinPage-ck'>
                         <div className='joinPage-ck-title'>비밀번호 확인</div>
                         <input type="password" className='joinPage-ck-input'  placeholder="PassWord" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+                    </div>
+                    <div className='joinPage-name'>
+                        <div className='joinPage-name-title'>닉네임</div>
+                        <input type="text" className='joinPage-name-input' placeholder="Name" value={name} onChange={(e) => setName(e.target.value)}/>
                     </div>
                     <button type="submit" className='joinPage-button'>회원가입</button>
                 </form>
