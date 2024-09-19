@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import '../Join/Join.css';
 
@@ -21,7 +21,7 @@ function Join() {
             return;
         }
     
-        // 유효성 검사를 통과하면 여기서 서버로 요청을 보냅니다.
+        // 유효성 검사를 통과하면 서버로 요청을 보냅니다.
         fetch('http://localhost:8080/signup', {
             method: 'POST',
             headers: {
@@ -29,33 +29,32 @@ function Join() {
             },
             body: JSON.stringify({
                 email: email,
-                name: name,
+                nickName: name, // 필드 이름 일치시키기
                 password: password,
             })
         })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json(); // JSON 응답으로 변환
-            })
-            .then(data => {
-                if (data.success) { // 백엔드의 success 값 확인
-                    alert('회원가입 성공!');
-                    navigate('/');
-                } else {
-                    alert('회원가입 실패: ' + data.message); // 오류 메시지 출력
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('서버 오류가 발생했습니다.');
-            });
-    };    
+        .then(response => {
+            if (!response.ok) {
+                // 서버에서 오류 메시지를 JSON으로 읽어오고, 예외를 던짐
+                return response.json().then((errorData) => {
+                    throw new Error(errorData.message); // 서버에서 오는 오류 메시지를 그대로 던짐
+                });
+            }
+            return response.text(); // 성공 시 응답을 텍스트로 받음
+        })
+        .then(data => {
+            alert(data); // 성공 메시지를 보여줍니다.
+            navigate('/'); // 회원가입 완료 후 메인 페이지로 이동
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+            alert(error.message); // 서버에서 받은 오류 메시지를 출력
+        });
+    };
 
     const logoOnClick = () => {
         navigate('/');
-    }
+    };
 
     return (
         <div className='Join'>
@@ -88,7 +87,7 @@ function Join() {
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 export default Join;
