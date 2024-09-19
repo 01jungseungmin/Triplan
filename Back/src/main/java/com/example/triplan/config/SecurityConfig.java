@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Collections;
 
@@ -35,7 +36,7 @@ public class SecurityConfig {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)  //csrf 차단 == token 사용
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
 
                 .exceptionHandling((exceptionHandling) -> //컨트롤러의 예외처리
                         exceptionHandling
@@ -55,15 +56,17 @@ public class SecurityConfig {
         return http.build();
     }
 
-    CorsConfigurationSource corsConfigurationSource() {
-        return request -> {
-            CorsConfiguration config = new CorsConfiguration();
-            config.setAllowedHeaders(Collections.singletonList("*"));
-            config.setAllowedMethods(Collections.singletonList("*"));
-            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // 허용할 origin
-            config.setAllowCredentials(true);
-            return config;
-        };
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
+        config.setAllowedMethods(Collections.singletonList("*")); // 모든 메소드 허용
+        config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // 프론트엔드 도메인 허용
+        config.setAllowCredentials(true); // 인증 정보를 포함한 요청 허용
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config); // 모든 경로에 대해 CORS 설정 적용
+        return source;
     }
 
     @Bean
