@@ -15,10 +15,12 @@ function Login() {
     navigate('/Join');
   }
 
+  const loginInput = email && pass;
+
   const loginForm = (e) => {
     e.preventDefault();
 
-    if (!email || !pass) {
+    if (!loginInput) {
       alert("이메일, 비밀번호 모두 입력해주세요.");
       return;
     } else {
@@ -78,7 +80,7 @@ function Login() {
                 onChange={(e) => setPass(e.target.value)} 
               />
             </div>
-            <button type="submit" className="login-button">Login</button>
+            <button type="submit" className={`login-button ${loginInput ? 'active' : ''}`} disabled={!loginInput}>Login</button>
             <button type="button" className="join-button" onClick={joinOnclick} style={{cursor: 'pointer'}}>회원가입</button>
           </form>
         </div>

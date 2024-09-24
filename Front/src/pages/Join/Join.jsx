@@ -10,17 +10,20 @@ function Join() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    // 모든 입력 필드가 채워졌는지 확인하는 변수
+    const isFormValid = email && name && password && confirmPassword;
+
     const handlesSubmit = (e) => {
         e.preventDefault();
-    
-        if (!email || !name || !password || !confirmPassword) {
+
+        if (!isFormValid) {
             alert("모든 정보를 입력해주세요.");
             return;
         } else if (password !== confirmPassword) {
             alert("비밀번호가 일치하지 않습니다.");
             return;
         }
-    
+
         // 유효성 검사를 통과하면 서버로 요청을 보냅니다.
         fetch('http://localhost:8080/signup', {
             method: 'POST',
@@ -33,23 +36,23 @@ function Join() {
                 password: password,
             })
         })
-        .then(response => {
-            if (!response.ok) {
-                // 서버에서 오류 메시지를 JSON으로 읽어오고, 예외를 던짐
-                return response.json().then((errorData) => {
-                    throw new Error(errorData.message); // 서버에서 오는 오류 메시지를 그대로 던짐
-                });
-            }
-            return response.text(); // 성공 시 응답을 텍스트로 받음
-        })
-        .then(data => {
-            alert(data); // 성공 메시지를 보여줍니다.
-            navigate('/'); // 회원가입 완료 후 메인 페이지로 이동
-        })
-        .catch(error => {
-            console.error('Error:', error.message);
-            alert(error.message); // 서버에서 받은 오류 메시지를 출력
-        });
+            .then(response => {
+                if (!response.ok) {
+                    // 서버에서 오류 메시지를 JSON으로 읽어오고, 예외를 던짐
+                    return response.json().then((errorData) => {
+                        throw new Error(errorData.message); // 서버에서 오는 오류 메시지를 그대로 던짐
+                    });
+                }
+                return response.text(); // 성공 시 응답을 텍스트로 받음
+            })
+            .then(data => {
+                alert(data); // 성공 메시지를 보여줍니다.
+                navigate('/'); // 회원가입 완료 후 메인 페이지로 이동
+            })
+            .catch(error => {
+                console.error('Error:', error.message);
+                alert(error.message); // 서버에서 받은 오류 메시지를 출력
+            });
     };
 
     const logoOnClick = () => {
@@ -82,7 +85,14 @@ function Join() {
                             <div className='joinPage-name-title'>닉네임</div>
                             <input type="text" className='joinPage-name-input' placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
-                        <button type="submit" className='joinPage-button'>회원가입</button>
+                        {/* 조건부로 버튼 색상과 활성화 여부 결정 */}
+                        <button
+                            type="submit"
+                            className={`joinPage-button ${isFormValid ? 'active' : ''}`}
+                            disabled={!isFormValid} // 모든 입력이 없으면 버튼 비활성화
+                        >
+                            회원가입
+                        </button>
                     </form>
                 </div>
             </div>

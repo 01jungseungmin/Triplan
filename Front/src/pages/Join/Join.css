@@ -27,14 +27,16 @@
 .JoinPage-maintitle {
     font-size: 26px;
     font-style: italic;
-    color: #00bcd4; /* 밝은 파란색 */
+    color: #00bcd4;
+    /* 밝은 파란색 */
     font-family: 'JSongMyungFont';
 }
 
 .JoinPage-subtitle {
     font-size: 26px;
     font-style: italic;
-    color: black; /* 밝은 파란색 */
+    color: black;
+    /* 밝은 파란색 */
     font-family: 'JSongMyungFont';
 }
 
@@ -67,7 +69,7 @@
 }
 
 
-.joinPage-email-input, 
+.joinPage-email-input,
 .joinPage-name-input,
 .joinPage-pass-input,
 .joinPage-ck-input {
@@ -83,15 +85,26 @@
     width: 100%;
     height: 44px;
     background-color: #ace5ec;
+    /* 기본 색상 */
     color: white;
     border: none;
     border-radius: 10px;
     font-size: 16px;
     font-family: 'PretendardFont';
     cursor: pointer;
+    margin-top: 20px;
+    opacity: 0.6;
+    /* 기본 상태는 불투명 */
+    transition: background-color 0.3s ease, opacity 0.3s ease;
 }
 
-.joinPage-button:hover {
+.joinPage-button.active {
     background-color: #00bcd4;
-  }
+    /* 모든 필드가 입력되면 이 색으로 변경 */
+    opacity: 1;
+    /* 불투명도 100% */
+}
 
+.joinPage-button:disabled {
+    cursor: not-allowed; /* 비활성화 시 커서 변경 */
+}
