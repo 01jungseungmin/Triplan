@@ -3,7 +3,9 @@ import Header from "../../components/Header";
 function Mypage() {
     return(
         <div>
-            <Header />
+            <div>
+                테스트
+            </div>
         </div>
     );
 }

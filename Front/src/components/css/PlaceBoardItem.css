@@ -7,7 +7,7 @@
 
 .board-item-image {
   background-color: #ccc;
-  height: 170px;
+  height: 150px;
 }
 
 .board-item-img {
@@ -17,6 +17,7 @@
 
 .board-item-info {
   padding: 2% 4%;
+  height: 120px;
 }
 
 .board-item-title {

@@ -1,0 +1,38 @@
+.tabs {
+    display: flex;
+    gap: 20px;
+}
+
+.tab {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding-bottom: 5px;
+    color: #666;
+    position: relative;
+    font-family: 'PretendardFont';
+}
+
+.tab.active {
+    font-weight: bold;
+    color: black;
+}
+
+.tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #00bcd4; /* 하단에 파란색 밑줄 */
+}
+
+.tab:hover {
+    color: black;
+}
+
+.tab-content {
+    padding: 20px;
+}

@@ -44,10 +44,6 @@ function Header() {
         }
     };
 
-    const mypageClick = () => {
-        navigate('/mypage');
-    }
-
     return (
         <header className="header">
             <div className="logo" onClick={logoClick} style={{ cursor: 'pointer' }}>
@@ -74,7 +70,7 @@ function Header() {
                 <a href="/" className="login-btn" onClick={handleLoginClick}>
                     {isLoggedIn ? (
                         <div className="logout-section">
-                            <FontAwesomeIcon icon={faUser} className="faUser" size="lg" color="#adb5bd" onClick={mypageClick}/>
+                            <FontAwesomeIcon icon={faUser} className="faUser" size="lg" color="#adb5bd"/>
                             <div href="/" className="login-btn" onClick={handleLoginClick}>Log out</div>
                         </div>
                     ) : 'Log in'}
