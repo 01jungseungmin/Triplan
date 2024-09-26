@@ -6,7 +6,7 @@
 }
 
 .MyTripContent {
-    margin: 0 7%;
+    margin: 0 4%;
 }
 
 .tabs {
@@ -17,7 +17,7 @@
 .MyTripListContainer {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* 카드 최소 크기 400px */
-    gap: 20px 40px ; /* 카드 간격 */
+    gap: 30px 50px ; /* 카드 간격 */
     padding: 20px;
     max-width: 1200px; /* 최대 너비 */
     margin: 0 auto; /* 중앙 정렬 */
