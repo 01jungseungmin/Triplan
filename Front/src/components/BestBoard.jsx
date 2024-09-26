@@ -16,16 +16,6 @@ function BestBoard() {
         <a href="/PlaceBoard">전체보기</a>
       </div>
       <div className='BestBoardSub'>인기 많은 여행 계획이에요.</div>
-      {/* <div className="best-Board-list">
-        {Boards.map((board, index) => (
-          <BoardItem
-            key={index}
-            name={board.name}
-            address={board.address}
-            phone={board.phone}
-          />
-        ))}
-      </div> */}
       <div className="best-board-grid">
         {topPlaces.map((place, index) => (
           <PlaceBoardItem
