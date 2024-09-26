@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
-    @PostMapping("/signup")
+    @PostMapping("/join")
     public ResponseEntity<String> signup(@Valid @RequestBody AccountDto accountDto) {
-        accountService.signup(accountDto);
+        accountService.join(accountDto);
         return ResponseEntity.ok().body("회원가입 완료");
     }
 }

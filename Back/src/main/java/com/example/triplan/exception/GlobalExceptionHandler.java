@@ -9,6 +9,8 @@ import org.springframework.web.server.ResponseStatusException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+
+
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ErrorResponse> handleResponseStatusException(ResponseStatusException ex) {
         HttpStatus status = (HttpStatus) ex.getStatusCode(); // getStatusCode()를 사용하여 HttpStatus를 가져옵니다.
@@ -17,7 +19,7 @@ public class GlobalExceptionHandler {
     }
     // 추가적인 예외 처리 핸들러를 여기에 추가할 수 있습니다.
 
-    public static class ErrorResponse {
+    public class ErrorResponse {
         private int status;
         private String message;
 
@@ -26,7 +28,7 @@ public class GlobalExceptionHandler {
             this.message = message;
         }
 
-        // Getters and setters
+        // Getters and Setters
         public int getStatus() {
             return status;
         }

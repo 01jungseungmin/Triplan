@@ -1,6 +1,6 @@
 package com.example.triplan.application.account.dto;
 
-import com.example.triplan.domain.account.entity.Role;
+import com.example.triplan.domain.account.enums.Role;
 import lombok.Data;
 
 @Data

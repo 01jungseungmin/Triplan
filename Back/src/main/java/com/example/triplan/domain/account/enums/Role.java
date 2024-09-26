@@ -1,4 +1,4 @@
-package com.example.triplan.domain.account.entity;
+package com.example.triplan.domain.account.enums;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
