@@ -7,6 +7,7 @@ import PlaceBoard from './pages/PlaceBoard/PlaceBoard';
 import PlaceDetail from './pages/PlaceDetail/PlaceDetail';
 import Mypage from './pages/Mypage/Mypage';
 import MyTrip from './pages/MyTrip/MyTrip';
+import MyTripDetail from './pages/MyTripDetail/MyTripDetail';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/Login' element={<Login/>}/>
         <Route path='/Join' element={<Join/>}/>
         <Route path='/MyTrip' element={<MyTrip/>}/>
+        <Route path='/myTrip/:planName' element={<MyTripDetail />}/>
         <Route path='/Mypage' element={<Mypage/>}/>
         <Route path='/PlaceBoard' element={<PlaceBoard/>}/>
         <Route path='/place/:name' element={<PlaceDetail/>}/>
