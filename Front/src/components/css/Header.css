@@ -48,8 +48,7 @@
 }
 
 .nav-item.selected {
-  border-bottom: 2px solid #1F1F1F;
-  /* 선택된 메뉴 항목에 밑줄 표시 */
+  border-bottom: 2px solid #1F1F1F; /* 선택된 메뉴 항목에 밑줄 표시 */
   padding-bottom: 4px;
 }
 
