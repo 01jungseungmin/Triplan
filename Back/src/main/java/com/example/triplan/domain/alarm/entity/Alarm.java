@@ -18,4 +18,6 @@ public class Alarm extends BaseEntity {
     @Schema(description = "그룹 초대 수락 상태값", example = "ACCEPT, DECLINE, WAIT")
     @Column(name ="alarmType", nullable = false)
     private AlarmType alarmType;
+
+    private String test;
 }
