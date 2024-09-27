@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function MyTripItem({ planName, plan_startDate, plan_endDate, user, area, image }) {
     return (
-        <Link to={`/place/${planName}`} className="board-item-link">
+        <Link to={`/myTrip/${planName}`} className="board-item-link">
             <div className="MyTripItemContainer">
                 <div className="MyTripItemImage">
                     {/* 이미지가 있으면 보여주고, 없으면 기본 이미지 */}
