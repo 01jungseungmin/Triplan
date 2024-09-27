@@ -56,12 +56,12 @@ public class AccountService {
         Account account = accountRepository.findByEmail(accountDto.getEmail());
 
 
-        String username = account.getNickName();
+        String nickName = account.getNickName();
         Set<Role> userRoles = account.getRoles();
 
         // Set redirect URI based on user role
         String redirectUri = userRoles.contains(Role.ROLE_USER) ? "/main" : "/login";
 
-        return new TokenDto(jwt, username);
+        return new TokenDto(jwt, nickName);
     }
 }
