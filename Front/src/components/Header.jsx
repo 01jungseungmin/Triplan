@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import './css/Header.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
     const [selectedMenu, setSelectedMenu] = useState("navHome");
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation(); // 현재 경로를 가져오기 위한 hook
 
     useEffect(() => {
-        // 컴포넌트가 마운트될 때 로그인 상태를 확인
+        // 페이지 이동 시 URL 경로에 따라 선택된 메뉴를 업데이트
+        const path = location.pathname.toLowerCase(); // 경로를 소문자로 변환
+        if (path === '/') {
+            setSelectedMenu("navHome");
+        } else if (path.includes('/mytrip')) { // 경로에 '/mytrip'이 포함된 경우
+            setSelectedMenu("navMyTrip");
+        } else if (path.includes('/community')) {
+            setSelectedMenu("navCommunity");
+        }
+    }, [location.pathname]); // 경로가 바뀔 때마다 실행
+
+    useEffect(() => {
         const userId = getCookie("user_id");
         if (userId) {
-            setIsLoggedIn(true); // 로그인 상태로 설정
+            setIsLoggedIn(true);
         }
     }, []);
 
@@ -24,7 +36,6 @@ function Header() {
     };
 
     const handleMenuClick = (menuId, path) => {
-        setSelectedMenu(menuId);
         navigate(path);
     };
 
@@ -35,12 +46,11 @@ function Header() {
     const handleLoginClick = (e) => {
         e.preventDefault();
         if (isLoggedIn) {
-            // 로그아웃 처리
             document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            setIsLoggedIn(false); // 상태 업데이트
-            navigate('/'); // 홈으로 이동
+            setIsLoggedIn(false);
+            navigate('/');
         } else {
-            navigate('/login'); // 로그인 페이지로 이동
+            navigate('/login');
         }
     };
 
@@ -53,17 +63,14 @@ function Header() {
             <nav className="nav-menu">
                 <a href="/"
                     className={`nav-item ${selectedMenu === "navHome" ? "selected" : ""}`}
-                    id="navHome"
                     onClick={(e) => { e.preventDefault(); handleMenuClick("navHome", '/'); }}>홈</a>
 
-                <a href="/"
+                <a href="/mytrip"
                     className={`nav-item ${selectedMenu === "navMyTrip" ? "selected" : ""}`}
-                    id="navMyTrip"
                     onClick={(e) => { e.preventDefault(); handleMenuClick("navMyTrip", '/mytrip'); }}>내 여행</a>
 
-                <a href="/"
+                <a href="/community"
                     className={`nav-item ${selectedMenu === "navCommunity" ? "selected" : ""}`}
-                    id="navCommunity"
                     onClick={(e) => { e.preventDefault(); handleMenuClick("navCommunity", '/community'); }}>커뮤니티</a>
             </nav>
             <div className="auth">

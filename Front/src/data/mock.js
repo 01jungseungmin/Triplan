@@ -2,7 +2,7 @@
 
 //장소 Data
 export const places = [
-    { name: '맛있는 식당', category: '식당', address: '경기도 부천시 원미구 신흥로56번길 25', phone: '02-1234-5678', heart: 1234, homepage: 'https://www.naver.com/' },
+    { name: '맛있는 식당', category: '식당', address: '경기도 부천시 원미구 신흥로56번길 25', phone: '02-1234-5678', heart: 1234, homepage: 'https://www.naver.com/', latitude: 37.489954937846115, longitude: 126.77873035606213  },
     { name: '근처 카페', category: '카페', address: '경기도 부천시 원미구 신흥로56번길 25', phone: '02-8765-4321', heart: 5124, homepage: 'https://comsoft.tistory.com/' },
     { name: '좋은 호텔', category: '숙소', address: '경기도 부천시 원미구 신흥로56번길 25', phone: '02-9876-5432', heart: 203, homepage: 'https://comsoft.tistory.com/27' },
     { name: '아름다운 공원', category: '관광지', address: '경기도 부천시 원미구 신흥로56번길 25', phone: '02-5678-1234', heart: 2134, homepage: 'https://www.naver.com/' },
