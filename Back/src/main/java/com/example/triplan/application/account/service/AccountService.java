@@ -64,4 +64,18 @@ public class AccountService {
 
         return new TokenDto(jwt, nickName);
     }
+
+    public Account getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 현재 로그인한 사용자의 인증 정보를 가져옵니다.
+        String email = authentication.getName();
+        return accountRepository.findByEmail(email); // 로그인한 사용자의 이메일을 사용하여 사용자 정보를 조회합니다.
+    }
+
+    public Account updateCurrentUser() {
+        return null;
+    }
+
+    @Transactional
+    public void logout(String accountid){
+    }
 }
