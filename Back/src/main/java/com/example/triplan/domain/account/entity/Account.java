@@ -13,7 +13,7 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Account extends BaseEntity{
+public class Account extends BaseEntity {
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
