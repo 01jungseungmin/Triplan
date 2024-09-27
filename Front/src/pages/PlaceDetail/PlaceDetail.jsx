@@ -4,10 +4,12 @@ import './PlaceDetail.css';
 import { places } from '../../data/mock';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 function PlaceDetail() {
     const { name } = useParams();
 
+    // 선택된 장소를 찾습니다.
     const place = places.find(p => p.name === name);
 
     return (
@@ -59,7 +61,17 @@ function PlaceDetail() {
                                 <hr />
                                 <div className='mapContent'>
                                     <div className='mapTxt'>찾아가는 길</div>
-                                    <div className="kakaoMap"></div>
+                                    <div className="kakaoMap">
+                                        <Map
+                                            center={{ lat: place.latitude, lng: place.longitude }} // 장소의 좌표를 사용
+                                            style={{ width: "100%", height: "100%" }} // 지도 크기
+                                            level={3} // 확대 레벨
+                                        >
+                                            {/* MapMarker는 Map 안에 있어야만 합니다 */}
+                                            <MapMarker position={{ lat: place.latitude, lng: place.longitude }}>
+                                            </MapMarker>
+                                        </Map>
+                                    </div>
                                 </div>
                             </div>
                         </>
