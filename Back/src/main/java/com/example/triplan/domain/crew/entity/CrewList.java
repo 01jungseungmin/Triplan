@@ -24,4 +24,10 @@ public class CrewList extends BaseEntity {
     @Schema(description = "그룹 초대 상태값", example = "ACCEPT, DECLINE, WAIT")
     @Column(name ="isAccept", nullable = false)
     private IsAccept isAccept;
+
+    public CrewList(Crew crew, Account account, IsAccept isAccept) {
+        this.crew = crew;
+        this.account = account;
+        this.isAccept = isAccept;
+    }
 }

@@ -4,6 +4,9 @@ import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.crew.dto.request.CrewRequest;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.crew.entity.Crew;
+import com.example.triplan.domain.crew.entity.CrewList;
+import com.example.triplan.domain.crew.enums.IsAccept;
+import com.example.triplan.domain.crew.repository.CrewListRepository;
 import com.example.triplan.domain.crew.repository.CrewRepository;
 import com.example.triplan.exception.CustomAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
@@ -19,15 +22,15 @@ import java.time.LocalDate;
 public class CrewWriteService {
 
     private final CrewRepository crewRepository;
+    private final CrewListRepository crewListRepository;
     private final AccountService accountService;
 
-    public Crew create(CrewRequest crewRequest) throws CustomAuthenticationException{
+    public Crew create(CrewRequest crewRequest){
         Account account = accountService.getCurrentUser();
-        if (account == null) {
-            throw new CustomAuthenticationException("로그인이 필요합니다."); // 예외 발생
-        }
-
         Crew crew = new Crew(crewRequest.getCrewName(), crewRequest.getPlanStartDate(), crewRequest.getPlanEndDate(), account);
+
+        CrewList crewList = new CrewList(crew, account, IsAccept.ACCEPT);
+        crewListRepository.save(crewList);
         return crewRepository.save(crew);
     }
 
