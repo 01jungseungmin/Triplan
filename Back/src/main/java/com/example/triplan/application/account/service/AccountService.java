@@ -1,6 +1,5 @@
 package com.example.triplan.application.account.service;
 
-import com.example.triplan.application.account.controller.AccountController;
 import com.example.triplan.application.account.dto.AccountDto;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.account.enums.Role;
@@ -8,14 +7,12 @@ import com.example.triplan.domain.account.repository.AccountRepository;
 import com.example.triplan.security.jwt.TokenDto;
 import com.example.triplan.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +64,9 @@ public class AccountService {
 
     public Account getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 현재 로그인한 사용자의 인증 정보를 가져옵니다.
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return null; // 로그인이 되어 있지 않으면 null 반환
+        }
         String email = authentication.getName();
         return accountRepository.findByEmail(email); // 로그인한 사용자의 이메일을 사용하여 사용자 정보를 조회합니다.
     }

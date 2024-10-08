@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.naming.AuthenticationException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -17,8 +19,11 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(status.value(), ex.getReason());
         return new ResponseEntity<>(errorResponse, status);
     }
-    // 추가적인 예외 처리 핸들러를 여기에 추가할 수 있습니다.
-
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
     public class ErrorResponse {
         private int status;
         private String message;

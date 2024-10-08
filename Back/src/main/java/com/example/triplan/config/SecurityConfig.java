@@ -46,9 +46,8 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        //.requestMatchers("api/main").permitAll()
-                        //.anyRequest().authenticated() // 그 외 인증 없이 접근X
-                        .anyRequest().permitAll()
+                        .requestMatchers("/login", "/join", "/main").permitAll() // 로그인, 회원가입, 메인 페이지는 모두 접근 가능
+                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
                 .with(new JwtSecurityConfig(tokenProvider), customizer -> {}); //filterChain 등록
 
