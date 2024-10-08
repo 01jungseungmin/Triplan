@@ -1,0 +1,292 @@
+@startuml
+class com.example.triplan.application.board.dto.request.SetBoardRequest {
+}
+enum com.example.triplan.domain.place.enums.PlaceCategory {
++  CAFE
++  RESTAURANT
++  SHOPPING
++  TOUR
++  ETC
++  REGION
+}
+
+enum com.example.triplan.domain.alarm.enums.AlarmType {
++  ACCEPT
++  DECLINE
++  WAIT
+}
+
+class com.example.triplan.application.crew.service.CrewReadService {
++ CrewResponse findAllCrew(Long)
++ CrewResponse findCrew(Long,Long)
+}
+
+class com.example.triplan.application.answer.service.AnswerWriteService {
+- AnswerRepository answerRepository
++ String create(Long,Long,AnswerRequest)
++ String deleteAccountAnswer(Long,Long,Long)
++ String deleteAdminAnswer(Long,Long,Long)
+}
+
+
+class com.example.triplan.application.place.dto.response.PlaceListDetailResponse {
+}
+class com.example.triplan.application.alarm.dto.request.AlarmRequest {
+}
+class com.example.triplan.application.placeAdd.dto.response.PlaceAddResponse {
+}
+class com.example.triplan.application.plan.service.PlanWriteService {
++ PlanResponse create(Long)
++ PlanResponse modify(Long,Long)
++ PlanResponse delete(Long,Long)
+}
+
+class com.example.triplan.domain.crew.entity.Crew {
+- String crewName
+- LocalDate planStartDate
+- LocalDate planEndDate
+- IsAccept isAccept
+- Account account
+}
+
+class com.example.triplan.application.plan.service.PlanReadService {
++ PlanResponse findAllPlan(Long,Long)
+}
+
+class com.example.triplan.domain.board.entity.Board {
+- String title
+- String content
+- Integer count
+- Plan plan
+- Account account
+}
+
+class com.example.triplan.application.board.dto.request.UpdateBoardRequest {
+}
+class com.example.triplan.application.account.controller.AccountController {
+- AccountService accountService
+- {static} Logger logger
++ ResponseEntity<String> signup(AccountDto)
++ ResponseEntity<?> login(AccountDto)
+}
+
+
+class com.example.triplan.application.plan.dto.response.PlanResponse {
+}
+class com.example.triplan.application.alarm.controller.AlarmController {
+}
+class com.example.triplan.application.account.service.AccountService {
+- TokenProvider tokenProvider
+- AccountRepository accountRepository
+- PasswordEncoder passwordEncoder
+- AuthenticationManagerBuilder authenticationManagerBuilder
++ Account join(AccountDto)
++ TokenDto login(AccountDto)
++ Account getCurrentUser()
++ Account updateCurrentUser()
++ void logout(String)
+}
+
+
+class com.example.triplan.application.placeAdd.dto.request.SetAccountPlaceRequest {
+}
+class com.example.triplan.application.plan.controller.PlanController {
+}
+interface com.example.triplan.domain.plan.repository.PlanRepository {
+}
+interface com.example.triplan.domain.alarm.repository.AlarmRepository {
+}
+abstract class com.example.triplan.common.BaseEntity {
+# Long id
+# LocalDateTime createdAt
+# LocalDateTime updatedAt
+}
+
+interface com.example.triplan.domain.answer.repository.AnswerRepository {
+}
+class com.example.triplan.domain.plan.entity.Plan {
+- LocalDate planDate
+- LocalTime planStartTime
+- String planMemo
+- Place place
+- Crew crew
+}
+
+class com.example.triplan.application.place.service.PlaceWriteService {
+- PlanRepository planRepository
++ String setAdminPlace(Long,SetAdminPlaceRequest)
++ String deleteAdminPlace(Long,Long)
+}
+
+
+class com.example.triplan.domain.alarm.entity.Alarm {
+- Crew crew
+- AlarmType alarmType
+}
+
+interface com.example.triplan.domain.place.repository.PlaceRepository {
+}
+class com.example.triplan.domain.place.entity.Place {
+- String placeName
+- String placeAddress
+- String placeLatitude
+- String placeLongitude
+- String placeNumber
+- String placeHoliday
+- String placeBusinessHours
+- PlaceCategory placeCategory
+}
+
+class com.example.triplan.application.alarm.dto.response.AlarmResponse {
+}
+interface com.example.triplan.domain.crew.repository.CrewRepository {
+}
+class com.example.triplan.application.crew.controller.CrewController {
+}
+class com.example.triplan.application.plan.dto.request.PlanRequest {
+}
+interface com.example.triplan.domain.placeadd.repository.PlaceAddRepository {
+}
+class com.example.triplan.application.place.dto.request.SetAdminPlaceRequest {
+}
+class com.example.triplan.application.crew.dto.response.CrewResponse {
+}
+class com.example.triplan.application.board.service.BoardWriteService {
+- BoardRepository boardRepository
++ String create(Long,SetBoardRequest)
++ String update(Long,Long,UpdateBoardRequest)
++ String deleteAdminBoard(Long,Long)
++ String deleteAccountBoard(Long,Long)
+}
+
+
+class com.example.triplan.application.answer.dto.request.AnswerRequest {
+}
+enum com.example.triplan.domain.crew.enums.IsAccept {
++  ACCEPT
++  DECLINE
++  WAIT
+}
+
+class com.example.triplan.application.board.service.BoardReadService {
+- BoardRepository boardRepository
++ BoardResponse findAll()
++ BoardDetailResponse getDetails(Long)
+}
+
+
+class com.example.triplan.application.alarm.service.AlarmWriteService {
++ AlarmRequest setInviteAccept(Long,Long)
+}
+
+class com.example.triplan.application.account.dto.AccountDto {
+- String userid
+- String email
+- String nickName
+- String password
+- Role role
+}
+
+interface com.example.triplan.domain.account.repository.AccountRepository {
+~ Account findByEmail(String)
+~ Optional<Account> findOneWithRolesByEmail(String)
+}
+
+class com.example.triplan.application.answer.dto.response.AnswerResponse {
+}
+class com.example.triplan.application.crew.service.CrewWriteService {
++ CrewResponse create(Long,CrewRequest)
++ void sendEmail(String,String,String)
++ String setInviteCrew(Long,Long,String)
++ String modifyCrew(Long,Long,String,LocalDate,LocalDate)
+}
+
+class com.example.triplan.application.answer.service.AnswerReadService {
+- AnswerRepository answerRepository
++ AnswerResponse findAnswer(Long,Long)
+}
+
+
+class com.example.triplan.application.place.dto.response.PlaceListResponse {
+}
+class com.example.triplan.application.place.service.PlaceReadService {
+- PlaceRepository placeRepository
++ PlaceListResponse findAll()
++ PlaceListDetailResponse getPlaceDetails(Long)
+}
+
+
+class com.example.triplan.application.board.dto.response.BoardResponse {
+}
+class com.example.triplan.domain.account.entity.Account {
+- String email
+- String nickName
+- String password
+- Role role
++ Set<Role> getRoles()
+}
+
+
+class com.example.triplan.application.placeAdd.service.PlaceAddReadService {
+- PlaceAddRepository placeAddRepository
++ PlaceAddResponse findPlaceAdd(Long,Long)
+}
+
+
+class com.example.triplan.application.alarm.service.AlarmReadService {
++ AlarmResponse findAllAlarm(Long)
+}
+
+class com.example.triplan.application.crew.dto.request.CrewRequest {
+}
+class com.example.triplan.domain.placeadd.entity.PlaceAdd {
+- String placeAddName
+- String placeAddAddress
+- String placeAddLatitude
+- String placeAddLongitude
+- Account account
+}
+
+class com.example.triplan.domain.answer.entity.Answer {
+- String content
+- Board board
+- Account account
+}
+
+class com.example.triplan.application.placeAdd.service.PlaceAddWrtieService {
+- PlaceAddRepository placeAddRepository
++ String setAccountPlace(Long,SetAccountPlaceRequest)
+}
+
+
+interface com.example.triplan.domain.board.repository.BoardRepository {
+}
+class com.example.triplan.application.board.dto.response.BoardDetailResponse {
+}
+enum com.example.triplan.domain.account.enums.Role {
++  ROLE_USER
++  ROLE_ADMIN
+- String key
++ String getKey()
+}
+
+
+
+
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.crew.entity.Crew
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.board.entity.Board
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.plan.repository.PlanRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.alarm.repository.AlarmRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.answer.repository.AnswerRepository
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.plan.entity.Plan
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.alarm.entity.Alarm
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.place.repository.PlaceRepository
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.place.entity.Place
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.crew.repository.CrewRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.placeadd.repository.PlaceAddRepository
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.account.repository.AccountRepository
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.account.entity.Account
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.placeadd.entity.PlaceAdd
+com.example.triplan.common.BaseEntity <|-- com.example.triplan.domain.answer.entity.Answer
+org.springframework.data.jpa.repository.JpaRepository <|-- com.example.triplan.domain.board.repository.BoardRepository
+@enduml

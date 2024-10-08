@@ -55,19 +55,19 @@ public class SecurityConfig {
 
         return http.build();
     }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Collections.singletonList("*")); // 모든 도메인 허용
+        config.setAllowedMethods(Collections.singletonList("*")); // 모든 HTTP 메소드 허용
         config.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
-        config.setAllowedMethods(Collections.singletonList("*")); // 모든 메소드 허용
-        config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // 프론트엔드 도메인 허용
         config.setAllowCredentials(true); // 인증 정보를 포함한 요청 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config); // 모든 경로에 대해 CORS 설정 적용
         return source;
     }
+
 
     @Bean
     PasswordEncoder passwordEncoder() {

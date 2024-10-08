@@ -6,5 +6,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum PlaceCategory {
-    CAFE,RESTAURANT,SHOPPING,TOUR,ETC,REGION
+    CAFE,RESTAURANT,SHOPPING,ACCOMMODATION,TOUR,ETC,REGION
 }

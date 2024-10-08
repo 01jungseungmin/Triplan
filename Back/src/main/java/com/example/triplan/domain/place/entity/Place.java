@@ -1,14 +1,15 @@
 package com.example.triplan.domain.place.entity;
 
 import com.example.triplan.common.BaseEntity;
-import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.place.enums.PlaceCategory;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Entity
 @Getter
+@AllArgsConstructor
 public class Place extends BaseEntity {
     @Column(name = "placeName", nullable = false)
     private String placeName;
@@ -22,13 +23,13 @@ public class Place extends BaseEntity {
     @Column(name = "placeLongitude", nullable = false)
     private String placeLongitude;
 
-    @Column(name = "placeNumber", nullable = false)
+    @Column(name = "placeNumber")
     private String placeNumber;
 
-    @Column(name = "placeHoliday", nullable = false)
+    @Column(name = "placeHoliday")
     private String placeHoliday;
 
-    @Column(name = "placeBusinessHours", nullable = false)
+    @Column(name = "placeBusinessHours")
     private String placeBusinessHours;
 
     @Enumerated(EnumType.STRING)
