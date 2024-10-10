@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CrewController {
     private final CrewWriteService crewWriteService;
 
-    @PostMapping("/create")
+    @PostMapping("/crew/create")
     public ResponseEntity<CrewResponse> createCrew(@RequestBody CrewRequest crewRequest){
         return ResponseEntity.ok(crewWriteService.create(crewRequest));
     }

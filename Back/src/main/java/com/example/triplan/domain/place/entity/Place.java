@@ -14,9 +14,9 @@ public class Place extends BaseEntity {
 
     private String placeAddress;
 
-    private String conLatitude;
+    private String placeLatitude;
 
-    private String conLongitude;
+    private String placeLongitude;
 
     private String placeNumber;
 
@@ -26,6 +26,5 @@ public class Place extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private PlaceCategory placeCategory;
-
-
+    public Place() {}
 }

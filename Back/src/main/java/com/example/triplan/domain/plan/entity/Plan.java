@@ -8,12 +8,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Plan extends BaseEntity {
     @Column(name = "planDate", nullable = false)
     private LocalDate planDate;
@@ -31,4 +34,12 @@ public class Plan extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "crew_id")
     private Crew crew;
+
+    public Plan(LocalDate planDate, LocalTime planStartTime, String planMemo, Place place, Crew crew) {
+        this.planDate = planDate;
+        this.planStartTime = planStartTime;
+        this.planMemo = planMemo;
+        this.place = place;
+        this.crew = crew;
+    }
 }

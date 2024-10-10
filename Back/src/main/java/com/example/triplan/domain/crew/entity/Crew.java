@@ -12,6 +12,7 @@ import java.time.LocalDate;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Crew extends BaseEntity {
 
     @Column(name = "crewName", nullable = false)
