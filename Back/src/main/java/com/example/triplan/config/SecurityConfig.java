@@ -46,28 +46,28 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        //.requestMatchers("api/main").permitAll()
-                        //.anyRequest().authenticated() // 그 외 인증 없이 접근X
-                        .anyRequest().permitAll()
+                        .requestMatchers("/","/swagger-ui/**", "/v3/api-docs/**","/login", "/join", "/main").permitAll() // 로그인, 회원가입, 메인 페이지는 모두 접근 가능
+                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
                 .with(new JwtSecurityConfig(tokenProvider), customizer -> {}); //filterChain 등록
 
 
+
         return http.build();
     }
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Collections.singletonList("*")); // 모든 도메인 허용
+        config.setAllowedMethods(Collections.singletonList("*")); // 모든 HTTP 메소드 허용
         config.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
-        config.setAllowedMethods(Collections.singletonList("*")); // 모든 메소드 허용
-        config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // 프론트엔드 도메인 허용
         config.setAllowCredentials(true); // 인증 정보를 포함한 요청 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config); // 모든 경로에 대해 CORS 설정 적용
         return source;
     }
+
 
     @Bean
     PasswordEncoder passwordEncoder() {

@@ -9,6 +9,7 @@ import com.example.triplan.security.jwt.JwtFilter;
 import com.example.triplan.security.jwt.TokenDto;
 import com.example.triplan.security.jwt.TokenProvider;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -21,9 +22,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -57,5 +56,17 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("{\"error\": \"인증에 실패했습니다.\"}");
         }
+    }
+
+    @PostMapping("/modify")
+    public ResponseEntity<AccountDto> modifyInfo(@RequestBody AccountDto accountDto) {
+        accountService.updateCurrentUser(accountDto);
+        return ResponseEntity.ok(accountDto);
+    }
+
+    @PostMapping("/api/logout")
+    public ResponseEntity<String> logout(HttpServletRequest servletRequest){
+        accountService.logout();
+        return ResponseEntity.ok().body("로그아웃");
     }
 }

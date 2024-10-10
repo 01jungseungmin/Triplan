@@ -6,11 +6,13 @@ import com.example.triplan.domain.crew.enums.IsAccept;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Crew extends BaseEntity {
 
     @Column(name = "crewName", nullable = false)
@@ -22,12 +24,14 @@ public class Crew extends BaseEntity {
     @Column(name = "planEndDate", nullable = false)
     private LocalDate planEndDate;
 
-    @Enumerated(EnumType.STRING)
-    @Schema(description = "그룹 초대 상태값", example = "ACCEPT, DECLINE, WAIT")
-    @Column(name ="isAccept", nullable = false)
-    private IsAccept isAccept;
-
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public Crew(String crewName, LocalDate planStartDate, LocalDate planEndDate,Account account) {
+        this.crewName = crewName;
+        this.planStartDate = planStartDate;
+        this.planEndDate = planEndDate;
+        this.account = account;
+    }
 }
