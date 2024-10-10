@@ -52,6 +52,7 @@ public class SecurityConfig {
                 .with(new JwtSecurityConfig(tokenProvider), customizer -> {}); //filterChain 등록
 
 
+
         return http.build();
     }
     @Bean

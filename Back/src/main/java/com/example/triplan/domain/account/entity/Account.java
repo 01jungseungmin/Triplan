@@ -4,14 +4,13 @@ import com.example.triplan.common.BaseEntity;
 import com.example.triplan.domain.account.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.Set;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 public class Account extends BaseEntity {
 
@@ -38,4 +37,5 @@ public class Account extends BaseEntity {
     public Set<Role> getRoles() {
         return Collections.singleton(this.role);
     }
+
 }
