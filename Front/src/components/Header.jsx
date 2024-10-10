@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import './css/Header.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import { jwtDecode } from "jwt-decode";
 
 function Header() {
     const [selectedMenu, setSelectedMenu] = useState("navHome");
@@ -31,22 +30,7 @@ function Header() {
         }
     }, []);
 
-    const getUserIdFromToken = () => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            const decoded = jwtDecode(token); // jwtDecode 사용
-            return decoded.user_id; // JWT 토큰에 포함된 유저 ID 또는 이메일 정보
-        }
-        return null;
-    };
-
     const handleMenuClick = (menuId, path) => {
-        if (menuId === "navMyTrip") {
-            const userId = getUserIdFromToken(); // JWT에서 유저 ID 추출
-            if (userId) {
-                path = `/mytrip/${userId}`; // 유저 ID를 포함한 경로로 변경
-            }
-        }
         navigate(path);
     };
 
