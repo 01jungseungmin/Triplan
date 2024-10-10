@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import './css/Header.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { jwtDecode } from "jwt-decode";
 
 function Header() {
     const [selectedMenu, setSelectedMenu] = useState("navHome");
@@ -23,19 +24,29 @@ function Header() {
     }, [location.pathname]); // 경로가 바뀔 때마다 실행
 
     useEffect(() => {
-        const userId = getCookie("user_id");
-        if (userId) {
-            setIsLoggedIn(true);
+        // localStorage에서 토큰이 있는지 확인하여 로그인 상태 결정
+        const token = localStorage.getItem("token");
+        if (token) {
+            setIsLoggedIn(true); // 토큰이 있으면 로그인 상태로 설정
         }
     }, []);
 
-    const getCookie = (name) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(";").shift();
+    const getUserIdFromToken = () => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            const decoded = jwtDecode(token); // jwtDecode 사용
+            return decoded.user_id; // JWT 토큰에 포함된 유저 ID 또는 이메일 정보
+        }
+        return null;
     };
 
     const handleMenuClick = (menuId, path) => {
+        if (menuId === "navMyTrip") {
+            const userId = getUserIdFromToken(); // JWT에서 유저 ID 추출
+            if (userId) {
+                path = `/mytrip/${userId}`; // 유저 ID를 포함한 경로로 변경
+            }
+        }
         navigate(path);
     };
 
@@ -46,11 +57,12 @@ function Header() {
     const handleLoginClick = (e) => {
         e.preventDefault();
         if (isLoggedIn) {
-            document.cookie = "user_id=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            setIsLoggedIn(false);
-            navigate('/');
+            // 로그아웃 처리
+            localStorage.removeItem("token"); // localStorage에서 토큰 삭제
+            setIsLoggedIn(false); // 로그인 상태 해제
+            navigate('/'); // 홈으로 이동
         } else {
-            navigate('/login');
+            navigate('/login'); // 로그인 페이지로 이동
         }
     };
 
@@ -77,8 +89,8 @@ function Header() {
                 <a href="/" className="login-btn" onClick={handleLoginClick}>
                     {isLoggedIn ? (
                         <div className="logout-section">
-                            <FontAwesomeIcon icon={faUser} className="faUser" size="lg" color="#adb5bd"/>
-                            <div href="/" className="login-btn" onClick={handleLoginClick}>Log out</div>
+                            <FontAwesomeIcon icon={faUser} className="faUser" size="lg" color="#adb5bd" />
+                            <div className="login-btn">Log out</div>
                         </div>
                     ) : 'Log in'}
                 </a>

@@ -4,12 +4,13 @@ import MyTripTabs from '../../components/MyTripTabs';
 import MyTripItem from '../../components/MyTripItem';
 import { useState } from 'react';
 import { schedules } from '../../data/mock';
-import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesRight, faAnglesLeft, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 function MyTrip() {
     const [activeTab, setActiveTab] = useState('전체'); // 탭 상태 관리
     const [myTripcurrentPage, setMyTripCurrentPage] = useState(1);
+    const [isModalOpen, setIsModalOpen] = useState(false); //modal
 
     // 현재 날짜 구하기
     const currentDate = new Date();
@@ -48,6 +49,14 @@ function MyTrip() {
         }
     };
 
+    const handleCreateSchedule = () => {
+        setIsModalOpen(true); // 일정 생성 버튼 클릭 시 모달 열기
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false); // 모달 닫기
+    };
+
     const totalPages = Math.ceil(displayedSchedules.length / placesPerPage);
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -56,7 +65,15 @@ function MyTrip() {
             <Header />
             <div className='MyTripContent'>
                 {/* 탭 컴포넌트에 activeTab과 setActiveTab 전달 */}
-                <MyTripTabs activeTab={activeTab} setActiveTab={setActiveTab} className='tabs'/>
+                <div className='TripTabContent'>
+                    <MyTripTabs activeTab={activeTab} setActiveTab={setActiveTab} className='tabs' />
+                    <div className='TripCreateBtnContent'>
+                        <button className="TripCreateBtn" onClick={handleCreateSchedule}>
+                            일정 생성
+                        </button>
+                    </div>
+                </div>
+
                 <div className="MyTripListContainer">
                     {currentSchedules.map((schedule, index) => (
                         <MyTripItem
@@ -89,6 +106,44 @@ function MyTrip() {
                         <FontAwesomeIcon icon={faAnglesRight} />
                     </button>
                 </div>
+            )}
+
+            {isModalOpen && (
+                <>
+                    <div className="backdrop" onClick={closeModal}></div>
+                    <div className="modal">
+                        <div className="form-container">
+                            <div className="image-section">
+                                <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoQoOS9Fb2tIZQI8knvJbitYcvaXZaKY-3iYpR6GZA9qwic0cS9LfJz4Y&s"
+                                    alt="background"
+                                    className="background-image"
+                                />
+                            </div>
+                            <div className="form-section">
+                                <div className="form-title">일정 생성</div>
+                                <div className="form-subtitle">멋진 일정을 계획해 보세요.</div>
+                                <div className='MytripNameInputContent'>
+                                    <div className='MytripNameInputTitle'>일정 이름</div>
+                                    <input placeholder='일정 이름 작성' className='MytripNameInput' />
+                                </div>
+                                <div className='MytripDateInputContent'>
+                                    <div className='MytripDateInputTitle'>일정 기간</div>
+                                    <div className='MytripDateInputBox'>
+                                        <input className='MytripDateStart' placeholder='2024-10-10' />
+                                        <FontAwesomeIcon icon={faMinus} className='minusIcon' />
+                                        <input className='MytripDateEnd' placeholder='2024-10-12' />
+                                    </div>
+                                </div>
+                                <div className='MytripCreateContent'>
+                                    <button className='MytripCreateBtn'>
+                                        생성하기
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );

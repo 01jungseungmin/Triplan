@@ -25,7 +25,7 @@ function Join() {
         }
 
         // 유효성 검사를 통과하면 서버로 요청을 보냅니다.
-        fetch('http://localhost:8080/signup', {
+        fetch('http://localhost:8080/join', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
