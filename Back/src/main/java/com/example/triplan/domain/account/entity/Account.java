@@ -23,6 +23,7 @@ public class Account extends BaseEntity {
     @Column(name ="password", nullable = false)
     private String password;
 
+
     public Account(String email, String nickName, String password, Role role) {
         this.email = email;
         this.nickName = nickName;

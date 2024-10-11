@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class CrewList extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "crew_id")
     private Crew crew;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 
@@ -28,6 +28,10 @@ public class CrewList extends BaseEntity {
     public CrewList(Crew crew, Account account, IsAccept isAccept) {
         this.crew = crew;
         this.account = account;
+        this.isAccept = isAccept;
+    }
+
+    public void setIsAccept(IsAccept isAccept){
         this.isAccept = isAccept;
     }
 }
