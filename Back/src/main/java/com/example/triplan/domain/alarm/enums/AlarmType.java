@@ -6,5 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum AlarmType {
-    ACCEPT, DECLINE, WAIT
+    INVITE("님께서 초대하셨습니다.");
+
+    private final String content;
 }
