@@ -1,9 +1,13 @@
 package com.example.triplan.application.account.service;
 
 import com.example.triplan.application.account.dto.AccountDto;
+import com.example.triplan.application.crew.dto.response.CrewResponse;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.account.enums.Role;
 import com.example.triplan.domain.account.repository.AccountRepository;
+import com.example.triplan.domain.crew.entity.Crew;
+import com.example.triplan.domain.crew.entity.CrewList;
+import com.example.triplan.domain.crew.enums.IsAccept;
 import com.example.triplan.security.jwt.TokenDto;
 import com.example.triplan.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -75,6 +80,26 @@ public class AccountService {
         return accountRepository.findByEmail(email); // 로그인한 사용자의 이메일을 사용하여 사용자 정보를 조회합니다.
     }
 
+    @Transactional
+    public void logout(){
+        Authentication authentication =SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            ((UsernamePasswordAuthenticationToken) authentication).setDetails(null); // 토큰의 만료 시간을 현재 시간으로 설정하여 토큰을 무효화
+        }else {
+            logger.info("토큰이 존재하지 않음. 로그인 되어 있지 않음.");
+        }
+    }
+
+    @Transactional
+    public Optional<Account> enterUserInfo(String password) {
+        Account account = getCurrentUser(); // 현재 로그인된 사용자 정보 가져오기
+        if (passwordEncoder.matches(password, account.getPassword())) { // 비밀번호 비교
+            return Optional.of(account); // 비밀번호가 일치하면 사용자 정보 반환
+        } else {
+            return Optional.empty(); // 비밀번호가 일치하지 않으면 빈 값 반환
+        }
+    }
+
     public void updateCurrentUser(AccountDto accountDto) {
         Account currentUser = getCurrentUser();
         if (currentUser == null) {
@@ -90,12 +115,19 @@ public class AccountService {
     }
 
     @Transactional
-    public void logout(){
-        Authentication authentication =SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            ((UsernamePasswordAuthenticationToken) authentication).setDetails(null); // 토큰의 만료 시간을 현재 시간으로 설정하여 토큰을 무효화
-        }else {
-            logger.info("토큰이 존재하지 않음. 로그인 되어 있지 않음.");
+    public void modifyUserPassword(String currentPassword, String newPassword,String newPasswordConfirm) {
+        Account currentUser = getCurrentUser(); // 현재 로그인된 사용자 가져오기
+
+        // 입력받은 비밀번호와 현재 비밀번호 비교
+        if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다.");
         }
+        // 새 비밀번호와 새 비밀번호 확인이 일치하는지 확인
+        if (!newPassword.equals(newPasswordConfirm)) {
+            throw new IllegalArgumentException("새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.");
+        }
+        // 새 비밀번호로 설정하고 저장
+        currentUser.setPassword(passwordEncoder.encode(newPassword));
+        accountRepository.save(currentUser); // 비밀번호 업데이트
     }
 }

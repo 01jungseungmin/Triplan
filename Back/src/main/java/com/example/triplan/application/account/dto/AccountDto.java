@@ -10,4 +10,9 @@ public class AccountDto {
     private String nickName;
     private String password;
     private Role role;
+
+    public AccountDto(String email, String nickName) {
+        this.email = email;
+        this.nickName = nickName;
+    }
 }
