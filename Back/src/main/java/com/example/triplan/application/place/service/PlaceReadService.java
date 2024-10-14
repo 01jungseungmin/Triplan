@@ -2,10 +2,16 @@ package com.example.triplan.application.place.service;
 
 import com.example.triplan.application.place.dto.response.PlaceListDetailResponse;
 import com.example.triplan.application.place.dto.response.PlaceListResponse;
+import com.example.triplan.domain.place.entity.Place;
 import com.example.triplan.domain.place.repository.PlaceRepository;
+import com.example.triplan.exception.ErrorCode;
+import com.example.triplan.exception.TriplanException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -14,12 +20,18 @@ public class PlaceReadService {
     private final PlaceRepository placeRepository;
 
     //장소 전체 조회
-    public PlaceListResponse findAll(){
-        return null;
+    public List<PlaceListResponse> findAll(){
+        List<Place> places = placeRepository.findAll();
+        return places.stream()
+                .map(place -> new PlaceListResponse(place.getId(), place.getPlaceCategory(),
+                        place.getPlaceName(), place.getPlaceAddress(), place.getPlaceNumber()))
+                .collect(Collectors.toList());
     }
 
     //장소 상세 조회
     public PlaceListDetailResponse getPlaceDetails(Long placeId){
-        return null;
+        Place place = placeRepository.findById(placeId).orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
+        return new PlaceListDetailResponse(place.getId(), place.getPlaceAddress(), place.getPlaceCategory() ,place.getPlaceNumber(), place.getPlaceBusinessHours(),
+                place.getPlaceLatitude(), place.getPlaceLongitude());
     }
 }
