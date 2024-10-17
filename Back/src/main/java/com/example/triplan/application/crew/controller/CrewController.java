@@ -22,6 +22,12 @@ public class CrewController {
         return ResponseEntity.ok(crewWriteService.create(crewRequest));
     }
 
+    @PostMapping("/crew/delete/{crewId}")
+    public ResponseEntity<String> deleteCrew(@PathVariable Long crewId) {
+        crewWriteService.delete(crewId);
+        return ResponseEntity.ok("삭제되었습니다.");
+    }
+
     // 전체 일정 조회
     @GetMapping("/crew/list")
     public ResponseEntity<List<CrewResponse>> crewList() {

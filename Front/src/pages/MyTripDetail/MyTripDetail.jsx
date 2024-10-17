@@ -9,7 +9,6 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
 function MyTripDetail() {
     const { crewId } = useParams(); // crewId를 URL 파라미터에서 가져옴
-    console.log('받아온 crewId:', crewId); // crewId가 제대로 전달되었는지 확인
 
     const [isOpen, setIsOpen] = useState(false);
     const [plan, setPlan] = useState(null); // 여행 일정 상태 관리
@@ -33,7 +32,6 @@ function MyTripDetail() {
     // API 호출을 통해 일정 데이터 가져오기
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const testId = crewId; // URL에서 가져온 crewId
         
         if (!token) {
             alert('로그인이 필요합니다.');
@@ -42,7 +40,7 @@ function MyTripDetail() {
         }
     
         // 백엔드 경로에 맞게 경로 수정
-        fetch(`http://localhost:8080/crew/list/${testId}`, {
+        fetch(`http://localhost:8080/crew/list/${crewId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}` // 인증 토큰 포함
@@ -65,8 +63,6 @@ function MyTripDetail() {
             setLoading(false); // 로딩 상태 해제
         });
     }, [crewId, navigate]);
-    
-
 
     // Dropdown 외부 클릭 감지 설정
     useEffect(() => {
@@ -75,6 +71,33 @@ function MyTripDetail() {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    // 그룹 삭제 함수
+    const handleDeleteCrew = () => {
+        if (window.confirm('정말로 이 그룹을 삭제하시겠습니까?')) {
+            const token = localStorage.getItem('token');
+
+            fetch(`http://localhost:8080/crew/delete/${crewId}`, { // 수정된 URL
+                method: 'POST', // 삭제 메서드는 POST로 변경
+                headers: {
+                    'Authorization': `Bearer ${token}`, // 인증 토큰 포함
+                    'Content-Type': 'application/json', // JSON 형식 명시
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('그룹이 삭제되었습니다.');
+                    navigate('/mytrip'); // 삭제 후 이동할 페이지
+                } else {
+                    throw new Error(`그룹을 삭제하지 못했습니다. 상태 코드: ${response.status}`);
+                }
+            })
+            .catch(error => {
+                console.error('삭제 중 에러 발생:', error);
+                alert('그룹 삭제 중 오류가 발생했습니다.');
+            });
+        }
+    };
 
     if (loading) {
         return <div>로딩 중...</div>; // 로딩 중 상태
@@ -105,7 +128,7 @@ function MyTripDetail() {
                                                     <hr />
                                                     <li>수정하기</li>
                                                     <hr />
-                                                    <li>삭제하기</li>
+                                                    <li onClick={handleDeleteCrew}>삭제하기</li> {/* 삭제 함수 연결 */}
                                                 </ul>
                                             </div>
                                         )}
