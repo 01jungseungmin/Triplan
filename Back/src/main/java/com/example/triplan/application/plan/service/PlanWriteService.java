@@ -34,7 +34,7 @@ public class PlanWriteService {
     private final CrewListRepository crewListRepository;
     private final PlanRepository planRepository;
 
-
+    // 일정 생성 메서드
     public Plan create(PlanRequest planRequest) {
         Account account = accountService.getCurrentUser();
 
@@ -49,21 +49,60 @@ public class PlanWriteService {
 
         if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요");
-        }    planRepository.findByCrewAndPlanDateAndPlanStartTime(crew, planRequest.getPlanDate(), planRequest.getPlanStartTime())
+        }
+
+        planRepository.findByCrewAndPlanDateAndPlanStartTime(crew, planRequest.getPlanDate(), planRequest.getPlanStartTime())
                 .ifPresent(plan -> {
                     throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 일정입니다.");
                 });
 
-        Plan plan = new Plan(planRequest.getPlanDate(),planRequest.getPlanStartTime(),planRequest.getPlanMemo(), place, crew);
+        Plan plan = new Plan(planRequest.getPlanDate(), planRequest.getPlanStartTime(), planRequest.getPlanMemo(), place, crew);
 
         return planRepository.save(plan);
     }
-    public PlanResponse modify(Long accountId, Long crewId) {
 
-        return null;
+    // 일정 수정 메서드
+    public PlanResponse modify(Long planId, PlanRequest planRequest) {
+        Account account = accountService.getCurrentUser();
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."));
+        Crew crew = plan.getCrew();
+        CrewList crewList = (CrewList) crewListRepository.findByCrewAndAccount(crew, account)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "초대받지 않은 그룹입니다."));
+        if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
+        }
+
+        // 장소 수정
+        if (planRequest.getPlaceId() != null) {
+            Place place = placeRepository.findById(planRequest.getPlaceId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "장소를 찾을 수 없습니다."));
+            plan.setPlace(place);
+        }
+
+        // 날짜, 시간, 메모 수정
+        plan.setPlanDate(planRequest.getPlanDate());
+        plan.setPlanStartTime(planRequest.getPlanStartTime());
+        plan.setPlanMemo(planRequest.getPlanMemo());
+
+        Plan updatedPlan = planRepository.save(plan);
+
+        return new PlanResponse(updatedPlan.getPlanDate(), updatedPlan.getPlanStartTime(), updatedPlan.getPlanMemo(),
+                updatedPlan.getPlace().getId(), updatedPlan.getCrew().getId());
     }
-    public PlanResponse delete(Long accountId, Long crewId) {
 
-        return null;
+    // 일정 삭제 메서드
+    public void delete(Long planId) {
+        Account account = accountService.getCurrentUser();
+        Plan plan = planRepository.findById(planId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."));
+        Crew crew = plan.getCrew();
+        CrewList crewList = (CrewList) crewListRepository.findByCrewAndAccount(crew, account)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "초대받지 않은 그룹입니다."));
+        if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
+        }
+
+        planRepository.delete(plan);
     }
 }

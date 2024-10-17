@@ -29,4 +29,17 @@ public class PlanController {
         List<PlanResponse> planResponses = planReadService.findAllPlansForCurrentUser(crewId); // 로그인한 유저가 속한 Crew의 모든 Plan 조회
         return ResponseEntity.ok(planResponses);
     }
+    @PostMapping("/plan/{crewId}/{planId}/modify")
+    public ResponseEntity<PlanResponse> modifyPlan(@PathVariable Long planId,@PathVariable Long crewId, @RequestBody PlanRequest planRequest) {
+        List<PlanResponse> planResponses = planReadService.findAllPlansForCurrentUser(crewId);
+        PlanResponse updatedPlan = planWriteService.modify(planId, planRequest);
+        return ResponseEntity.ok(updatedPlan);
+    }
+
+    @PostMapping("/plan/{crewId}/{planId}/delete")
+    public ResponseEntity<?> deletePlan(@PathVariable Long planId,@PathVariable Long crewId) {
+        List<PlanResponse> planResponses = planReadService.findAllPlansForCurrentUser(crewId);
+        planWriteService.delete(planId);
+        return ResponseEntity.ok("일정이 삭제되었습니다.");
+    }
 }
