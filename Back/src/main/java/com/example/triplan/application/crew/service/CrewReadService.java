@@ -23,7 +23,7 @@ public class CrewReadService {
     private final CrewListRepository crewListRepository;
     private final AccountService accountService;
 
-    // 로그인된 사용자가 isAccept가 ACCEPT인 그룹과 해당 그룹의 멤버들을 조회
+    // 전체 일정 조회(로그인된 사용자가 isAccept가 ACCEPT인 그룹과 해당 그룹의 멤버들을 조회)
     public List<CrewResponse> findAllCrew() {
         Account account = accountService.getCurrentUser(); // 현재 로그인된 사용자 정보 가져오기
         List<CrewList> crewLists = crewListRepository.findByAccountAndIsAccept(account, IsAccept.ACCEPT); // ACCEPT 상태인 그룹만 필터링
@@ -38,7 +38,7 @@ public class CrewReadService {
                 .collect(Collectors.toList());
     }
 
-    // 특정 그룹 조회
+    // 특정 일정 조회
     public Optional<CrewResponse> findCrew(Long crewId) {
         Account account = accountService.getCurrentUser(); // 현재 로그인된 사용자 정보 가져오기
         Optional<CrewList> crewList = crewListRepository.findByCrewIdAndAccountAndIsAccept(crewId, account, IsAccept.ACCEPT); // 특정 그룹 ID와 사용자 및 ACCEPT 상태 필터링

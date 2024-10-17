@@ -33,14 +33,6 @@ public class CrewWriteService {
         return new CrewResponse(crewRepository.save(crew)); // DTO 반환
     }
 
-    public void sendEmail(String email, String crewName, String nickName) {
-
-    }
-    public String setInviteCrew(Long accountId, Long crewId, String email) {
-
-        return null;
-    }
-
     public String modifyCrew(Long accountId, Long crewId,String crewName, LocalDate planStartDate, LocalDate planEndDate) {
 
         return null;

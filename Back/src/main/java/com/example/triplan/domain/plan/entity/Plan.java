@@ -7,15 +7,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 @Entity
-@Getter
+@Data
 @NoArgsConstructor
 public class Plan extends BaseEntity {
     @Column(name = "planDate", nullable = false)
@@ -42,4 +41,5 @@ public class Plan extends BaseEntity {
         this.place = place;
         this.crew = crew;
     }
+
 }

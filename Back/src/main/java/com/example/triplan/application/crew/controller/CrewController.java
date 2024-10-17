@@ -22,14 +22,14 @@ public class CrewController {
         return ResponseEntity.ok(crewWriteService.create(crewRequest));
     }
 
-    // 전체 그룹 리스트 조회
+    // 전체 일정 조회
     @GetMapping("/crew/list")
     public ResponseEntity<List<CrewResponse>> crewList() {
         List<CrewResponse> crewList = crewReadService.findAllCrew();
         return ResponseEntity.ok(crewList);
     }
 
-    // 특정 그룹 정보 조회
+    // 특정 일정 조회
     @GetMapping("/crew/list/{crewId}")
     public ResponseEntity<CrewResponse> getCrew(@PathVariable Long crewId) {
         Optional<CrewResponse> crew = crewReadService.findCrew(crewId);
