@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class CrewResponse {
+    private Long crewId;
     private String crewName;
     private LocalDate planStartDate;
     private LocalDate planEndDate;
@@ -18,6 +19,7 @@ public class CrewResponse {
 
 
     public CrewResponse(Crew crew) {
+        this.crewId = crew.getId();
         this.crewName = crew.getCrewName();
         this.planStartDate = crew.getPlanStartDate();
         this.planEndDate = crew.getPlanEndDate();
@@ -25,6 +27,7 @@ public class CrewResponse {
     }
 
     public CrewResponse(Crew crew, List<CrewList> members) {
+        this.crewId = crew.getId();
         this.crewName = crew.getCrewName();
         this.planStartDate = crew.getPlanStartDate();
         this.planEndDate = crew.getPlanEndDate();

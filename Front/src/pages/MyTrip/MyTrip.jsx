@@ -152,6 +152,7 @@ function MyTrip() {
                     {currentSchedules.map((schedule, index) => (
                         <MyTripItem
                             key={index}
+                            crewId={schedule.crewId}
                             planName={schedule.crewName}
                             plan_startDate={schedule.planStartDate} // 데이터 필드명에 맞게 수정
                             plan_endDate={schedule.planEndDate}
