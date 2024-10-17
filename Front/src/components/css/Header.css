@@ -64,8 +64,13 @@
   width: 130px;
   display: flex;
   align-items: center;
+  cursor: pointer;
+}
+
+.faUser {
+  margin-right: 16%;
 }
 
 .login-btn {
-  width: 100%;
+  width: 80%;
 }
