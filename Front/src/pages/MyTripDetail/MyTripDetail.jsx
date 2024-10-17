@@ -9,6 +9,8 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 
 function MyTripDetail() {
     const { crewId } = useParams(); // crewId를 URL 파라미터에서 가져옴
+    console.log('받아온 crewId:', crewId); // crewId가 제대로 전달되었는지 확인
+
     const [isOpen, setIsOpen] = useState(false);
     const [plan, setPlan] = useState(null); // 여행 일정 상태 관리
     const [loading, setLoading] = useState(true); // 로딩 상태 관리
@@ -31,43 +33,40 @@ function MyTripDetail() {
     // API 호출을 통해 일정 데이터 가져오기
     useEffect(() => {
         const token = localStorage.getItem('token');
-        const crewIdParam = crewId;
-        console.log("crewId:", crewIdParam);
-    
+        const testId = crewId; // URL에서 가져온 crewId
+        
         if (!token) {
             alert('로그인이 필요합니다.');
             navigate('/login');
             return;
         }
     
-        // 수정된 경로
-        fetch(`http://localhost:8080/crew/list/${crewIdParam}`, {
+        // 백엔드 경로에 맞게 경로 수정
+        fetch(`http://localhost:8080/crew/list/${testId}`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}` // 인증 토큰 포함
             }
         })
         .then(response => {
-            console.log("응답 상태:", response.status);
             if (response.ok) {
-                return response.json();
+                return response.json(); // 응답을 JSON으로 파싱
             } else {
                 throw new Error(`일정 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`);
             }
         })
         .then(data => {
-            console.log("서버 응답 데이터:", data); // 받아온 데이터를 로그로 확인
-            setPlan(data);
-            setLoading(false);
+            setPlan(data); // 서버에서 받아온 데이터 상태에 저장
+            setLoading(false); // 로딩 상태 해제
         })
         .catch(error => {
             console.error('에러 발생:', error);
             setError('일정 데이터를 불러오는 중 오류가 발생했습니다.');
-            setLoading(false);
+            setLoading(false); // 로딩 상태 해제
         });
     }, [crewId, navigate]);
     
-    
+
 
     // Dropdown 외부 클릭 감지 설정
     useEffect(() => {
@@ -94,7 +93,7 @@ function MyTripDetail() {
                         <div className='planContent'>
                             <div className='planDetailContent'>
                                 <div className='planDetailNameContent'>
-                                    <div className='planDetailName'>{plan.crewId}</div>
+                                    <div className='planDetailName'>{plan.crew}</div>
                                     <div className="dropdown-container" ref={dropdownRef}>
                                         <button className="dropdown-toggle" onClick={toggleDropdown}>
                                             <FontAwesomeIcon icon={faEllipsisVertical} className='planDetailSetting' />

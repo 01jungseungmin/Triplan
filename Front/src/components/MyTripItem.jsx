@@ -1,14 +1,15 @@
 import './css/MyTripItem.css';
 import { Link } from 'react-router-dom';
 
-function MyTripItem({ planName, plan_startDate, plan_endDate, user, area, image }) {
+function MyTripItem({ crewId, planName, plan_startDate, plan_endDate, user, area, image }) {
+
     return (
-        <Link to={`/myTrip/${planName}`} className="board-item-link">
+        // Link를 사용하여 crewId를 경로에 포함
+        <Link to={`/crew/list/${crewId}`} className="board-item-link">
             <div className="MyTripItemContainer">
                 <div className="MyTripItemImage">
-                    {/* 이미지가 있으면 보여주고, 없으면 기본 이미지 */}
                     <img
-                        src={image || "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA1MTNfMTAz%2FMDAxNjIwODgyMTQ1NzYx.PFIlobbvbexGiulZmt59rbm5NkH9KcEnZR3A-lGAk2Yg.W9N1TZka_suiFjasFi11tKiumUtlztw5vqn-YLpPEMAg.JPEG.xoxo_0717%2FIMG_3538.JPG&type=a340"} // 기본 이미지 URL
+                        src={image || "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA1MTNfMTAz%2FMDAxNjIwODgyMTQ1NzYx.PFIlobbvbexGiulZmt59rbm5NkH9KcEnZR3A-lGAk2Yg.W9N1TZka_suiFjasFi11tKiumUtlztw5vqn-YLpPEMAg.JPEG.xoxo_0717%2FIMG_3538.JPG&type=a340"}
                         alt={`${planName} 이미지`}
                         className="MyTripItemImg"
                     />
@@ -21,6 +22,7 @@ function MyTripItem({ planName, plan_startDate, plan_endDate, user, area, image 
                 </div>
             </div>
         </Link>
+
     );
 }
 
