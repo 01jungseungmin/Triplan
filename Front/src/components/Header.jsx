@@ -38,15 +38,44 @@ function Header() {
         navigate('/');
     };
 
-    const handleLoginClick = (e) => {
+    // 로그아웃 처리 함수
+    const handleLogoutClick = (e) => {
         e.preventDefault();
         if (isLoggedIn) {
-            // 로그아웃 처리
-            localStorage.removeItem("token"); // localStorage에서 토큰 삭제
-            setIsLoggedIn(false); // 로그인 상태 해제
-            navigate('/'); // 홈으로 이동
+            // 백엔드로 로그아웃 요청 보내기
+            fetch('http://localhost:8080/api/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` // 토큰을 Authorization 헤더에 포함
+                }
+            })
+            .then((response) => {
+                if (response.ok) {
+                    // 로그아웃 성공 시, localStorage에서 토큰 삭제
+                    localStorage.removeItem("token");
+                    setIsLoggedIn(false); // 로그인 상태 해제
+                    navigate('/'); // 홈으로 이동
+                } else {
+                    console.error("로그아웃 실패");
+                }
+            })
+            .catch((error) => {
+                console.error("로그아웃 요청 중 오류 발생:", error);
+            });
         } else {
             navigate('/login'); // 로그인 페이지로 이동
+        }
+    };
+
+    // 마이페이지로 이동하는 함수
+    const handleUserIconClick = (e) => {
+        e.preventDefault();
+        if (isLoggedIn) {
+            navigate('/mypage'); // 마이페이지로 이동
+        } else {
+            alert('로그인이 필요합니다.');
+            navigate('/login');
         }
     };
 
@@ -70,14 +99,20 @@ function Header() {
                     onClick={(e) => { e.preventDefault(); handleMenuClick("navCommunity", '/community'); }}>커뮤니티</a>
             </nav>
             <div className="auth">
-                <a href="/" className="login-btn" onClick={handleLoginClick}>
-                    {isLoggedIn ? (
-                        <div className="logout-section">
-                            <FontAwesomeIcon icon={faUser} className="faUser" size="lg" color="#adb5bd" />
-                            <div className="login-btn">Log out</div>
-                        </div>
-                    ) : 'Log in'}
-                </a>
+                {isLoggedIn ? (
+                    <div className="logout-section">
+                        <FontAwesomeIcon
+                            icon={faUser}
+                            className="faUser"
+                            size="lg"
+                            color="#adb5bd"
+                            onClick={handleUserIconClick} // 아이콘 클릭 시 마이페이지로 이동
+                        />
+                        <div className="login-btn" onClick={handleLogoutClick}>Log out</div> {/* 로그아웃 버튼 */}
+                    </div>
+                ) : (
+                    <a href="/" className="login-btn" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Log in</a>
+                )}
             </div>
         </header>
     );
