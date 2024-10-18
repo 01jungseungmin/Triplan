@@ -34,22 +34,37 @@ public class PlanWriteService {
     private final CrewListRepository crewListRepository;
     private final PlanRepository planRepository;
 
+    //그룹 예외처리
+    private void validateCrewListAccess(Crew crew, Account account) {
+        CrewList crewList = (CrewList) crewListRepository.findByCrewAndAccount(crew, account)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "초대받지 않은 그룹입니다."));
+        if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
+        }
+    }
+
+    //장소 예외처리
+    private Place validateFindPlaceById(Long placeId) {
+        return placeRepository.findById(placeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "장소를 찾을 수 없습니다."));
+    }
+
+    // 일정 조회 메서드
+    private Plan validatefindPlanById(Long planId) {
+        return planRepository.findById(planId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."));
+    }
+
+
     // 일정 생성 메서드
     public Plan create(PlanRequest planRequest) {
         Account account = accountService.getCurrentUser();
 
-        Place place = placeRepository.findById(planRequest.getPlaceId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "장소를 찾을 수 없습니다."));
-
+        Place place = validateFindPlaceById(planRequest.getPlaceId());
         Crew crew = crewRepository.findById(planRequest.getCrewId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "그룹을 찾을 수 없습니다."));
 
-        CrewList crewList = (CrewList) crewListRepository.findByCrewAndAccount(crew, account)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "초대받지 않은 그룹입니다."));
-
-        if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요");
-        }
+        validateCrewListAccess(crew, account);
 
         planRepository.findByCrewAndPlanDateAndPlanStartTime(crew, planRequest.getPlanDate(), planRequest.getPlanStartTime())
                 .ifPresent(plan -> {
@@ -64,19 +79,14 @@ public class PlanWriteService {
     // 일정 수정 메서드
     public PlanResponse modify(Long planId, PlanRequest planRequest) {
         Account account = accountService.getCurrentUser();
-        Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."));
+        Plan plan = validatefindPlanById(planId);
         Crew crew = plan.getCrew();
-        CrewList crewList = (CrewList) crewListRepository.findByCrewAndAccount(crew, account)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "초대받지 않은 그룹입니다."));
-        if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
-        }
+
+        validateCrewListAccess(crew, account);
 
         // 장소 수정
         if (planRequest.getPlaceId() != null) {
-            Place place = placeRepository.findById(planRequest.getPlaceId())
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "장소를 찾을 수 없습니다."));
+            Place place = validateFindPlaceById(planRequest.getPlaceId());
             plan.setPlace(place);
         }
 
@@ -94,14 +104,10 @@ public class PlanWriteService {
     // 일정 삭제 메서드
     public void delete(Long planId) {
         Account account = accountService.getCurrentUser();
-        Plan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."));
+        Plan plan = validatefindPlanById(planId);
         Crew crew = plan.getCrew();
-        CrewList crewList = (CrewList) crewListRepository.findByCrewAndAccount(crew, account)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.FORBIDDEN, "초대받지 않은 그룹입니다."));
-        if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
-        }
+
+        validateCrewListAccess(crew, account);
 
         planRepository.delete(plan);
     }
