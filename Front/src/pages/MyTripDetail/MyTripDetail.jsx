@@ -43,24 +43,25 @@ function MyTripDetail() {
         fetch(`http://localhost:8080/crew/list/${crewId}`, {
             method: 'GET',
             headers: {
-                'Authorization': `Bearer ${token}` // 인증 토큰 포함
+                'Authorization': `Bearer ${token}`
             }
         })
         .then(response => {
             if (response.ok) {
-                return response.json(); // 응답을 JSON으로 파싱
+                return response.json();
             } else {
                 throw new Error(`일정 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`);
             }
         })
         .then(data => {
-            setPlan(data); // 서버에서 받아온 데이터 상태에 저장
-            setLoading(false); // 로딩 상태 해제
+            console.log('받아온 데이터:', data); // 추가된 로그
+            setPlan(data);
+            setLoading(false);
         })
         .catch(error => {
             console.error('에러 발생:', error);
             setError('일정 데이터를 불러오는 중 오류가 발생했습니다.');
-            setLoading(false); // 로딩 상태 해제
+            setLoading(false);
         });
     }, [crewId, navigate]);
 
@@ -116,7 +117,7 @@ function MyTripDetail() {
                         <div className='planContent'>
                             <div className='planDetailContent'>
                                 <div className='planDetailNameContent'>
-                                    <div className='planDetailName'>{plan.crew}</div>
+                                    <div className='planDetailSetting'></div>
                                     <div className="dropdown-container" ref={dropdownRef}>
                                         <button className="dropdown-toggle" onClick={toggleDropdown}>
                                             <FontAwesomeIcon icon={faEllipsisVertical} className='planDetailSetting' />
@@ -133,6 +134,10 @@ function MyTripDetail() {
                                             </div>
                                         )}
                                     </div>
+                                </div>
+
+                                <div className='planDetailName'>
+                                    <div className='planDetailName'>{plan.crewName}</div>
                                 </div>
                                 <div className='planDetailDate'>
                                     <FontAwesomeIcon icon={faCalendar} className='myTripDetailIcon' />

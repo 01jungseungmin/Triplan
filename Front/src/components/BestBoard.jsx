@@ -12,10 +12,10 @@ function BestBoard() {
   return (
     <div className="best-Board-container">
       <div className="BestBoard-header-box">
-        <div className='BestBoard-header'>BEST TRIP</div>
+        <div className='BestBoard-header'>BEST PLACE</div>
         <a href="/PlaceBoard">전체보기</a>
       </div>
-      <div className='BestBoardSub'>인기 많은 여행 계획이에요.</div>
+      <div className='BestBoardSub'>사람들이 많이 찾는 장소에요</div>
       <div className="best-board-grid">
         {topPlaces.map((place, index) => (
           <PlaceBoardItem
