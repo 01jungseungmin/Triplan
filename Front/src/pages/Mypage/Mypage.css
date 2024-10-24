@@ -1,4 +1,121 @@
 .MyPageContainer {
-    padding: 0 18%;
-    box-sizing: border-box;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.myPageLayout {
+    display: flex;
+    margin-top: 4%;
+}
+
+.myPageLayoutTabContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    height: 100%;
+    width: 30%;
+    margin-right: 4%;
+}
+
+.myPageTabs {
+    margin-top: 2%;
+    width: 80%;
+}
+
+.myPageLayoutTitle {
+    font-size: 1.2rem;
+    font-family: 'PretendardFont-Bold';
+}
+
+.myPageTab {
+    padding: 5% 4%;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: #f8f8f8;
+    border: 1px solid #ececec;
+    text-align: left;
+    font-family: 'PretendardFont-Medium';
+}
+
+.myPageTab.active {
+    color: #60b1d6;
+}
+
+.chevronIconBox {
+    margin-right: auto;
+}
+
+.myPageContent {
+    flex: 1;
+    margin-top: 3%;
+}
+
+.myPageForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.passwordChangeButton {
+    background-color: #a3e1f7;
+    border: none;
+    color: white;
+    padding: 2% 3%;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'PretendardFont-Medium';
+    font-size: 0.88rem;
+}
+
+.passwordChangeButton:hover {
+    background-color: #8ec7de;
+}
+
+.saveButtonGroup {
+    width: 70%;
+    text-align: center;
+}
+
+.saveButton {
+    width: 40%;
+    background-color: #a3e1f7;
+    border: none;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    font-family: 'PretendardFont-Bold';
+    cursor: pointer;
+}
+
+.saveButton:hover {
+    background-color: #8ec7de;
+}
+
+.emailTxt,
+.passwordChangeTxt,
+.nickNameTxt {
+    font-size: 0.92rem;
+    font-family: 'PretendardFont-Medium';
+    margin-right: 4%;
+}
+
+#mypageEmailInput,
+#mypageNickNameInput {
+    width: 50%;
+    padding: 2% 2%;
+    font-size: 0.98rem;
+    font-family: 'PretendardFont-Light';
+    border-radius: 10px;
+    border: 1px solid #d0d0d0;
 }
