@@ -144,7 +144,7 @@ function MyTripDetail() {
                     <p>일정을 찾을 수 없습니다.</p>
                 )}
             </div>
-            <InviteDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} />
+            <InviteDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} crewId={crewId}/>
         </div>
     );
 }
