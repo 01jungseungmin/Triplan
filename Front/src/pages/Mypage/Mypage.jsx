@@ -1,9 +1,16 @@
 import '../Mypage/Mypage.css';
 import Header from "../../components/Header";
 import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 function Mypage() {
-    const [userInfo, setUserInfo] = useState(null);
+    const [userInfo, setUserInfo] = useState({
+        email: '',
+        nickName: ''
+    });
+    const [activeTab, setActiveTab] = useState('내 정보'); // State for tab selection
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -13,31 +20,111 @@ function Mypage() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` // 토큰 포함
+                    'Authorization': `Bearer ${token}`
                 }
             })
                 .then(response => response.json())
-                .then(data => setUserInfo(data)) // 사용자 정보를 상태에 저장
+                .then(data => {
+                    setUserInfo({
+                        email: data.email,
+                        nickName: data.nickName
+                    });
+                    setLoading(false);
+                })
                 .catch(error => {
-                    console.error('사용자 정보 불러오기 실패:', error);
-                    alert('사용자 정보를 불러오지 못했습니다.');
+                    console.error('Failed to load user information:', error);
+                    alert('Failed to load user information.');
+                    setLoading(false);
                 });
         }
     }, []);
 
-    if (!userInfo) {
-        return <div>로딩 중...</div>; // 사용자 정보를 불러오는 동안 로딩 표시
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUserInfo(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleSubmit = () => {
+        // Handle the save functionality
+        console.log('Saving user info:', userInfo);
+    };
+
+    const renderContent = () => {
+        if (activeTab === '내 정보') {
+            return (
+                <div className="myPageForm">
+                    <div className="formGroup">
+                        <div className="emailTxt">이메일</div>
+                        <input
+                            type="email"
+                            id="mypageEmailInput"
+                            name="email"
+                            value={userInfo.email}
+                            placeholder='test@naver.com'
+                            onChange={handleInputChange}
+                            disabled
+                        />
+                    </div>
+                    <div className="formGroup">
+                        <div className="passwordChangeTxt">비밀번호</div>
+                        <button className="passwordChangeButton">비밀번호 변경</button>
+                    </div>
+                    <div className="formGroup">
+                        <div className="nickNameTxt">닉네임</div>
+                        <input
+                            type="text"
+                            id="mypageNickNameInput"
+                            name="nickName"
+                            value={userInfo.nickName}
+                            onChange={handleInputChange}
+                        />
+                    </div>
+                    <div className='saveButtonGroup'>
+                        <button className="saveButton" onClick={handleSubmit}>저장하기</button>
+                    </div>
+                </div>
+            );
+        } else if (activeTab === '초대 알림') {
+            return <div className="inviteNotification">초대 알림이 여기에 표시됩니다.</div>;
+        }
+    };
+
+    if (loading) {
+        return <div>로딩 중...</div>; // Show loading while fetching data
     }
 
     return (
         <div className="MyPageContainer">
             <Header />
-            <div>
-                <h2>마이페이지</h2>
-                <p>이름: {userInfo.email}</p>
-                <p>이메일: {userInfo.nickName}</p>
+            <div className="myPageLayout">
+                <div className='myPageLayoutTabContainer'>
+                    <div className='myPageLayoutTitle'>
+                        마이페이지
+                    </div>
+                    <div className="myPageTabs">
+                        <div
+                            className={`myPageTab ${activeTab === '내 정보' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('내 정보')}
+                        >
+                            내 정보
+
+                        </div>
+                        <div
+                            className={`myPageTab ${activeTab === '초대 알림' ? 'active' : ''}`}
+                            onClick={() => setActiveTab('초대 알림')}
+                        >
+                            초대 알림
+
+                        </div>
+                    </div>
+                </div>
+                <div className="myPageContent">
+                    {renderContent()}
+                </div>
             </div>
-            {/* 필요한 사용자 정보 추가 */}
         </div>
     );
 }
