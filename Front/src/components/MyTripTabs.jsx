@@ -13,6 +13,12 @@ function MyPageTabs({ activeTab, setActiveTab }) {
                 전체
             </button>
             <button
+                className={activeTab === '예정 일정' ? 'tab active' : 'tab'}
+                onClick={() => setActiveTab('예정 일정')}
+            >
+                예정 일정
+            </button>
+            <button
                 className={activeTab === '지난 일정' ? 'tab active' : 'tab'}
                 onClick={() => setActiveTab('지난 일정')}
             >
