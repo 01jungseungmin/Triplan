@@ -20,10 +20,9 @@ hr {
     width: 80%;
 }
 
-.planDetailNameContent {
+.planDetailNameContainer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .planDetailName {
@@ -31,6 +30,7 @@ hr {
     font-size: 1.6rem;
     color: #272727;
     text-align: left;
+    
 }
 
 .planDetailSetting {
@@ -64,6 +64,7 @@ hr {
 .dropdown-container {
     position: relative;
     display: inline-block;
+    margin-left: auto;
 }
 
 .dropdown-toggle {
@@ -109,16 +110,16 @@ hr {
     border-top: 1px solid #e0e0e0;
 }
 
-.inviteButton {
+.inviteButtonMyTrip {
     border-radius: 10px;
     border: none;
     width: 13%;
-    padding: 3px;
     font-size: 0.92rem;
     font-family: 'PretendardFont-Bold';
     color: white;
     background-color: #82D3DD;
     cursor: pointer;
+    padding: 4px 0;
 }
 
 .my-trip-detail {
