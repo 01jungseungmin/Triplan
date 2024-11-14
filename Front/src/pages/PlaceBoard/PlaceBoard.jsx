@@ -23,10 +23,13 @@ function PlaceBoard() {
     // 카테고리 정의
     const categories = [
         { name: '전체', icon: '🌍' },
-        { name: '카페', icon: '☕', value: 'CAFE'},
-        { name: '레스토랑', icon: '🍽️', value: 'RESTAURANT'},
+        { name: '카페', icon: '☕', value: 'CAFE' },
+        { name: '레스토랑', icon: '🍽️', value: 'RESTAURANT' },
         { name: '쇼핑', icon: '🛍️', value: 'SHOPPING' },
         { name: '숙소', icon: '🏨', value: 'ACCOMMODATION' },
+        { name: '관광지', icon: '🗽', value: 'TOUR'},
+        { name: '기타', icon: '🛣️', value: 'ETC' },
+        { name: '지역별', icon: '🌏' ,value: 'REGION' }
     ];
 
     // 장소 데이터를 API에서 불러오는 useEffect
@@ -43,21 +46,21 @@ function PlaceBoard() {
                 'Authorization': `Bearer ${token}`, // 인증 토큰 포함
             }
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`장소 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            setPlaces(data); // 받아온 데이터를 상태에 저장
-            setLoading(false); // 로딩 상태 해제
-        })
-        .catch(error => {
-            console.error('에러 발생:', error);
-            setError('장소 데이터를 불러오는 중 오류가 발생했습니다.');
-            setLoading(false); // 로딩 상태 해제
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`장소 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                setPlaces(data); // 받아온 데이터를 상태에 저장
+                setLoading(false); // 로딩 상태 해제
+            })
+            .catch(error => {
+                console.error('에러 발생:', error);
+                setError('장소 데이터를 불러오는 중 오류가 발생했습니다.');
+                setLoading(false); // 로딩 상태 해제
+            });
     }, []);
 
     const filteredPlaces = places.filter(place => {
@@ -100,26 +103,27 @@ function PlaceBoard() {
             <div className='placeBoardContainer'>
                 <Header />
                 <SearchBar searchKeyword={searchKeyword} setSearchKeyword={setSearchKeyword} />
-            <div className="categoryContainer">
-                {categories.map((category) => (
-                    <CategoryItem
-                        key={category.name}
-                        icon={category.icon}
-                        name={category.name}
-                        isSelected={selectedCategory === category.name}
-                        onClick={() => {
-                            console.log(`선택된 카테고리: ${category.name}`); // 선택된 카테고리 출력
-                            setSelectedCategory(category.name);
-                            setCurrentPage(1); // 카테고리 변경 시 페이지를 1로 초기화
-                        }}
-                    />
-                ))}
-            </div>
+                <div className="categoryContainer">
+                    {categories.map((category) => (
+                        <CategoryItem
+                            key={category.name}
+                            icon={category.icon}
+                            name={category.name}
+                            isSelected={selectedCategory === category.name}
+                            onClick={() => {
+                                console.log(`선택된 카테고리: ${category.name}`); // 선택된 카테고리 출력
+                                setSelectedCategory(category.name);
+                                setCurrentPage(1); // 카테고리 변경 시 페이지를 1로 초기화
+                            }}
+                        />
+                    ))}
+                </div>
                 <div className='placeBoardGridContent'>
                     <div className="placeBoardGrid">
-                        {filteredPlaces.slice(startIndex, endIndex).map((place, index) => (
+                        {filteredPlaces.map((place, index) => (
                             <PlaceBoardItem
                                 key={index}
+                                placeId={place.placeId}
                                 name={place.placeName} // API 데이터에 맞게 수정
                                 address={place.placeAddress} // API 데이터에 맞게 수정
                                 phone={place.placeNumber} // API 데이터에 맞게 수정

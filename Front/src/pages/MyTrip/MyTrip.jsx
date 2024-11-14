@@ -4,7 +4,7 @@ import MyTripTabs from '../../components/MyTripTabs';
 import MyTripItem from '../../components/MyTripItem';
 import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAnglesRight, faAnglesLeft, faMinus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 function MyTrip() {
@@ -29,21 +29,21 @@ function MyTrip() {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('여행 목록을 가져오지 못했습니다.');
-                }
-            })
-            .then(data => {
-                setSchedules(data);
-                filterSchedules(data, activeTab);
-            })
-            .catch(error => {
-                console.error('에러 발생:', error);
-                alert('여행 목록을 불러오는 중 오류가 발생했습니다.');
-            });
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('여행 목록을 가져오지 못했습니다.');
+                    }
+                })
+                .then(data => {
+                    setSchedules(data);
+                    filterSchedules(data, activeTab);
+                })
+                .catch(error => {
+                    console.error('에러 발생:', error);
+                    alert('여행 목록을 불러오는 중 오류가 발생했습니다.');
+                });
         }
     }, [navigate, activeTab]); // activeTab을 의존성 배열에 추가하여 탭 변경 시 필터링
 
@@ -113,31 +113,31 @@ function MyTrip() {
             },
             body: JSON.stringify(crewRequest)
         })
-        .then(response => {
-            if (response.ok) {
-                alert('일정이 성공적으로 생성되었습니다.');
-                closeModal(); // 모달 닫기
-                return fetch('http://localhost:8080/crew/list', { // 새로 생성한 일정 목록을 업데이트
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-            } else {
-                alert('일정 생성에 실패했습니다.');
-            }
-        })
-        .then(response => response && response.json())
-        .then(data => {
-            setSchedules(data);
-            filterSchedules(data, activeTab); // 필터링된 일정 업데이트
-        })
-        .catch(error => {
-            console.error('일정 생성 중 오류 발생:', error);
-            alert('오류가 발생했습니다. 다시 시도해 주세요.');
-        });
+            .then(response => {
+                if (response.ok) {
+                    alert('일정이 성공적으로 생성되었습니다.');
+                    closeModal(); // 모달 닫기
+                    return fetch('http://localhost:8080/crew/list', { // 새로 생성한 일정 목록을 업데이트
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                    });
+                } else {
+                    alert('일정 생성에 실패했습니다.');
+                }
+            })
+            .then(response => response && response.json())
+            .then(data => {
+                setSchedules(data);
+                filterSchedules(data, activeTab); // 필터링된 일정 업데이트
+            })
+            .catch(error => {
+                console.error('일정 생성 중 오류 발생:', error);
+                alert('오류가 발생했습니다. 다시 시도해 주세요.');
+            });
     };
-    
+
     return (
         <div className='MyTripContainer'>
             <Header />
@@ -187,44 +187,61 @@ function MyTrip() {
             )}
 
             {isModalOpen && (
-                <div className="modal">
-                    <div className="modal-content">
-                        <h2>일정 생성</h2>
-                        <form onSubmit={handleCreate}>
-                            <div>
-                                <label htmlFor="tripName">여행 이름:</label>
-                                <input
-                                    type="text"
-                                    id="tripName"
-                                    value={tripName}
-                                    onChange={(e) => setTripName(e.target.value)}
+                <>
+                    <div className="backdrop" onClick={closeModal}></div>
+                    <div className="modal">
+                        <div className="form-container">
+                            <div className="image-section">
+                                <img
+                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoQoOS9Fb2tIZQI8knvJbitYcvaXZaKY-3iYpR6GZA9qwic0cS9LfJz4Y&s"
+                                    alt="background"
+                                    className="background-image"
                                 />
                             </div>
-                            <div>
-                                <label htmlFor="startDate">시작 날짜:</label>
-                                <input
-                                    type="date"
-                                    id="startDate"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                />
+                            <div className="form-section">
+                                <div className="form-title">일정 생성</div>
+                                <div className="form-subtitle">멋진 일정을 계획해 보세요.</div>
+                                <div className='MytripNameInputContent'>
+                                    <div className='MytripNameInputTitle'>일정 이름</div>
+                                    <input
+                                        placeholder='일정 이름 작성'
+                                        className='MytripNameInput'
+                                        value={tripName}
+                                        onChange={(e) => setTripName(e.target.value)}
+                                    />
+                                </div>
+                                <div className='MytripDateInputContent'>
+                                    <div className='MytripDateInputTitle'>일정 기간</div>
+                                    <div className='MytripDateInputBox'>
+                                        <input
+                                            type="date"
+                                            className='MytripDateStart'
+                                            placeholder='2024-10-10'
+                                            value={startDate}
+                                            onChange={(e) => setStartDate(e.target.value)}
+                                        />
+                                        <FontAwesomeIcon icon={faMinus} className='minusIcon' />
+                                        <input
+                                            type="date"
+                                            className='MytripDateEnd'
+                                            placeholder='2024-11-10'
+                                            value={endDate}
+                                            onChange={(e) => setEndDate(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='testBtnGroup'>
+                                    <button className="tripCreateButton" onClick={handleCreate}>
+                                        일정 생성하기
+                                    </button>
+                                </div>
                             </div>
-                            <div>
-                                <label htmlFor="endDate">종료 날짜:</label>
-                                <input
-                                    type="date"
-                                    id="endDate"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                />
-                            </div>
-                            <button type="submit">생성</button>
-                            <button type="button" onClick={closeModal}>취소</button>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </>
             )}
         </div>
+
     );
 }
 

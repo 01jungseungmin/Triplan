@@ -21,7 +21,7 @@ function App() {
         <Route path='/crew/list/:crewId' element={<MyTripDetail />} />
         <Route path='/Mypage' element={<Mypage />} />
         <Route path='/PlaceBoard' element={<PlaceBoard />} />
-        <Route path='/place/:name' element={<PlaceDetail />} />
+        <Route path='/place/details/:placeId' element={<PlaceDetail />} />
       </Routes>
     </Router>
   );

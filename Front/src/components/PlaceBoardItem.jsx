@@ -2,9 +2,9 @@ import './css/PlaceBoardItem.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function PlaceBoardItem({ name, address, phone, distance, rating, reviews }) {
+function PlaceBoardItem({ placeId, name, address, phone, distance, rating, reviews }) {
     return (
-        <Link to={`/place/${name}`} className="board-item-link">
+        <Link to={`/place/details/${placeId}`} className="board-item-link">
             <div className="board-item">
                 <div className="board-item-image">
                     {/* 이미지가 있으면 보여주고, 없으면 기본 이미지 */}

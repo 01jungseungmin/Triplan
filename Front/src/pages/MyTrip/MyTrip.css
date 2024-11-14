@@ -214,7 +214,7 @@
     justify-content: center;
 }
 
-.MytripCreateBtn {
+.tripCreateButton {
     border: none;
     background-color: #a2d2e8;
     color: white;
@@ -224,4 +224,9 @@
     font-family: 'PretendardFont-Medium';
     font-size: 0.96rem;
     cursor: pointer;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
 }
