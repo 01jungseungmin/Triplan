@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './PlaceDetail.css';
-import { places } from '../../data/mock';
+
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 function PlaceDetail() {
-    const { name } = useParams();
+    const { placeId } = useParams();
+    const [place, setPlace] = useState(null);
 
-    // 선택된 장소를 찾습니다.
-    const place = places.find(p => p.name === name);
+    useEffect(() => {
+        // placeId에 해당하는 장소 데이터를 백엔드에서 불러옵니다.
+        fetch(`http://localhost:8080/place/details/${placeId}`)
+            .then(response => response.json())
+            .then(data => setPlace(data))
+            .catch(error => console.error('Error fetching place data:', error));
+    }, [placeId]);
 
     return (
         <div>
@@ -23,11 +29,11 @@ function PlaceDetail() {
                                 <div className="placeImagePlaceholder"></div>
                                 <div className="placeInfo">
                                     <div className='placeName-Count'>
-                                        <div className='placeName'>{place.name}</div>
+                                        <div className='placeName'>{place.placeName}</div>
                                         <div className='placeCount'>일정에 {place.heart}번 추가된 장소입니다.</div>
                                     </div>
-                                    <div className='placeAddress'>{place.address}</div>
-                                    <div className='placePhone'>{place.phone}</div>
+                                    <div className='placeAddress'>{place.placeAddress}</div>
+                                    <div className='placePhone'>{place.placeNumber}</div>
                                 </div>
                             </div>
                             <hr />
@@ -38,7 +44,7 @@ function PlaceDetail() {
                                 </div>
                                 <div className="placeDetailContent">
                                     <div className='placeHours'>영업시간</div>
-                                    <div className='placeHoursText'>영업시간 정보가 여기에 표시됩니다.</div>
+                                    <div className='placeHoursText'>{place.placeBusinessHours}</div>
                                 </div>
                                 <hr />
                                 <div className='basicInfoContent'>
@@ -46,7 +52,7 @@ function PlaceDetail() {
                                     <div className="basicInfoGroup">
                                         <div className='basicInfoPhone'>
                                             <div className='basicInfoPhoneTitle'>전화</div>
-                                            <div>{place.phone}</div>
+                                            <div>{place.placeNumber}</div>
                                         </div>
                                         <div className='basicInfoSite'>
                                             <div className='basicInfoSiteTitle'>홈페이지</div>
@@ -54,7 +60,7 @@ function PlaceDetail() {
                                         </div>
                                         <div className='basicInfoAddress'>
                                             <div className='basicInfoAddressTitle'>주소</div>
-                                            <div>{place.address}</div>
+                                            <div>{place.placeAddress}</div>
                                         </div>
                                     </div>
                                 </div>

@@ -31,7 +31,7 @@ public class PlaceReadService {
     //장소 상세 조회
     public PlaceListDetailResponse getPlaceDetails(Long placeId){
         Place place = placeRepository.findById(placeId).orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
-        return new PlaceListDetailResponse(place.getId(), place.getPlaceAddress(), place.getPlaceCategory() ,place.getPlaceNumber(), place.getPlaceBusinessHours(),
+        return new PlaceListDetailResponse(place.getId(), place.getPlaceName(), place.getPlaceAddress(), place.getPlaceCategory() ,place.getPlaceNumber(), place.getPlaceBusinessHours(),
                 place.getPlaceLatitude(), place.getPlaceLongitude());
     }
 }

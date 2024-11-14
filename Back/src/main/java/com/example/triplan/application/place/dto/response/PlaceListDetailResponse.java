@@ -13,6 +13,9 @@ public class PlaceListDetailResponse {
     @Schema(description = "장소 Id", example = "1")
     private Long placeId;
 
+    @Schema(description = "장소 이름", example = "둥이네")
+    private String placeName;
+
     @Schema(description = "장소 주소", example = "경상북도 경주시 교촌길 2")
     private String placeAddress;
 
