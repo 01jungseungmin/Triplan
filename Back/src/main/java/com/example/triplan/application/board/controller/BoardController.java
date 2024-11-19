@@ -6,6 +6,8 @@ import com.example.triplan.application.board.dto.response.BoardDetailResponse;
 import com.example.triplan.application.board.dto.response.BoardResponse;
 import com.example.triplan.application.board.service.BoardReadService;
 import com.example.triplan.application.board.service.BoardWriteService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +31,13 @@ public class BoardController {
 
     // 게시글 상세 조회
     @GetMapping("/{boardId}")
-    public ResponseEntity<BoardDetailResponse> getBoardDetails(@PathVariable Long boardId) {
-        BoardDetailResponse boardDetail = boardReadService.getDetails(boardId);
+    public ResponseEntity<BoardDetailResponse> getBoardDetails(@PathVariable(value = "boardId") Long boardId, HttpServletRequest request, HttpServletResponse response) {
+        BoardDetailResponse boardDetail = boardReadService.getDetails(boardId, request, response);
         return ResponseEntity.ok(boardDetail);
     }
 
     // 게시글 작성
-    @PostMapping("/{crewId}")
+    @PostMapping("/write/{crewId}")
     public ResponseEntity<String> createBoard(@RequestBody SetBoardRequest setBoardRequest,@PathVariable Long crewId) {
         return ResponseEntity.ok(boardWriteService.create(setBoardRequest, crewId));
     }
