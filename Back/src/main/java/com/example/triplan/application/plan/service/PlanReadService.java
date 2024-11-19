@@ -34,7 +34,8 @@ public class PlanReadService {
                         plan.getPlanDate(),
                         plan.getPlanStartTime(),
                         plan.getPlanMemo(),
-                        plan.getPlace().getId(),
+                        plan.getRefId(),
+                        plan.getPlaceType(),
                         plan.getCrew().getId()))
                 .collect(Collectors.toList());
     }
