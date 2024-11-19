@@ -42,5 +42,4 @@ public class CrewController {
         return crew.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 }
