@@ -30,7 +30,7 @@ public class MailController {
     }
 
     @GetMapping("/autocomplete")
-    public List<String> getEmailSuggestions(@RequestParam String email) {
-        return emailAutoCompleteService.getEmailSuggestions(email);  // 자동완성 결과 반환
+    public List<String> getEmailSuggestions(@RequestParam Long crewId,@RequestParam String email) {
+        return emailAutoCompleteService.getEmailSuggestions(crewId,email);  // 자동완성 결과 반환
     }
 }

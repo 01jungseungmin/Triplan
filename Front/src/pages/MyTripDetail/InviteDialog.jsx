@@ -13,10 +13,11 @@ function InviteDialog({ isOpen, onClose, crewId }) {
         const inputEmail = e.target.value;
         setEmail(inputEmail);
 
-        if (inputEmail.length > 1) { 
+        if (inputEmail.length > 1) {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`http://localhost:8080/mail/autocomplete?email=${inputEmail}`, {
+                // crewId를 쿼리 파라미터로 전달하도록 수정
+                const response = await axios.get(`http://localhost:8080/mail/autocomplete?crewId=${crewId}&email=${inputEmail}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
