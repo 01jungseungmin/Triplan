@@ -33,7 +33,6 @@ public class MailService {
     private final CrewRepository crewRepository;
     private final CrewListRepository crewListRepository;
     private final AlarmRepository alarmRepository;
-
     @Value("${spring.mail.username}")
     private String userEmail;
 

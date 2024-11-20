@@ -1,6 +1,7 @@
 package com.example.triplan.application.email.controller;
 
 import com.example.triplan.application.email.dto.request.SendEmail;
+import com.example.triplan.application.email.service.EmailAutoCompleteService;
 import com.example.triplan.application.email.service.MailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/mail")
@@ -17,11 +20,17 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MailController {
     private final MailService mailService;
+    private final EmailAutoCompleteService emailAutoCompleteService;
 
     @PostMapping("/send/{crewId}")
     @Operation(summary = "이메일 발송", description = "회원 가입 되어 있는 회원을 그룹에 초대하면 이메일이 발송됩니다.")
     public ResponseEntity<String> setInviteCrew(@RequestBody SendEmail email, @PathVariable(value = "crewId") Long crewId){
         mailService.setInviteCrew(email.email(), crewId);
         return new ResponseEntity<>("초대 메일 발송 성공", HttpStatus.OK);
+    }
+
+    @GetMapping("/autocomplete")
+    public List<String> getEmailSuggestions(@RequestParam String email) {
+        return emailAutoCompleteService.getEmailSuggestions(email);  // 자동완성 결과 반환
     }
 }
