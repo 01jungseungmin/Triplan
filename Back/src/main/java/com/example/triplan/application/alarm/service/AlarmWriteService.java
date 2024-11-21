@@ -30,7 +30,8 @@ public class AlarmWriteService {
         if (alarmRequest.getInviteType() == IsAccept.ACCEPT){
             crewList.setIsAccept(alarmRequest.getInviteType());
         }else if (alarmRequest.getInviteType() == IsAccept.DECLINE){
-            crewList.setIsAccept(alarmRequest.getInviteType());
+            crewListRepository.delete(crewList);
+            return new AlarmInviteResponse(account.getId(), alarmRequest.getCrewId(), IsAccept.DECLINE);
         }
 
         return new AlarmInviteResponse(account.getId(), crewList.getCrew().getId(), crewList.getIsAccept());
