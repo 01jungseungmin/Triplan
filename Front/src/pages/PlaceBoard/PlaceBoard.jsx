@@ -53,6 +53,7 @@ function PlaceBoard() {
                 return response.json();
             })
             .then(data => {
+                console.log('API에서 받아온 데이터:', data);
                 setPlaces(data); // 받아온 데이터를 상태에 저장
                 setLoading(false); // 로딩 상태 해제
             })

@@ -8,6 +8,7 @@ import PlaceDetail from './pages/PlaceDetail/PlaceDetail';
 import Mypage from './pages/Mypage/Mypage';
 import MyTrip from './pages/MyTrip/MyTrip';
 import MyTripDetail from './pages/MyTripDetail/MyTripDetail';
+import CommunityBoard from './pages/Community/CommunityBoard/CommunityBoard';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path='/Mypage' element={<Mypage />} />
         <Route path='/PlaceBoard' element={<PlaceBoard />} />
         <Route path='/place/details/:placeId' element={<PlaceDetail />} />
+        <Route path='/community' element={<CommunityBoard />} />
       </Routes>
     </Router>
   );
