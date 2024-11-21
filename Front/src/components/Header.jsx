@@ -43,7 +43,7 @@ function Header() {
         e.preventDefault();
         if (isLoggedIn) {
             // 백엔드로 로그아웃 요청 보내기
-            fetch('http://localhost:8080/api/logout', {
+            fetch('http://ec2-13-209-211-218.ap-northeast-2.compute.amazonaws.com:8080/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

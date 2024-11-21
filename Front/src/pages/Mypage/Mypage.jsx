@@ -9,39 +9,118 @@ function Mypage() {
     });
     const [activeTab, setActiveTab] = useState('내 정보');
     const [loading, setLoading] = useState(true);
-    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
-
-    // 추가된 상태 변수들
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordVerified, setPasswordVerified] = useState(false); // 비밀번호 인증 여부
+    const [password, setPassword] = useState(''); // 비밀번호 입력 값
+    const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 모달 창 열림 여부
+    const [newPassword, setNewPassword] = useState(''); // 새 비밀번호
+    const [confirmNewPassword, setConfirmNewPassword] = useState(''); // 새 비밀번호 확인
 
     useEffect(() => {
+        if (passwordVerified) {
+            const token = localStorage.getItem('token');
+
+            if (token) {
+                fetch('http://localhost:8080/mypage/user-info', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        setUserInfo({
+                            email: data.email,
+                            nickName: data.nickName
+                        });
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.error('Failed to load user information:', error);
+                        alert('Failed to load user information.');
+                        setLoading(false);
+                    });
+            }
+        }
+    }, [passwordVerified]);
+
+    const handlePasswordVerification = () => {
+        if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return;
+        }
+
         const token = localStorage.getItem('token');
 
-        if (token) {
-            fetch('http://localhost:8080/mypage/user-info', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+        fetch('http://localhost:8080/mypage/password-check', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ password })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('비밀번호 인증 성공');
+                    setPasswordVerified(true);
+                } else {
+                    alert('비밀번호 인증 실패');
                 }
             })
-                .then(response => response.json())
-                .then(data => {
-                    setUserInfo({
-                        email: data.email,
-                        nickName: data.nickName
-                    });
-                    setLoading(false);
-                })
-                .catch(error => {
-                    console.error('Failed to load user information:', error);
-                    alert('Failed to load user information.');
-                    setLoading(false);
-                });
+            .catch(error => {
+                console.error('Failed to verify password:', error);
+                alert('비밀번호 인증에 실패했습니다.');
+            });
+    };
+
+    const handlePasswordChangeSubmit = () => {
+        if (!newPassword || !confirmNewPassword) {
+            alert('모든 필드를 입력해주세요.');
+            return;
         }
-    }, []);
+
+        if (newPassword !== confirmNewPassword) {
+            alert('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        const token = localStorage.getItem('token');
+
+        fetch('http://localhost:8080/mypage/modify/password', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                newPassword,
+                confirmNewPassword
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('비밀번호가 성공적으로 변경되었습니다.');
+                    closePasswordModal();
+                } else {
+                    alert('비밀번호 변경에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('Failed to change password:', error);
+                alert('비밀번호 변경에 실패했습니다.');
+            });
+    };
+
+    const openPasswordModal = () => {
+        setIsPasswordModalOpen(true);
+    };
+
+    const closePasswordModal = () => {
+        setIsPasswordModalOpen(false);
+        setNewPassword('');
+        setConfirmNewPassword('');
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -82,57 +161,21 @@ function Mypage() {
             });
     };
 
-    const handlePasswordChange = () => {
-        if (!currentPassword || !newPassword || !confirmPassword) {
-            alert('모든 필드를 입력해 주세요.');
-            return;
-        }
-
-        if (newPassword !== confirmPassword) {
-            alert('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
-            return;
-        }
-
-        const token = localStorage.getItem('token');
-
-        fetch('http://localhost:8080/mypage/modify/password', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                currentPassword,
-                newPassword,
-                newPasswordConfirm: confirmPassword
-            })
-        })
-            .then(response => {
-                if (response.ok) {
-                    alert('비밀번호가 성공적으로 변경되었습니다.');
-                    closePasswordModal();
-                } else {
-                    return response.text().then((text) => { throw new Error(text); });
-                }
-            })
-            .catch(error => {
-                console.error('Failed to change password:', error);
-                alert(`비밀번호 변경에 실패했습니다`);
-            });
-    };
-
-
-    const openPasswordModal = () => {
-        setIsPasswordModalOpen(true);
-    };
-
-    const closePasswordModal = () => {
-        setIsPasswordModalOpen(false);
-        setCurrentPassword(''); // 비밀번호 입력 초기화
-        setNewPassword('');
-        setConfirmPassword('');
-    };
-
+    const renderPasswordVerification = () => (
+        <div className="passwordVerificationContainer">
+            <div className='passwordVerificationTitle'>비밀번호 재확인</div>
+            <div className='passwordVerificationContent'>최신 정보를 안전하게 보호하기 위해 비밀번호를 다시 한 번 확인해주세요.</div>
+            <input
+                type="password"
+                id="password"
+                placeholder="비밀번호를 입력해주세요."
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="checkPasswordInput"
+            />
+            <button className="verifyButton" onClick={handlePasswordVerification}>확인</button>
+        </div>
+    );
 
     const renderContent = () => {
         if (activeTab === '내 정보') {
@@ -174,15 +217,12 @@ function Mypage() {
         }
     };
 
-
     return (
         <div className="MyPageContainer">
             <Header />
             <div className="myPageLayout">
                 <div className='myPageLayoutTabContainer'>
-                    <div className='myPageLayoutTitle'>
-                        마이페이지
-                    </div>
+                    <div className='myPageLayoutTitle'>마이페이지</div>
                     <div className="myPageTabs">
                         <div
                             className={`myPageTab ${activeTab === '내 정보' ? 'active' : ''}`}
@@ -199,48 +239,57 @@ function Mypage() {
                     </div>
                 </div>
                 <div className="myPageContent">
-                    {renderContent()}
+                    {!passwordVerified ? renderPasswordVerification() : renderContent()}
                 </div>
 
                 {/* 비밀번호 변경 모달 */}
                 {isPasswordModalOpen && (
-                    <>
-                        <div className="backdrop" onClick={closePasswordModal}></div>
-                        <div className="modal">
-                            <button className="close-button" onClick={closePasswordModal}>×</button>
-                            <div className="modal-content">
-                                <h2>비밀번호 변경</h2>
-                                <label htmlFor="currentPassword">현재 비밀번호</label>
-                                <input
-                                    type="password"
-                                    id="currentPassword"
-                                    placeholder="현재 비밀번호"
-                                    value={currentPassword}
-                                    onChange={(e) => setCurrentPassword(e.target.value)}
-                                />
-
-                                <label htmlFor="newPassword">새 비밀번호</label>
-                                <input
-                                    type="password"
-                                    id="newPassword"
-                                    placeholder="새 비밀번호"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
-                                />
-
-                                <label htmlFor="confirmPassword">새 비밀번호 확인</label>
-                                <input
-                                    type="password"
-                                    id="confirmPassword"
-                                    placeholder="새 비밀번호 확인"
-                                    value={confirmPassword}
-                                    onChange={(e) => setConfirmPassword(e.target.value)}
-                                />
-
-                                <button className="modal-button" onClick={handlePasswordChange}>변경하기</button>
+                    <div className="modalOverlay">
+                        <div className="passwordModal">
+                            <div className="modalHeader">
+                                <div className='modalHeaderTitle'>비밀번호 변경</div>
+                                <button className="modalCloseButton" onClick={closePasswordModal}>×</button>
+                            </div>
+                            <div className="passwordChangeModalBody">
+                                <div className='currentPasswordBox'>
+                                    <label className="currentPasswordLabel" htmlFor="currentPassword">현재 비밀번호</label>
+                                    <input
+                                        type="password"
+                                        id="currentPassword"
+                                        placeholder="현재 비밀번호"
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
+                                        className="passChangeModalInput"
+                                    />
+                                </div>
+                                <div className='newPasswordBox'>
+                                    <label className="newPasswordLabel" htmlFor="newPassword">새 비밀번호</label>
+                                    <input
+                                        type="password"
+                                        id="newPassword"
+                                        placeholder="새 비밀번호"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        className="passChangeModalInput"
+                                    />
+                                </div>
+                                <div className='confirmNewPasswordBox'>
+                                    <label className="confirmNewPasswordLabel" htmlFor="confirmNewPassword">새 비밀번호 확인</label>
+                                    <input
+                                        type="password"
+                                        id="confirmNewPassword"
+                                        placeholder="새 비밀번호 확인"
+                                        value={confirmNewPassword}
+                                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                        className="passChangeModalInput"
+                                    />
+                                </div>
+                            </div>
+                            <div className="modalFooter">
+                                <button className="modalButton" onClick={handlePasswordChangeSubmit}>변경하기</button>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )}
 
             </div>

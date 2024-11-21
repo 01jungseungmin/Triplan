@@ -1,0 +1,76 @@
+.board-item {
+    background-color: #fafafa;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .board-item-image {
+    background-color: #ccc;
+    height: 150px;
+  }
+  
+  .board-item-img {
+    height: 100%;
+    width: 100%;
+  }
+  
+  .board-item-info {
+    padding: 2% 4%;
+    height: 120px;
+  }
+  
+  .board-item-title {
+    font-size: 20px;
+    font-family: 'PretendardFont-Bold';
+    margin-bottom: 8%;
+  }
+  
+  .board-item-address {
+    margin-bottom: 1%;
+  }
+  
+  .board-item-address,
+  .board-item-phone {
+    font-size: 14px;
+    font-family: 'PretendardFont-Light';
+    color: #505050;
+  }
+  
+  .board-item-distance,
+  .board-item-rating {
+    font-size: 14px;
+    font-family: 'PretendardFont-Light';
+    color: #707070;
+    margin-top: 4px; /* 항목들 사이의 간격 */
+  }
+  
+  .board-item-distance {
+    display: flex;
+    align-items: center;
+  }
+  
+  .board-item-rating {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* 아이템 hover 시 약간의 효과 추가 */
+  .board-item:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+  }
+  
+  /* Link 태그 또는 a 태그의 기본 링크 스타일 제거 */
+  .board-item-link {
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  /* 기본 hover 스타일도 제거 */
+  .board-item-link:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+  
