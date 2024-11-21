@@ -253,7 +253,7 @@ class com.example.triplan.domain.answer.entity.Answer {
 - Account account
 }
 
-class com.example.triplan.application.placeAdd.service.PlaceAddWrtieService {
+class com.example.triplan.application.placeAdd.service.PlaceAddWriteService {
 - PlaceAddRepository placeAddRepository
 + String setAccountPlace(Long,SetAccountPlaceRequest)
 }

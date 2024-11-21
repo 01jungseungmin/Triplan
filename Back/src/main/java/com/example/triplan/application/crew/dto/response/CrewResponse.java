@@ -2,6 +2,7 @@ package com.example.triplan.application.crew.dto.response;
 
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.entity.CrewList;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -16,8 +17,6 @@ public class CrewResponse {
     private LocalDate planEndDate;
     private Long accountId; // Account ID만 포함
     private List<Long> memberAccountIds; // ACCEPT 상태인 멤버들의 Account ID 리스트
-
-
     public CrewResponse(Crew crew) {
         this.crewId = crew.getId();
         this.crewName = crew.getCrewName();

@@ -1,10 +1,6 @@
 package com.example.triplan.application.plan.dto.request;
 
-import com.example.triplan.domain.crew.entity.Crew;
-import com.example.triplan.domain.place.entity.Place;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.example.triplan.domain.plan.enums.PlaceType;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -15,6 +11,7 @@ public class PlanRequest {
     private LocalDate planDate;
     private LocalTime planStartTime;
     private String planMemo;
-    private Long placeId;
+    private Long refId;
+    private PlaceType placeType;
     private Long crewId;
 }

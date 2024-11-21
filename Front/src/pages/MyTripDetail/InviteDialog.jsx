@@ -1,19 +1,39 @@
 import React, { useState } from 'react';
-import './InviteDialog.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import './InviteDialog.css';
 
 function InviteDialog({ isOpen, onClose, crewId }) {
     const [email, setEmail] = useState('');
+    const [emailSuggestions, setEmailSuggestions] = useState([]);
     const [error, setError] = useState('');
 
     if (!isOpen) return null;
 
+    const handleEmailChange = async (e) => {
+        const inputEmail = e.target.value;
+        setEmail(inputEmail);
+
+        if (inputEmail.length > 1) {
+            try {
+                const token = localStorage.getItem('token');
+                // crewId를 쿼리 파라미터로 전달하도록 수정
+                const response = await axios.get(`http://localhost:8080/mail/autocomplete?crewId=${crewId}&email=${inputEmail}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setEmailSuggestions(response.data);
+            } catch (error) {
+                console.error('자동완성 오류:', error);
+            }
+        } else {
+            setEmailSuggestions([]);
+        }
+    };
+
     const handleInvite = async () => {
-        console.log('crewId:', crewId);
         if (!crewId) {
-            setError('그룹 ID가 필요합니다.'); // Add this line for error handling
+            setError('그룹 ID가 필요합니다.');
             return;
         }
         if (!email) {
@@ -35,15 +55,18 @@ function InviteDialog({ isOpen, onClose, crewId }) {
         }
     };
 
+    const handleSuggestionClick = (suggestion) => {
+        setEmail(suggestion);
+        setEmailSuggestions([]);  // 추천 리스트를 닫음
+    };
+
     return (
         <div className="inviteDialogOverlay" onClick={onClose}>
             <div className="inviteDialogContainer" onClick={(e) => e.stopPropagation()}>
                 <div className="inviteDialogHeader">
-                    <div className='inviteDialogTitle'>초대하기</div>
-                    <div className='inviteDialogContent'>함께 여행하는 사람을 초대해 보세요.</div>
-                    <button className="closeButton" onClick={onClose}>
-                        <FontAwesomeIcon icon={faXmark} />
-                    </button>
+                    <div className="inviteDialogTitle">초대하기</div>
+                    <div className="inviteDialogContent">함께 여행하는 사람을 초대해 보세요.</div>
+                    <button className="closeButton" onClick={onClose}>X</button>
                 </div>
                 <div className="inviteDialogBody">
                     <div className="inviteDialogBodyTitle">초대 받는 이메일</div>
@@ -52,8 +75,17 @@ function InviteDialog({ isOpen, onClose, crewId }) {
                         className="inviteEmailInput"
                         placeholder="이메일 입력"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={handleEmailChange}
                     />
+                    {emailSuggestions.length > 0 && (
+                        <ul className="suggestionsList">
+                            {emailSuggestions.map((suggestion, index) => (
+                                <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                                    {suggestion}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                     {error && <div className="errorMessage">{error}</div>}
                 </div>
                 <div className="inviteDialogFooter">

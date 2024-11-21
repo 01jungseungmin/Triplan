@@ -14,6 +14,7 @@ import com.example.triplan.domain.crew.repository.CrewRepository;
 import com.example.triplan.domain.place.entity.Place;
 import com.example.triplan.domain.place.repository.PlaceRepository;
 import com.example.triplan.domain.plan.entity.Plan;
+import com.example.triplan.domain.plan.enums.PlaceType;
 import com.example.triplan.domain.plan.repository.PlanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,12 +56,14 @@ public class PlanWriteService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."));
     }
 
-
     // 일정 생성 메서드
     public Plan create(PlanRequest planRequest) {
         Account account = accountService.getCurrentUser();
 
-        Place place = validateFindPlaceById(planRequest.getPlaceId());
+        // Place 또는 PlaceAdd의 ID를 refId로 받음
+        Long refId = planRequest.getRefId();
+        PlaceType placeType = planRequest.getPlaceType(); // PlaceType을 추가하여 어떤 타입의 장소인지 구분
+
         Crew crew = crewRepository.findById(planRequest.getCrewId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "그룹을 찾을 수 없습니다."));
 
@@ -71,7 +74,14 @@ public class PlanWriteService {
                     throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 일정입니다.");
                 });
 
-        Plan plan = new Plan(planRequest.getPlanDate(), planRequest.getPlanStartTime(), planRequest.getPlanMemo(), place, crew);
+        Plan plan = new Plan(
+                        planRequest.getPlanDate(),
+                        planRequest.getPlanStartTime(),
+                        planRequest.getPlanMemo(),
+                crew,
+                refId,
+                placeType
+                );
 
         return planRepository.save(plan);
     }
@@ -84,10 +94,13 @@ public class PlanWriteService {
 
         validateCrewListAccess(crew, account);
 
-        // 장소 수정
-        if (planRequest.getPlaceId() != null) {
-            Place place = validateFindPlaceById(planRequest.getPlaceId());
-            plan.setPlace(place);
+        // 장소 수정: placeId를 받아서 refId와 placeType을 설정
+        if (planRequest.getRefId() != null) {
+            Long refId = planRequest.getRefId();
+            PlaceType placeType = planRequest.getPlaceType(); // 새로 들어온 placeType
+
+            plan.setRefId(refId);
+            plan.setPlaceType(placeType); // placeType을 수정
         }
 
         // 날짜, 시간, 메모 수정
@@ -98,7 +111,7 @@ public class PlanWriteService {
         Plan updatedPlan = planRepository.save(plan);
 
         return new PlanResponse(updatedPlan.getPlanDate(), updatedPlan.getPlanStartTime(), updatedPlan.getPlanMemo(),
-                updatedPlan.getPlace().getId(), updatedPlan.getCrew().getId());
+                updatedPlan.getRefId(), updatedPlan.getPlaceType(), updatedPlan.getCrew().getId());
     }
 
     // 일정 삭제 메서드
