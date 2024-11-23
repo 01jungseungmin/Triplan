@@ -1,8 +1,5 @@
 package com.example.triplan.application.plan.controller;
 
-import com.example.triplan.application.crew.dto.request.CrewRequest;
-import com.example.triplan.application.crew.dto.response.CrewResponse;
-import com.example.triplan.application.crew.service.CrewWriteService;
 import com.example.triplan.application.plan.dto.request.PlanRequest;
 import com.example.triplan.application.plan.dto.response.PlanResponse;
 import com.example.triplan.application.plan.service.PlanReadService;
@@ -11,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,7 +30,7 @@ public class PlanController {
         List<PlanResponse> planResponses = planReadService.findAllPlansForCurrentUser(crewId); // 로그인한 유저가 속한 Crew의 모든 Plan 조회
         return ResponseEntity.ok(planResponses);
     }
-    @PostMapping("/plan/{crewId}/{planId}/modify")
+    @PutMapping("/plan/{crewId}/{planId}/modify")
     @Operation(summary = "일정 수정", description = "일정 수정")
     public ResponseEntity<PlanResponse> modifyPlan(@PathVariable Long planId,@PathVariable Long crewId, @RequestBody PlanRequest planRequest) {
         List<PlanResponse> planResponses = planReadService.findAllPlansForCurrentUser(crewId);
@@ -42,7 +38,7 @@ public class PlanController {
         return ResponseEntity.ok(updatedPlan);
     }
 
-    @PostMapping("/plan/{crewId}/{planId}/delete")
+    @DeleteMapping("/plan/{crewId}/{planId}/delete")
     @Operation(summary = "일정 삭제", description = "일정 삭제")
     public ResponseEntity<?> deletePlan(@PathVariable Long planId,@PathVariable Long crewId) {
         List<PlanResponse> planResponses = planReadService.findAllPlansForCurrentUser(crewId);

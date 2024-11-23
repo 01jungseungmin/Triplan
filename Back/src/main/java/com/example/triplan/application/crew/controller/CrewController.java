@@ -26,7 +26,7 @@ public class CrewController {
         return ResponseEntity.ok(crewWriteService.create(crewRequest));
     }
 
-    @PostMapping("/crew/delete/{crewId}")
+    @DeleteMapping("/crew/delete/{crewId}")
     @Operation(summary = "여행 삭제", description = "여행 삭제")
     public ResponseEntity<String> deleteCrew(@PathVariable Long crewId) {
         crewWriteService.delete(crewId);

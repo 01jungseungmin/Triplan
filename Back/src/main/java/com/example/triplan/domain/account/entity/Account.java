@@ -3,7 +3,6 @@ package com.example.triplan.domain.account.entity;
 import com.example.triplan.common.BaseEntity;
 import com.example.triplan.domain.account.enums.Role;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

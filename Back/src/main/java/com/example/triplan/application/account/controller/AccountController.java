@@ -82,14 +82,14 @@ public class AccountController {
         return ResponseEntity.ok(accountDto); // 사용자 정보 반환
     }
 
-    @PostMapping("/mypage/modify")
+    @PutMapping("/mypage/modify")
     @Operation(summary = "회원정보 수정", description = "회원정보 수정")
     public ResponseEntity<AccountDto> modifyInfo(@RequestBody AccountDto accountDto) {
         accountService.updateCurrentUser(accountDto);
         return ResponseEntity.ok(accountDto);
     }
 
-    @PostMapping("/mypage/modify/password")
+    @PutMapping("/mypage/modify/password")
     @Operation(summary = "비밀번호 수정", description = "비밀번호 수정")
     public ResponseEntity<?> modifyPassword(@RequestBody PasswordChangeRequest passwordChangeRequest) {
         try {

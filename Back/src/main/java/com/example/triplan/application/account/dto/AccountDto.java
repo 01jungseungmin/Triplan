@@ -2,7 +2,6 @@ package com.example.triplan.application.account.dto;
 
 import com.example.triplan.domain.account.enums.Role;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter
