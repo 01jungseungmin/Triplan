@@ -108,6 +108,7 @@ public class PlanWriteService {
         plan.setPlanStartTime(planRequest.getPlanStartTime());
         plan.setPlanMemo(planRequest.getPlanMemo());
 
+
         Plan updatedPlan = planRepository.save(plan);
 
         return new PlanResponse(updatedPlan.getPlanDate(), updatedPlan.getPlanStartTime(), updatedPlan.getPlanMemo(),

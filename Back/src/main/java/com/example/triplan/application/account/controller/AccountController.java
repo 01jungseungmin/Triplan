@@ -6,6 +6,8 @@ import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.security.jwt.JwtFilter;
 import com.example.triplan.security.jwt.TokenDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,17 +23,20 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "회원 관련 API", description = "AccountController")
 public class AccountController {
     private final AccountService accountService;
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @PostMapping("/join")
+    @Operation(summary = "회원가입", description = "회원 가입")
     public ResponseEntity<String> signup(@Valid @RequestBody AccountDto accountDto) {
         accountService.join(accountDto);
         return ResponseEntity.ok().body("회원가입 완료");
     }
 
     @PostMapping("/login")
+    @Operation(summary = "로그인", description = "로그인")
     public ResponseEntity<?> login(@Valid @RequestBody AccountDto accountDto) {
         try {
             TokenDto tokenDto = accountService.login(accountDto);
@@ -52,12 +57,14 @@ public class AccountController {
     }
 
     @PostMapping("/api/logout")
+    @Operation(summary = "로그아웃", description = "로그아웃")
     public ResponseEntity<String> logout(HttpServletRequest servletRequest){
         accountService.logout();
         return ResponseEntity.ok().body("로그아웃");
     }
 
     @PostMapping("/mypage/password-check")
+    @Operation(summary = "마이페이지 접속", description = "마이페이지 접속을 위한 비밀번호 인증")
     public ResponseEntity<String> checkPassword(@RequestBody Map<String, String> request) {
         String password = request.get("password");
 
@@ -68,6 +75,7 @@ public class AccountController {
     }
 
     @GetMapping("/mypage/user-info")
+    @Operation(summary = "마이페이지 출력", description = "마이페이지 출력")
     public ResponseEntity<AccountDto> getUserInfo() {
         Account account = accountService.getCurrentUser(); // 현재 로그인된 사용자 정보 가져오기
         AccountDto accountDto = new AccountDto(account.getEmail(), account.getNickName());
@@ -75,12 +83,14 @@ public class AccountController {
     }
 
     @PostMapping("/mypage/modify")
+    @Operation(summary = "회원정보 수정", description = "회원정보 수정")
     public ResponseEntity<AccountDto> modifyInfo(@RequestBody AccountDto accountDto) {
         accountService.updateCurrentUser(accountDto);
         return ResponseEntity.ok(accountDto);
     }
 
     @PostMapping("/mypage/modify/password")
+    @Operation(summary = "비밀번호 수정", description = "비밀번호 수정")
     public ResponseEntity<?> modifyPassword(@RequestBody PasswordChangeRequest passwordChangeRequest) {
         try {
             accountService.modifyUserPassword(passwordChangeRequest.getCurrentPassword(), passwordChangeRequest.getNewPassword(), passwordChangeRequest.getNewPasswordConfirm());

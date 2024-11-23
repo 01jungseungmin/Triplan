@@ -4,13 +4,16 @@ import com.example.triplan.common.BaseEntity;
 import com.example.triplan.domain.account.enums.Role;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Collections;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Account extends BaseEntity {
 

@@ -3,7 +3,6 @@ package com.example.triplan.application.board.service;
 import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.board.dto.response.BoardDetailResponse;
 import com.example.triplan.application.board.dto.response.BoardResponse;
-import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import jakarta.servlet.http.Cookie;

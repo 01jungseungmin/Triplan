@@ -7,10 +7,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Answer extends BaseEntity {
 
     @Column(name = "content", nullable = false)
@@ -23,4 +27,8 @@ public class Answer extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    public void update(String content) {
+        this.content = content;
+    }
 }

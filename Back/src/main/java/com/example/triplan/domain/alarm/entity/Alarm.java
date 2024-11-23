@@ -3,15 +3,15 @@ package com.example.triplan.domain.alarm.entity;
 import com.example.triplan.common.BaseEntity;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.alarm.enums.AlarmType;
-import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.entity.CrewList;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Alarm extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
