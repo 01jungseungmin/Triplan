@@ -11,6 +11,5 @@ public class BoardResponse {
     private String title;
     private String content;
     private Integer count; // 조회수 등으로 사용할 수 있습니다.
-
-
+    private Long accountId;
 }
