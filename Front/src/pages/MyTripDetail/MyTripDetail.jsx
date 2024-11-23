@@ -64,7 +64,7 @@ function MyTripDetail() {
         if (window.confirm('정말로 이 그룹을 삭제하시겠습니까?')) {
             const token = localStorage.getItem('token');
             fetch(`http://localhost:8080/crew/delete/${crewId}`, {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
