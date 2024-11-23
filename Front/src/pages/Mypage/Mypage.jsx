@@ -88,7 +88,7 @@ function Mypage() {
         const token = localStorage.getItem('token');
 
         fetch('http://localhost:8080/mypage/modify/password', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -134,7 +134,7 @@ function Mypage() {
         const token = localStorage.getItem('token');
 
         fetch('http://localhost:8080/mypage/modify', {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
