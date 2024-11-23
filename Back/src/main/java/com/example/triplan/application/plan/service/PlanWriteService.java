@@ -1,8 +1,6 @@
 package com.example.triplan.application.plan.service;
 
 import com.example.triplan.application.account.service.AccountService;
-import com.example.triplan.application.crew.dto.request.CrewRequest;
-import com.example.triplan.application.crew.dto.response.CrewResponse;
 import com.example.triplan.application.plan.dto.request.PlanRequest;
 import com.example.triplan.application.plan.dto.response.PlanResponse;
 import com.example.triplan.domain.account.entity.Account;
@@ -21,8 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

@@ -26,7 +26,7 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://ec2-13-209-211-218.ap-northeast-2.compute.amazonaws.com:8080/login', {  // 정확한 API 경로 사용
+      const response = await fetch('http://localhost:8080/login', {  // 정확한 API 경로 사용
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -2,7 +2,6 @@ package com.example.triplan.application.answer.service;
 
 import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.answer.dto.request.AnswerRequest;
-import com.example.triplan.application.board.dto.request.UpdateBoardRequest;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.answer.entity.Answer;
 import com.example.triplan.domain.answer.repository.AnswerRepository;

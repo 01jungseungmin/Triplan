@@ -9,7 +9,6 @@ import com.example.triplan.domain.crew.entity.CrewList;
 import com.example.triplan.domain.crew.enums.IsAccept;
 import com.example.triplan.domain.crew.repository.CrewListRepository;
 import com.example.triplan.domain.crew.repository.CrewRepository;
-import com.example.triplan.domain.plan.entity.Plan;
 import com.example.triplan.domain.plan.repository.PlanRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

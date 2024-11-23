@@ -4,8 +4,6 @@ import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.alarm.dto.request.AlarmRequest;
 import com.example.triplan.application.alarm.dto.response.AlarmInviteResponse;
 import com.example.triplan.domain.account.entity.Account;
-import com.example.triplan.domain.alarm.entity.Alarm;
-import com.example.triplan.domain.alarm.repository.AlarmRepository;
 import com.example.triplan.domain.crew.entity.CrewList;
 import com.example.triplan.domain.crew.enums.IsAccept;
 import com.example.triplan.domain.crew.repository.CrewListRepository;

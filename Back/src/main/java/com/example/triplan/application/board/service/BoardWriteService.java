@@ -4,7 +4,6 @@ import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.board.dto.request.SetBoardRequest;
 import com.example.triplan.application.board.dto.request.UpdateBoardRequest;
 import com.example.triplan.domain.account.entity.Account;
-import com.example.triplan.domain.account.repository.AccountRepository;
 import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import com.example.triplan.domain.crew.entity.Crew;

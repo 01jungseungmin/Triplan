@@ -2,7 +2,6 @@ package com.example.triplan.application.email.service;
 
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.account.repository.AccountRepository;
-import com.example.triplan.domain.crew.entity.CrewList;
 import com.example.triplan.domain.crew.repository.CrewListRepository;
 import org.springframework.stereotype.Service;
 

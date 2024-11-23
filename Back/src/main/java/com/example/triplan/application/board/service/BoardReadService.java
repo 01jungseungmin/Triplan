@@ -23,7 +23,7 @@ public class BoardReadService {
     // 게시글 전체 조회
     public List<BoardResponse> findAll() {
         return boardRepository.findAll().stream()
-                .map(board -> new BoardResponse(board.getId(), board.getTitle(), board.getContent(), board.getCount(),board.getAccount().getId()))
+                .map(board -> new BoardResponse(board.getId(), board.getTitle(), board.getContent(), board.getCount(),board.getAccount().getNickName()))
                 .collect(Collectors.toList());
     }
 

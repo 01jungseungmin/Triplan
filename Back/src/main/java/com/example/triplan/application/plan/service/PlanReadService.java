@@ -1,22 +1,15 @@
 package com.example.triplan.application.plan.service;
 
 import com.example.triplan.application.account.service.AccountService;
-import com.example.triplan.application.crew.dto.response.CrewResponse;
 import com.example.triplan.application.plan.dto.response.PlanResponse;
 import com.example.triplan.domain.account.entity.Account;
-import com.example.triplan.domain.crew.entity.Crew;
-import com.example.triplan.domain.crew.entity.CrewList;
-import com.example.triplan.domain.crew.enums.IsAccept;
 import com.example.triplan.domain.plan.entity.Plan;
 import com.example.triplan.domain.plan.repository.PlanRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

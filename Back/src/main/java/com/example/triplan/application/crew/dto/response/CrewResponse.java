@@ -3,7 +3,6 @@ package com.example.triplan.application.crew.dto.response;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.entity.CrewList;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
