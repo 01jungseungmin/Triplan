@@ -3,6 +3,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function PlaceBoardItem({ placeId, name, address, phone, distance, rating, reviews }) {
+    console.log("받아온 데이터:", { placeId, name, address, phone, distance, rating, reviews });
+
     return (
         <Link to={`/place/details/${placeId}`} className="board-item-link">
             <div className="board-item">
