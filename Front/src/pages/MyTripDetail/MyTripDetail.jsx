@@ -82,6 +82,10 @@ function MyTripDetail() {
         }
     };
 
+    const handleCommunityCreate = () => {
+        navigate('/write')
+    }
+
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;
 
@@ -102,7 +106,7 @@ function MyTripDetail() {
                                         {isOpen && (
                                             <div className="dropdown-menu">
                                                 <ul>
-                                                    <li>여행기 작성하기</li>
+                                                    <li onClick={handleCommunityCreate}>여행기 작성하기</li>
                                                     <hr />
                                                     <li>수정하기</li>
                                                     <hr />

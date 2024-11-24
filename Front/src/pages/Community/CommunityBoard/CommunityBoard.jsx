@@ -89,8 +89,8 @@ function CommunityBoard() {
                             boardId={board.boardId}
                             title={board.title}
                             content={board.content}
+                            nickName={board.nickName}
                             count={board.count}
-                            accountId={board.accountId}
                         />
                     ))}
                 </div>
