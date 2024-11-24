@@ -4,7 +4,7 @@ import '../components/css/CommunityBoardItem.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 
-function CommunityBoardItem({ boardId, title, content, count, accountId }) {
+function CommunityBoardItem({ boardId, title, content, count, nickName }) {
     return (
         <Link to={`/api/boards/${boardId}`} className="boardItemLink">
             <div className="boardItemContainer">
@@ -22,7 +22,7 @@ function CommunityBoardItem({ boardId, title, content, count, accountId }) {
                     <div className="boardItemFooter">
                         <div className="boardItemWriterContent">
                             <div className="boardItemWriter">작성자 :</div>
-                            <div className="boardItemWriterName">김수빈</div>
+                            <div className="boardItemWriterName">{nickName}</div>
                         </div>
                         <div className="boardItemCountContent">
                             <FontAwesomeIcon icon={faEye} className="eyeIcon" />
