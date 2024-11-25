@@ -1,0 +1,81 @@
+/* 전체 컨테이너 스타일 */
+.InviteAlarmContainer {
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+    width: 90%;
+    padding-bottom: 2%;
+  }
+  
+  /* 일정 이름 스타일 */
+  .InviteAlarmTitle {
+    font-family: 'PretendardFont-Bold';
+    font-size: 1.12rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  /* 초대 메시지 스타일 */
+  .InviteAlarmContent {
+    font-family: 'PretendardFont-Medium';
+    font-size: 0.92rem;
+    color: #666;
+    margin-bottom: 2%;
+  }
+  
+  /* 푸터 스타일: 날짜와 버튼 그룹 */
+  .InviteAlarmFooter {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* 날짜 스타일 */
+  .alarmDate {
+    font-family: 'PretendardFont-Medium';
+    font-size: 0.78rem;
+    color: #999;
+  }
+  
+  /* 버튼 그룹 스타일 */
+  .AlarmBtnGroup {
+    display: flex;
+    margin-left: auto;
+  }
+  
+  /* 수락 버튼 스타일 */
+  .acceptBtn {
+    font-family: 'PretendardFont-Medium';
+    padding: 1% 4%;
+    font-size: 0.86rem;
+    color: #fff;
+    background-color: #66bfc1;
+    border: 2px solid #66bfc1;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: auto;
+    margin-right: 2%;
+  }
+  
+  .acceptBtn:hover {
+    background-color: #5ba7a9;
+  }
+  
+  /* 거절 버튼 스타일 */
+  .refuseBtn {
+    font-family: 'PretendardFont-Medium';
+    padding: 1% 4%;
+    font-size: 0.86rem;
+    color: #66bfc1;
+    background-color: #fff;
+    border: 2px solid #66bfc1;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .refuseBtn:hover {
+    background-color: #e6f7f7;
+    color: #5ba7a9;
+  }
+  

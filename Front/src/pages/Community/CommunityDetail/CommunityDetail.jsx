@@ -4,6 +4,7 @@ import '../CommunityDetail/CommunityDetail.css';
 import Header from '../../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import CommentItem from '../CommentItem/CommentItem';
 
 function CommunityDetail() {
     const { boardId } = useParams();
@@ -58,7 +59,7 @@ function CommunityDetail() {
                                     <div className='travelPostCommentCount'>(24)</div>
                                 </div>
                                 <div className='travelPostCommentItem'>
-                                    댓글 아이템 들어가는 공간
+                                    <CommentItem />
                                 </div>
                                 <div className='commentInputGroup'>
                                     <input placeholder='댓글을 작성하세요.' className='commentInput' />

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../Mypage/Mypage.css';
 import Header from "../../components/Header";
+import InviteAlarm from './InviteAlarm/InviteAlarm.jsx';
 
 function Mypage() {
     const [userInfo, setUserInfo] = useState({
@@ -213,7 +214,7 @@ function Mypage() {
                 </div>
             );
         } else if (activeTab === '초대 알림') {
-            return <div className="inviteNotification">초대 알림이 여기에 표시됩니다.</div>;
+            return <InviteAlarm />
         }
     };
 
