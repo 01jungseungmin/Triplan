@@ -11,6 +11,8 @@ import com.example.triplan.domain.crew.repository.CrewListRepository;
 import com.example.triplan.domain.crew.repository.CrewRepository;
 import com.example.triplan.domain.place.entity.Place;
 import com.example.triplan.domain.place.repository.PlaceRepository;
+import com.example.triplan.domain.placeadd.entity.PlaceAdd;
+import com.example.triplan.domain.placeadd.repository.PlaceAddRepository;
 import com.example.triplan.domain.plan.entity.Plan;
 import com.example.triplan.domain.plan.enums.PlaceType;
 import com.example.triplan.domain.plan.repository.PlanRepository;
@@ -30,6 +32,7 @@ public class PlanWriteService {
     private final CrewRepository crewRepository;
     private final CrewListRepository crewListRepository;
     private final PlanRepository planRepository;
+    private final PlaceAddRepository placeAddRepository;
 
     //그룹 예외처리
     private void validateCrewListAccess(Crew crew, Account account) {
@@ -119,6 +122,10 @@ public class PlanWriteService {
 
         validateCrewListAccess(crew, account);
 
+        if (plan.getPlaceType() == PlaceType.PLACE_ADD){
+            Long placeAddId = plan.getRefId();
+            placeAddRepository.deleteById(placeAddId);
+        }
         planRepository.delete(plan);
     }
 }

@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class PlaceAddController {
     private final PlaceAddWriteService placeAddWriteService;
 
-//    @PostMapping("/create")
-//    public String setAccountPlace(@RequestBody SetAccountPlaceRequest setAccountPlaceRequest){
-//        return placeAddWriteService.setAccountPlace(setAccountPlaceRequest);
-//    }
+    @PostMapping("/create")
+    public String setAccountPlace(@RequestBody SetAccountPlaceRequest setAccountPlaceRequest){
+        return placeAddWriteService.setAccountPlace(setAccountPlaceRequest);
+    }
 }

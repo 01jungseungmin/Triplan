@@ -9,6 +9,8 @@ import Mypage from './pages/Mypage/Mypage';
 import MyTrip from './pages/MyTrip/MyTrip';
 import MyTripDetail from './pages/MyTripDetail/MyTripDetail';
 import CommunityBoard from './pages/Community/CommunityBoard/CommunityBoard';
+import CommunityDetail from './pages/Community/CommunityDetail/CommunityDetail';
+import CommunityWrite from './pages/Community/CommunityWrite/CommunityWrite';
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
         <Route path='/PlaceBoard' element={<PlaceBoard />} />
         <Route path='/place/details/:placeId' element={<PlaceDetail />} />
         <Route path='/community' element={<CommunityBoard />} />
+        <Route path='/api/boards/:boardId' element={<CommunityDetail />} />
+        <Route path='/write' element={<CommunityWrite />} />
       </Routes>
     </Router>
   );

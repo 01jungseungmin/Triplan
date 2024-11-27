@@ -64,7 +64,7 @@ function MyTripDetail() {
         if (window.confirm('정말로 이 그룹을 삭제하시겠습니까?')) {
             const token = localStorage.getItem('token');
             fetch(`http://localhost:8080/crew/delete/${crewId}`, {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -81,6 +81,10 @@ function MyTripDetail() {
                 });
         }
     };
+
+    const handleCommunityCreate = () => {
+        navigate('/write')
+    }
 
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;
@@ -102,7 +106,7 @@ function MyTripDetail() {
                                         {isOpen && (
                                             <div className="dropdown-menu">
                                                 <ul>
-                                                    <li>여행기 작성하기</li>
+                                                    <li onClick={handleCommunityCreate}>여행기 작성하기</li>
                                                     <hr />
                                                     <li>수정하기</li>
                                                     <hr />

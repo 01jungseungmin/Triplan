@@ -6,11 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
 function CommunityBoard() {
-    const [places, setPlaces] = useState([]); // API에서 불러온 장소 리스트
+    const [boards, setBoards] = useState([]); // API에서 불러온 커뮤니티 리스트
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(10); // 페이지당 표시할 아이템 수
+
+    const itemsPerPage = 9; // 한 페이지에 표시할 게시글 수
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+
+    // 현재 페이지에 표시될 게시글
+    const currentBoards = boards.slice(startIndex, endIndex);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -19,7 +25,7 @@ function CommunityBoard() {
             return;
         }
 
-        fetch('http://localhost:8080/api/boards', { // 인증 필요 없음
+        fetch('http://localhost:8080/api/boards', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`, // 인증 토큰 포함
@@ -33,25 +39,34 @@ function CommunityBoard() {
             })
             .then(data => {
                 console.log('API에서 받아온 데이터:', data);
-                setPlaces(data);
+                setBoards(data);
                 setLoading(false);
             })
             .catch(error => {
                 console.error('에러 발생:', error.message);
                 setError(`커뮤니티 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`);
-                setLoading(false); // 로딩 상태 해제
+                setLoading(false);
             });
-    }, []);    
+    }, []);
 
-    // Pagination logic
-    const totalPages = Math.ceil(places.length / itemsPerPage);
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentPlaces = places.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(boards.length / itemsPerPage);
 
-    const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
-    const handlePrevPage = () => setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
-    const handleNextPage = () => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages));
+    // 페이지 변경 핸들러
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
 
     const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
 
@@ -68,38 +83,33 @@ function CommunityBoard() {
             <Header />
             <div className='CommunityBoardGridContent'>
                 <div className="CommunityBoardGrid">
-                    {currentPlaces.map((place, index) => (
+                    {currentBoards.map((board) => (
                         <CommunityBoardItem
-                            key={index}
-                            boardId={place.boardId}
-                            title={place.title}
-                            content={place.content}
-                            count={place.count}
+                            key={board.boardId}
+                            boardId={board.boardId}
+                            title={board.title}
+                            content={board.content}
+                            nickName={board.nickName}
+                            count={board.count}
                         />
                     ))}
                 </div>
-                {currentPlaces.length > 0 && (
-                    <div className="communityBoard-pagination">
-                        <button onClick={() => handlePageChange(1)} disabled={currentPage === 1} className="arrow-btn">
-                            첫 페이지
-                        </button>
+                {currentBoards.length > 0 && (
+                    <div className="pagination">
                         <button onClick={handlePrevPage} disabled={currentPage === 1} className="arrow-btn">
                             <FontAwesomeIcon icon={faAnglesLeft} />
                         </button>
-                        {pageNumbers.map(number => (
+                        {Array.from({ length: totalPages }, (_, i) => (
                             <button
-                                key={number}
-                                onClick={() => handlePageChange(number)}
-                                className={currentPage === number ? 'active' : ''}
+                                key={i + 1}
+                                onClick={() => handlePageChange(i + 1)}
+                                className={i + 1 === currentPage ? 'active' : ''}
                             >
-                                {number}
+                                {i + 1}
                             </button>
                         ))}
                         <button onClick={handleNextPage} disabled={currentPage === totalPages} className="arrow-btn">
                             <FontAwesomeIcon icon={faAnglesRight} />
-                        </button>
-                        <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages} className="arrow-btn">
-                            마지막 페이지
                         </button>
                     </div>
                 )}

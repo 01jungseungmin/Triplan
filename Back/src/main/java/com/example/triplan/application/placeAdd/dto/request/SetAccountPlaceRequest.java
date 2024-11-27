@@ -1,5 +1,6 @@
 package com.example.triplan.application.placeAdd.dto.request;
 
+import com.example.triplan.domain.plan.enums.PlaceType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -11,15 +12,8 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class SetAccountPlaceRequest {
-
-    @Schema(description = "회원 id", example = "1")
-    private Long accountId;
-
     @Schema(description = "포함 되어 있는 그룹 id", example = "1")
     private Long crewId;
-
-    @Schema(description = "포함 되어 있는 그룹 일정 id", example = "1")
-    private Long planId;
 
     @Schema(description = "나만의 장소 추가 이름", example = "00카페")
     private String placeAddName;

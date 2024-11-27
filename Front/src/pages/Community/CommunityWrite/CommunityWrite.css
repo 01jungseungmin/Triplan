@@ -1,0 +1,157 @@
+.CommunityWriteContainer {
+    margin: 0 auto;
+    padding: 0 18%;
+    box-sizing: border-box;
+}
+
+.CoummunityWriteBox {
+    display: flex;
+    justify-content: center;
+}
+
+.CoummunityWriteContent {
+    width: 80%;
+}
+
+.CommunityWriteHeader {
+    margin-top: 6%;
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'PretendardFont-Light';
+    color: rgb(57, 57, 57);
+}
+
+.tripWriteTitleGroup,
+.tripWriteContentGroup,
+.tripWriteDateGroup,
+.tripWriteUploadImageGroup,
+.ScheduleSelectionGroup,
+.thumbnailImageGroup,
+.CommunityCreateBtnGroup {
+    margin-top: 6%;
+    display: flex;
+    justify-content: center;
+}
+
+.CommunityCreateBtnGroup {
+    margin-bottom: 10%;
+}
+
+.tripWriteTitleContent,
+.tripWriteContent,
+.tripWriteDateContent,
+.tripWriteUploadImageContent,
+.ScheduleSelectionContent,
+.thumbnailImageContent {
+    width: 70%;
+}
+
+.tripWriteTitle,
+.tripWriteContentTitle,
+.tripWriteDateTitle,
+.tripWriteUploadImageTitle,
+.ScheduleSelectionTitle,
+.thumbnailImageTitle {
+    font-family: 'PretendardFont-Light';
+    font-size: 1.12rem;
+    color: rgb(23, 23, 23);
+}
+
+.tripWriteTitleInput {
+    width: 94%;
+    height: 40px;
+    margin-top: 1%;
+    padding: 0 2%;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #969696;
+    font-family: 'PretendardFont-Light';
+}
+
+.tripWriteContentInput {
+    width: 94%;
+    height: 180px;
+    margin-top: 1%;
+    padding: 2% 2%;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #969696;
+    font-family: 'PretendardFont-Light';
+    resize: none;
+}
+
+.tripWriteContentInput:focus {
+    outline: none;
+}
+
+.tripWriteDateInputStart,
+.tripWriteDateInputEnd {
+    width: 43%;
+    height: 40px;
+    margin-top: 1%;
+    padding: 0 2%;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #969696;
+    font-family: 'PretendardFont-Light';
+}
+
+.icon {
+    margin: 0 2px;
+    color: rgb(174, 174, 174);
+}
+
+.tripWriteUploadImageContent {
+    text-align: left;
+}
+
+.tripWriteUploadImageBox,
+.thumbnailImageBox {
+    display: flex;
+    margin-top: 1%;
+}
+
+.imageUploadBox {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #ffffff;
+    background-color: #969696;
+    margin-right: 3%;
+    cursor: pointer;
+}
+
+.imageBox {
+    width: 60px;
+    height: 60px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #888;
+    margin-right: 3%;
+    cursor: pointer;
+}
+
+.CommunityCreateBtn {
+    width: 20%;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: #67c1c78d;
+    color: white;
+    font-family: 'PretendardFont-Medium';
+    font-size: 0.96rem;
+    cursor: pointer;
+}
+
+.CommunityCreateBtn:hover {
+    background-color: #67c1c7;
+}

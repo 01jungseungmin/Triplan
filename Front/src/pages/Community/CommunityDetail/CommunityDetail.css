@@ -1,0 +1,173 @@
+hr {
+    border: 1px solid #e9e9e9;
+    margin: 3% 0;
+}
+
+.CommunityDetailContainer {
+    margin: 0 auto;
+    padding: 0 18%;
+    box-sizing: border-box;
+}
+
+.travelPostContainer {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 1%;
+}
+
+.postDeleteBtnContainer {
+    display: flex;
+}
+
+.postDeleteBtn {
+    margin-left: auto;
+    border: none;
+    border-bottom: 1px solid rgba(185, 185, 185, 0.59);
+    background: none;
+    font-size: 0.76rem;
+    color: rgba(185, 185, 185, 0.59);
+    cursor: pointer;
+    transition: all 0.3s ease; /* 부드러운 효과 */
+}
+
+.postDeleteBtn:hover {
+    border-bottom: 1px solid rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
+}
+
+.travelPostHeaderGroup {
+    display: flex;
+    align-items: end;
+}
+
+.travelPostTitle {
+    font-size: 1.76rem;
+    font-family: 'PretendardFont-Bold';
+    width: 70%;
+}
+
+.travelPostAuthor {
+    font-size: 0.74rem;
+    font-family: 'PretendardFont-Light';
+    color: rgb(104, 104, 104);
+    margin-left: auto;
+}
+
+.travelDateGroup {
+    display: flex;
+    align-items: center;
+    margin-top: 1%;
+    font-size: 0.9rem;
+    font-family: 'PretendardFont-Light';
+    color: rgb(86, 86, 86);
+}
+
+.travelDate {
+    margin-left: 4px;
+}
+
+.travelPostContentGroup {
+    margin-top: 2%;
+}
+
+.travelPostContent { /*여행기 내용 높이, 글자수 제한 필요*/
+    width: 80%;
+    max-height: 100px;
+    font-family: 'PretendardFont-Light';
+    font-size: 1rem;
+}
+
+.travelPostImage { /* 이미지 디자인 수정 필요 */
+    height: 150px;
+    margin-top: 2%;
+    background-color: rgb(228, 228, 228);
+}
+
+.travelPostScheduleTitle,
+.travelPostCommentTitle {
+    font-size: 1.22rem;
+    font-family: 'PretendardFont-Bold';
+    color: rgb(0, 0, 0);
+}
+
+.travelDayBtnGroup {
+    margin-top: 1%;
+}
+
+.travelDayBtn{
+    padding: 2px 14px;
+    font-size: 0.86rem;
+    font-family: 'PretendardFont-Medium';
+    color: #9c9c9c;
+    background-color: transparent; /* 배경 투명 */
+    border: 2px solid #ccc; 
+    border-radius: 20px; /* 둥근 모서리 */
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease; /* 부드러운 효과 */
+    margin-right: 4%;
+}
+
+.travelDayBtn:hover {
+    color: #676767;
+    background-color:#ececec; /* 배경 투명 */
+    border: 2px solid #ececec; 
+}
+
+.travelPostCommentHeader {
+    display: flex;
+    align-items: end;
+    margin-bottom: 2%;
+}
+
+.travelPostCommentCount {
+    margin-left: 4px;
+    font-family: 'PretendardFont-Medium';
+    color: #aaaaaa;
+}
+
+.commentInputGroup {
+    margin-top: 1%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.commentInput {
+    width: 90%;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 0.94rem;
+    padding-left: 1%;
+    font-family: 'PretendardFont-Medium';
+    color: #484848;
+    border: 1px solid #B0B0B0;
+}
+
+.commentInput:focus {
+    outline: none;
+}
+
+.commentAddBtn {
+    width: 6%;
+    height: 45px;
+    margin-left: 1%;
+    border-radius: 5px;
+    border: 1px solid #b9b8b880;
+    background-color: #b9b8b880;
+    cursor: pointer;
+    transition: all 0.3s ease; /* 부드러운 효과 */
+}
+
+.commentAddBtn:hover {
+    border: 1px solid #87878780;
+    background-color: #87878780;
+}
+
+.commentAddBtnIcon {
+    color: #f8f8f8;
+    font-size: 1.2rem;
+}
+
+
+
