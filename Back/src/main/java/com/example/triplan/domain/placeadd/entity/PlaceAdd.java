@@ -32,7 +32,4 @@ public class PlaceAdd extends BaseEntity {
     @Column(name = "memo", nullable = false)
     private String memo;
 
-    @ManyToOne
-    @JoinColumn(name = "plan")
-    private Plan plan;
 }

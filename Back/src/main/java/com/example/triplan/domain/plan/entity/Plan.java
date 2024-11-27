@@ -4,14 +4,16 @@ import com.example.triplan.common.BaseEntity;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.plan.enums.PlaceType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class Plan extends BaseEntity {
     @Column(name = "planDate", nullable = false)
@@ -32,7 +34,4 @@ public class Plan extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
-
-
-
 }
