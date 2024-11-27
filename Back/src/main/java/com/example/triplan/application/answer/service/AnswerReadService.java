@@ -30,7 +30,7 @@ public class AnswerReadService {
                 .map(answer -> new AnswerResponse(
                         answer.getId(),
                         answer.getContent(),
-                        answer.getAccount().getId(),
+                        answer.getAccount().getNickName(),
                         answer.getBoard().getId()
                 ))
                 .collect(Collectors.toList());

@@ -8,6 +8,6 @@ import lombok.Getter;
 public class AnswerResponse {
     private Long answerId;
     private String content;
-    private Long accountId;
+    private String nickName;
     private Long boardId;
 }

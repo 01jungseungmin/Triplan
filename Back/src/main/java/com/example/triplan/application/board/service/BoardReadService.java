@@ -4,6 +4,7 @@ import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.board.dto.response.BoardDetailResponse;
 import com.example.triplan.application.board.dto.response.BoardResponse;
 import com.example.triplan.domain.board.entity.Board;
+import com.example.triplan.domain.board.entity.BoardImage;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,8 +61,14 @@ public class BoardReadService {
             response.addCookie(viewedCookie);
         }
 
+        // 이미지 URL 리스트 가져오기
+        List<String> imageUrls = board.getBoardImages().stream()
+                .map(BoardImage::getBoardImageUrl) // BoardImage에서 URL 가져오기
+                .collect(Collectors.toList());
+
+
         // 게시글 상세 조회 반환
         return new BoardDetailResponse(board.getId(), board.getTitle(), board.getContent(), board.getCount(),
-                board.getAccount().getId(), board.getCrew().getId());
+                board.getAccount().getId(), board.getCrew().getId(),imageUrls);
     }
 }

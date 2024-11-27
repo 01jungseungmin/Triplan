@@ -4,14 +4,14 @@ import com.example.triplan.common.BaseEntity;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.plan.entity.Plan;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -33,6 +33,9 @@ public class Board extends BaseEntity {
     @JoinColumn(name = "account_id")
     private Account account;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BoardImage> boardImages = new ArrayList<>();
+
     public Board(String title, String content, Account account, Crew crew) {
         this.title = title;
         this.content = content;
@@ -48,5 +51,9 @@ public class Board extends BaseEntity {
 
     public void increaseCount() {
         this.count++;
+    }
+
+    public void addBoardImage(BoardImage boardImage) {
+        this.boardImages.add(boardImage);
     }
 }

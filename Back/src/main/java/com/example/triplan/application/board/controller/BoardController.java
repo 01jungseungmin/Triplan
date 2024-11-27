@@ -6,13 +6,17 @@ import com.example.triplan.application.board.dto.response.BoardDetailResponse;
 import com.example.triplan.application.board.dto.response.BoardResponse;
 import com.example.triplan.application.board.service.BoardReadService;
 import com.example.triplan.application.board.service.BoardWriteService;
+import com.example.triplan.application.s3.service.S3ImageService;
+import com.example.triplan.exception.S3Exception;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +28,7 @@ public class BoardController {
 
     private final BoardReadService boardReadService;
     private final BoardWriteService boardWriteService;
+    private final S3ImageService s3ImageService;
 
     // 게시글 전체 조회
     @GetMapping
@@ -44,8 +49,8 @@ public class BoardController {
     // 게시글 작성
     @PostMapping("/write/{crewId}")
     @Operation(summary = "게시글 작성", description = "게시글 작성")
-    public ResponseEntity<String> createBoard(@RequestBody SetBoardRequest setBoardRequest,@PathVariable Long crewId) {
-        return ResponseEntity.ok(boardWriteService.create(setBoardRequest, crewId));
+    public ResponseEntity<String> createBoard(@RequestPart(value = "images", required = false) List<MultipartFile> images,@RequestPart SetBoardRequest setBoardRequest, @PathVariable Long crewId) throws S3Exception {
+        return ResponseEntity.ok(boardWriteService.create(setBoardRequest, crewId, images));
     }
 
     // 게시글 수정
