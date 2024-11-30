@@ -19,7 +19,10 @@ public enum ErrorCode {
     NO_FILE_EXTENTION(HttpStatus.NOT_FOUND,"파일이 존재하지 않습니다"),
     INVALID_FILE_EXTENTION(HttpStatus.NOT_FOUND,"파일이 존재하지 않습니다"),
     PUT_OBJECT_EXCEPTION(HttpStatus.NOT_FOUND,"파일 전송 오류 발생"),
-    IO_EXCEPTION_ON_IMAGE_DELETE(HttpStatus.NOT_FOUND,"파일 삭제중 오류 발생");
+    IO_EXCEPTION_ON_IMAGE_DELETE(HttpStatus.NOT_FOUND,"파일 삭제중 오류 발생"),
+    ACCESS_DENIED(HttpStatus.NOT_FOUND,"관리자만 관리할 수 있습니다."),
+    BOARD_NOT_FOUND(HttpStatus.NOT_FOUND,"게시물을 찾을 수 없습니다.");
+
 
     private final HttpStatus httpStatus;
     private final String message;
