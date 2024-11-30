@@ -17,11 +17,6 @@ function CommunityDetail() {
     useEffect(() => {
         let isMounted = true;
         const token = localStorage.getItem('token');
-        if (!token) {
-            alert('로그인이 필요합니다.');
-            setLoading(false);
-            return;
-        }
 
         // 게시글 데이터 가져오기
         fetch(`http://localhost:8080/api/boards/${boardId}`, {
@@ -83,7 +78,7 @@ function CommunityDetail() {
             return;
         }
 
-        fetch(`http://localhost:8080/api/boards/${boardId}/write`, {
+        fetch(`http://localhost:8080/${boardId}/write`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -101,7 +96,7 @@ function CommunityDetail() {
                 alert(message);
                 setNewComment('');
                 // 댓글 새로고침
-                fetch(`http://localhost:8080/api/boards/${boardId}/answer`, {
+                fetch(`http://localhost:8080/${boardId}/answer`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
