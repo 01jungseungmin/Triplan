@@ -2,16 +2,21 @@ import React from 'react';
 import '../CommentItem/CommentItem.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { formatDistanceToNow } from 'date-fns';
 
-function CommentItem({answerId, content, accountId, boardId}) {
+function CommentItem({ answerId, content, nickName, createdAt, updatedAt, boardId }) {
     return (
         <div className="commentItemContainer">
             <div className="commentHeader">
-                <div className="commentUsername">김수빈</div>
+                <div className="commentUsername">{nickName}</div>
                 <FontAwesomeIcon icon={faCircle} className='circleIcon'/>
-                <div className="commentTime">10일 전</div>
+                <div className="commentTime">
+                    {createdAt
+                        ? `${formatDistanceToNow(new Date(createdAt), { addSuffix: true })}`
+                        : '방금 전'}
+                </div>
             </div>
-            <div className="commentBody">부산 여행 너무 재밌을 거 같아요!</div>
+            <div className="commentBody">{content}</div>
         </div>
     )
 }
