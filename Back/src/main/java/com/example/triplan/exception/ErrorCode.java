@@ -18,7 +18,8 @@ public enum ErrorCode {
     IO_EXCEPTION_ON_IMAGE_UPLOAD(HttpStatus.NOT_FOUND,"파일이 올라가지 않습니다"),
     NO_FILE_EXTENTION(HttpStatus.NOT_FOUND,"파일이 존재하지 않습니다"),
     INVALID_FILE_EXTENTION(HttpStatus.NOT_FOUND,"파일이 존재하지 않습니다"),
-    PUT_OBJECT_EXCEPTION(HttpStatus.NOT_FOUND,"파일 전송 오류 발생");
+    PUT_OBJECT_EXCEPTION(HttpStatus.NOT_FOUND,"파일 전송 오류 발생"),
+    IO_EXCEPTION_ON_IMAGE_DELETE(HttpStatus.NOT_FOUND,"파일 삭제중 오류 발생");
 
     private final HttpStatus httpStatus;
     private final String message;
