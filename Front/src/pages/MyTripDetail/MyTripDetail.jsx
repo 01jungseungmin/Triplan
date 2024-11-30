@@ -83,7 +83,7 @@ function MyTripDetail() {
     };
 
     const handleCommunityCreate = () => {
-        navigate('/write')
+        navigate(`/write/${crewId}`);
     }
 
     if (loading) return <div>로딩 중...</div>;

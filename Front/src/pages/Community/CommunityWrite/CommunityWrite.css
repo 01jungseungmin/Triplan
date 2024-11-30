@@ -138,6 +138,10 @@
     color: #888;
     margin-right: 3%;
     cursor: pointer;
+    background-color: #fff; /* 기본 배경색 */
+    background-size: cover; /* 이미지가 박스를 채우도록 설정 */
+    background-position: center; /* 이미지 중앙 정렬 */
+    background-repeat: no-repeat; /* 이미지 반복 방지 */
 }
 
 .CommunityCreateBtn {
