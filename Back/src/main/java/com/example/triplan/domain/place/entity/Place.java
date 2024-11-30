@@ -26,5 +26,20 @@ public class Place extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private PlaceCategory placeCategory;
+
+    private String imgUrl;
+
     public Place() {}
+
+    public void setImgUrl(String imgUrl){
+        this.imgUrl = imgUrl;
+    }
+
+    public void setPlace(String placeName, String placeAddress, String placeNumber, String placeHoliday, String placeBusinessHours) {
+        this.placeName = placeName;
+        this.placeAddress = placeAddress;
+        this.placeNumber = placeNumber;
+        this.placeHoliday = placeHoliday;
+        this.placeBusinessHours = placeBusinessHours;
+    }
 }
