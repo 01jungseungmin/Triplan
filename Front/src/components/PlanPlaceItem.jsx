@@ -1,15 +1,14 @@
 import React from 'react';
 import '../components/css/PlanPlaceItem.css';
 
-function PlanPlaceItem({ time, title, address, note }) {
+function PlanPlaceItem() {
     return (
-        <div className="place-item">
-            <div className="place-time">{time}</div>
-            <div className="place-content">
-                <div className="place-title">{title}</div>
-                <div className="place-address">{address}</div>
-                <div className="place-note">{note}</div>
+        <div className="planItemContainer">
+            <div className="planItemHeader">
+                <div className="planItemName">김수빈</div>
+                <div className="planItemAddress">10일 전</div>
             </div>
+            <div className="planItemComment">부산 여행 너무 재밌을 거 같아요!</div>
         </div>
     );
 }

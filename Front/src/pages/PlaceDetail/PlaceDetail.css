@@ -130,3 +130,29 @@ hr {
     height: 400px;
     width: 100%;
 }
+
+.CalendarPlusBtnBox {
+    width: 100%;
+    display: flex;
+    margin-top: 30%;
+}
+
+.CalendarPlusBtn {
+    width: 25%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #67c1c7b9;
+    font-size: 0.93rem;
+    font-family: 'PretendardFont-Medium';
+    margin-left: auto;
+    margin-right: 6%;
+}
+
+.CalendarPlusBtn:hover {
+    color: #67C1C7;
+}
+
+.plusIcon {
+    margin-right: 4px;
+}
