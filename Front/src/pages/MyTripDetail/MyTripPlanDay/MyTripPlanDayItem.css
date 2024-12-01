@@ -35,3 +35,7 @@
     cursor: pointer;   
     margin-left: auto;
 }
+
+.MyTripPlanPlaceItemContainer {
+    cursor: pointer;
+}

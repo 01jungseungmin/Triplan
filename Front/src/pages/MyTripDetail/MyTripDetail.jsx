@@ -112,6 +112,11 @@ function MyTripDetail() {
         navigate(`/write/${crewId}`);
     }
 
+    // 수정하기 버튼 클릭 시 모달을 여는 함수
+    const handleMyTripEdit = () => {
+        setIsModalOpen(true); // 수정 모달 열기
+    };
+
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;
 
@@ -214,7 +219,7 @@ function MyTripDetail() {
                                     </div>
                                 </div>
                                 <div className='testBtnGroup'>
-                                    <button className="tripCreateButton" onClick={handleCreate}>
+                                    <button className="tripCreateButton" onClick={closeModal}>
                                         일정 수정하기
                                     </button>
                                 </div>
