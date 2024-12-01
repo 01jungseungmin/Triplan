@@ -1,14 +1,30 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import './PlaceDetail.css';
-
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import PlanPlaceAddModal from '../MyTripDetail/PlanPlaceAddModal/PlanPlaceAddModal';
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 function PlaceDetail() {
     const { placeId } = useParams();
     const [place, setPlace] = useState(null);
+    const location = useLocation();
+    const [isModalOpen, setIsModalOpen] = useState(false); //일정 추가 모달
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+    const handleSave = () => {
+        // 저장 로직 추가
+        console.log('저장 버튼 클릭');
+        closeModal();
+    };
+
+    useEffect(() => {
+        console.log('Location state in PlaceDetail:', location.state); // 디버깅용
+    }, [placeId]);
 
     useEffect(() => {
         // placeId에 해당하는 장소 데이터를 백엔드에서 불러옵니다.
@@ -17,6 +33,8 @@ function PlaceDetail() {
             .then(data => setPlace(data))
             .catch(error => console.error('Error fetching place data:', error));
     }, [placeId]);
+
+    const isFromMyTripPlanDay = location.state?.from === 'MyTripPlanDay';
 
     return (
         <div>
@@ -34,6 +52,13 @@ function PlaceDetail() {
                                     </div>
                                     <div className='placeAddress'>{place.placeAddress}</div>
                                     <div className='placePhone'>{place.placeNumber}</div>
+                                    <div className='CalendarPlusBtnBox'>
+                                        {isFromMyTripPlanDay && <button className='CalendarPlusBtn' onClick={openModal}>
+                                            <FontAwesomeIcon icon={faPlus} className='plusIcon'/>
+                                            일정 추가
+                                        </button>}
+                                        <PlanPlaceAddModal isOpen={isModalOpen} onClose={closeModal} onSave={handleSave} />
+                                    </div>
                                 </div>
                             </div>
                             <hr />

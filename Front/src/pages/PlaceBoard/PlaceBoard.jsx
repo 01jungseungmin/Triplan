@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './PlaceBoard.css';
 import SearchBar from '../../components/SearchBar';
 import Header from '../../components/Header';
@@ -16,9 +17,16 @@ function PlaceBoard() {
     const [error, setError] = useState(null); // 에러 상태
     const [currentPage, setCurrentPage] = useState(1);
 
+    const location = useLocation(); // 전달받은 state 확인
+    const navigate = useNavigate();
+
     const placesPerPage = 9; // 한 페이지에 9개의 장소 표시
     const startIndex = (currentPage - 1) * placesPerPage;
     const endIndex = startIndex + placesPerPage;
+
+    useEffect(() => {
+        console.log('Location state in PlaceBoard:', location.state); // 디버깅용
+    }, []);
 
     // 카테고리 정의
     const categories = [
@@ -129,6 +137,7 @@ function PlaceBoard() {
                                 address={place.placeAddress} // API 데이터에 맞게 수정
                                 phone={place.placeNumber} // API 데이터에 맞게 수정
                                 distance={place.distance} // 필요한 경우 API 데이터에 맞게 수정
+                                state={location.state?.from}
                             />
                         ))}
                     </div>

@@ -1,0 +1,147 @@
+/* 모달 오버레이 */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* 모달 컨테이너 */
+.planPlaceAddContent {
+    background: white;
+    padding: 1% 2%;
+    border-radius: 10px;
+    width: 600px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* 헤더 스타일 */
+.planPlaceAddHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4%;
+}
+
+.planPlaceAddHeaderTitle {
+    font-size: 1.2rem;
+    font-family: 'PretendardFont-Bold';
+    color: #232323;
+}
+
+.planPlaceAddCloseBtn {
+    background: none;
+    border: none;
+    font-size: 1.94rem;
+    cursor: pointer;
+    color: #232323;
+}
+
+.planPlaceAddBody {
+    display: flex;
+    flex-direction: column; /* 자식 요소를 세로 방향으로 배치 */
+    justify-content: center; /* 세로 방향 가운데 정렬 */
+    align-items: center; /* 가로 방향 가운데 정렬 */
+    margin-bottom: 1%;
+}
+
+.planPlaceAddPlace,
+.planPlaceAddAddress,
+.planPlaceAddTime,
+.planPlaceAddText {
+    width: 100%;
+    margin-bottom: 3%;
+    display: flex;
+    align-items: center;
+}
+
+.addPlaceTitle,
+.addAddressTitle,
+.addTimeTitle,
+.addTextTitle {
+    margin-right: 1%;
+    font-family: 'PretendardFont-Light';
+    font-size: 1rem;
+    color: #363636;
+    margin-left: 4%;
+    margin-right: 3%;
+}
+
+.addPlaceInput {
+    width: 60%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'PretendardFont-Light';
+}
+
+.addAddressInput {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'PretendardFont-Light';
+}
+
+.addTextInput {
+    width: 80%;
+    height: 40px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    font-family: 'PretendardFont-Light';
+}
+
+.addTimeInput {
+    width: 30%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: 'PretendardFont-Light';
+}
+
+.addTimeInput::-webkit-calendar-picker-indicator {
+    cursor: pointer; /* 시계 아이콘에 커서를 pointer로 변경 */
+}
+
+.planPlaceAddFooter {
+    margin-bottom: 1%;
+    text-align: center;
+}
+
+.planPlaceAddBtn {
+    background-color: #8edeeab8;
+    color: white;
+    padding: 1% 10%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.96rem;
+    font-family: 'PretendardFont-Medium';
+}
+
+.planPlaceAddBtn:hover {
+    background-color: #8edeea;
+}
+
+.planPlaceDeleteBtn {
+    background-color: transparent;
+    color: #676767;
+    border: none;
+    cursor: pointer;
+    font-size: 0.84rem;
+    font-family: 'PretendardFont-Light';
+}
