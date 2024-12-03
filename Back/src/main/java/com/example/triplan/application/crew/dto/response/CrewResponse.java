@@ -27,8 +27,11 @@ public class CrewResponse {
     @Schema(description = "회원Id", example = "1")
     private Long accountId; // Account ID만 포함
 
-    @Schema(description = "수락한 회원의 Id 리스트", example = "[1,2,3]")
-    private List<Long> memberAccountIds; // ACCEPT 상태인 멤버들의 Account ID 리스트
+//    @Schema(description = "수락한 회원의 Id 리스트", example = "[1,2,3]")
+//    private List<CrewInfo> memberAccountIds; // ACCEPT 상태인 멤버들의 Account ID 리스트
+
+    private List<CrewInfo> crewInfos;
+
 
 
     public CrewResponse(Crew crew) {
@@ -39,14 +42,24 @@ public class CrewResponse {
         this.accountId = crew.getAccount().getId(); // Account ID만 가져옴
     }
 
+//    public CrewResponse(Crew crew, List<CrewList> members) {
+//        this.crewId = crew.getId();
+//        this.crewName = crew.getCrewName();
+//        this.planStartDate = crew.getPlanStartDate();
+//        this.planEndDate = crew.getPlanEndDate();
+//        this.accountId = crew.getAccount().getId(); // Account ID만 가져옴
+//        this.memberAccountIds = members.stream()
+//                .map(member -> member.getAccount().getId()) // ACCEPT 상태인 멤버들의 Account ID 수집
+//                .collect(Collectors.toList());
+//    }
     public CrewResponse(Crew crew, List<CrewList> members) {
         this.crewId = crew.getId();
         this.crewName = crew.getCrewName();
         this.planStartDate = crew.getPlanStartDate();
         this.planEndDate = crew.getPlanEndDate();
         this.accountId = crew.getAccount().getId(); // Account ID만 가져옴
-        this.memberAccountIds = members.stream()
-                .map(member -> member.getAccount().getId()) // ACCEPT 상태인 멤버들의 Account ID 수집
+        this.crewInfos = members.stream()
+                .map(member -> new CrewInfo(member.getAccount().getId(), member.getAccount().getNickName()))
                 .collect(Collectors.toList());
     }
 }
