@@ -6,6 +6,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faUser, faEllipsisVertical, faMinus } from '@fortawesome/free-solid-svg-icons';
 import InviteDialog from './InviteDialog';
+import Footer from '../../components/Footer';
 
 function MyTripDetail() {
     const { crewId } = useParams();
@@ -117,117 +118,140 @@ function MyTripDetail() {
         setIsModalOpen(true); // 수정 모달 열기
     };
 
+    const getDateRange = (start, end) => {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const dateArray = [];
+        let currentDate = startDate;
+
+        while (currentDate <= endDate) {
+            dateArray.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return dateArray;
+    };
+
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;
 
     return (
-        <div className='MyTripDetailContainer'>
-            <Header />
-            <div>
-                {plan ? (
-                    <>
-                        <div className='planContent'>
-                            <div className='planDetailContent'>
-                                <div className='planDetailNameContainer'>
-                                    <div className='planDetailName'>{plan.crewName}</div>
-                                    <div className="dropdown-container" ref={dropdownRef}>
-                                        <button className="dropdown-toggle" onClick={toggleDropdown}>
-                                            <FontAwesomeIcon icon={faEllipsisVertical} className='planDetailSetting' />
-                                        </button>
-                                        {isOpen && (
-                                            <div className="dropdown-menu">
-                                                <ul>
-                                                    <li onClick={handleCommunityCreate}>여행기 작성하기</li>
-                                                    <hr />
-                                                    <li onClick={handleMyTripEdit}>수정하기</li>
-                                                    <hr />
-                                                    <li onClick={handleDeleteCrew}>삭제하기</li>
-                                                </ul>
-                                            </div>
+        <div>
+            <div className='MyTripDetailContainer'>
+                <Header />
+                <div>
+                    {plan ? (
+                        <>
+                            <div className='planContent'>
+                                <div className='planDetailContent'>
+                                    <div className='planDetailNameContainer'>
+                                        <div className='planDetailName'>{plan.crewName}</div>
+                                        <div className="dropdown-container" ref={dropdownRef}>
+                                            <button className="dropdown-toggle" onClick={toggleDropdown}>
+                                                <FontAwesomeIcon icon={faEllipsisVertical} className='planDetailSetting' />
+                                            </button>
+                                            {isOpen && (
+                                                <div className="dropdown-menu">
+                                                    <ul>
+                                                        <li onClick={handleCommunityCreate}>여행기 작성하기</li>
+                                                        <hr />
+                                                        <li onClick={handleMyTripEdit}>수정하기</li>
+                                                        <hr />
+                                                        <li onClick={handleDeleteCrew}>삭제하기</li>
+                                                    </ul>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className='planDetailDate'>
+                                        <FontAwesomeIcon icon={faCalendar} className='myTripDetailIcon' />
+                                        <div className='planDetailDateTxt'>{plan.planStartDate} - {plan.planEndDate}</div>
+                                    </div>
+                                    <div className='planDetailUser'>
+                                        <FontAwesomeIcon icon={faUser} className='myTripDetailIcon' />
+                                        {plan.user ? (
+                                            <div className='planDetailUserTxt'>{plan.user}</div>
+                                        ) : (
+                                            <button className='inviteButtonMyTrip' onClick={() => setIsDialogOpen(true)}>
+                                                초대하기
+                                            </button>
                                         )}
                                     </div>
                                 </div>
-                                <div className='planDetailDate'>
-                                    <FontAwesomeIcon icon={faCalendar} className='myTripDetailIcon' />
-                                    <div className='planDetailDateTxt'>{plan.planStartDate} - {plan.planEndDate}</div>
-                                </div>
-                                <div className='planDetailUser'>
-                                    <FontAwesomeIcon icon={faUser} className='myTripDetailIcon' />
-                                    {plan.user ? (
-                                        <div className='planDetailUserTxt'>{plan.user}</div>
-                                    ) : (
-                                        <button className='inviteButtonMyTrip' onClick={() => setIsDialogOpen(true)}>
-                                            초대하기
-                                        </button>
-                                    )}
-                                </div>
                             </div>
-                        </div>
-                        <hr />
-                        <div className="myTripPlanDayContent">
-                            <MyTripPlanDayItem />
-                        </div>
-
-                    </>
-                ) : (
-                    <p>일정을 찾을 수 없습니다.</p>
-                )}
-            </div>
-            <InviteDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} crewId={crewId} />
-            {isModalOpen && (
-                <div>
-                    <div className="backdrop" onClick={closeModal}></div>
-                    <div className="modal">
-                        <div className="form-container">
-                            <div className="image-section">
-                                <img
-                                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoQoOS9Fb2tIZQI8knvJbitYcvaXZaKY-3iYpR6GZA9qwic0cS9LfJz4Y&s"
-                                    alt="background"
-                                    className="background-image"
-                                />
+                            <hr />
+                            <div className="myTripPlanDayContent">
+                                {getDateRange(plan.planStartDate, plan.planEndDate).map((date, index) => (
+                                    <MyTripPlanDayItem
+                                        key={index}
+                                        dayNumber={index + 1}
+                                        date={date}
+                                        crewId={crewId} // crewId 전달
+                                    />
+                                ))}
                             </div>
-                            <div className="form-section">
-                                <div className="form-title">일정 수정</div>
-                                <div className="form-subtitle">멋진 일정을 계획해 보세요.</div>
-                                <div className='MytripNameInputContent'>
-                                    <div className='MytripNameInputTitle'>일정 이름</div>
-                                    <input
-                                        placeholder='일정 이름 작성'
-                                        className='MytripNameInput'
-                                        value={tripName}
-                                        onChange={(e) => setTripName(e.target.value)}
+                        </>
+                    ) : (
+                        <p>일정을 찾을 수 없습니다.</p>
+                    )}
+                </div>
+                <InviteDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} crewId={crewId} />
+                {isModalOpen && (
+                    <div>
+                        <div className="backdrop" onClick={closeModal}></div>
+                        <div className="modal">
+                            <div className="form-container">
+                                <div className="image-section">
+                                    <img
+                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoQoOS9Fb2tIZQI8knvJbitYcvaXZaKY-3iYpR6GZA9qwic0cS9LfJz4Y&s"
+                                        alt="background"
+                                        className="background-image"
                                     />
                                 </div>
-                                <div className='MytripDateInputContent'>
-                                    <div className='MytripDateInputTitle'>일정 기간</div>
-                                    <div className='MytripDateInputBox'>
+                                <div className="form-section">
+                                    <div className="form-title">일정 수정</div>
+                                    <div className="form-subtitle">멋진 일정을 계획해 보세요.</div>
+                                    <div className='MytripNameInputContent'>
+                                        <div className='MytripNameInputTitle'>일정 이름</div>
                                         <input
-                                            type="date"
-                                            className='MytripDateStart'
-                                            placeholder='2024-10-10'
-                                            value={startDate}
-                                            onChange={(e) => setStartDate(e.target.value)}
-                                        />
-                                        <FontAwesomeIcon icon={faMinus} className='minusIcon' />
-                                        <input
-                                            type="date"
-                                            className='MytripDateEnd'
-                                            placeholder='2024-11-10'
-                                            value={endDate}
-                                            onChange={(e) => setEndDate(e.target.value)}
+                                            placeholder='일정 이름 작성'
+                                            className='MytripNameInput'
+                                            value={tripName}
+                                            onChange={(e) => setTripName(e.target.value)}
                                         />
                                     </div>
-                                </div>
-                                <div className='testBtnGroup'>
-                                    <button className="tripCreateButton" onClick={closeModal}>
-                                        일정 수정하기
-                                    </button>
+                                    <div className='MytripDateInputContent'>
+                                        <div className='MytripDateInputTitle'>일정 기간</div>
+                                        <div className='MytripDateInputBox'>
+                                            <input
+                                                type="date"
+                                                className='MytripDateStart'
+                                                placeholder='2024-10-10'
+                                                value={startDate}
+                                                onChange={(e) => setStartDate(e.target.value)}
+                                            />
+                                            <FontAwesomeIcon icon={faMinus} className='minusIcon' />
+                                            <input
+                                                type="date"
+                                                className='MytripDateEnd'
+                                                placeholder='2024-11-10'
+                                                value={endDate}
+                                                onChange={(e) => setEndDate(e.target.value)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className='testBtnGroup'>
+                                        <button className="tripCreateButton" onClick={closeModal}>
+                                            일정 수정하기
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
+            <Footer className="footerStyle" />
         </div>
     );
 }

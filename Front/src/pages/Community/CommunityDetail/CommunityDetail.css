@@ -181,3 +181,9 @@ hr {
     gap: 34px; /* 카드 간격 */
     margin: 4%;
 }
+
+.noCommentsMessage {
+    font-size: 0.96rem;
+    font-family: 'PretendardFont-Medium';
+    color: #484848;
+}

@@ -13,6 +13,8 @@ function PlaceDetail() {
     const [place, setPlace] = useState(null);
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false); //일정 추가 모달
+    const crewId = location.state?.crewId;
+    const planDate = location.state?.planDate;
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -57,7 +59,16 @@ function PlaceDetail() {
                                             <FontAwesomeIcon icon={faPlus} className='plusIcon'/>
                                             일정 추가
                                         </button>}
-                                        <PlanPlaceAddModal isOpen={isModalOpen} onClose={closeModal} onSave={handleSave} />
+                                        <PlanPlaceAddModal
+                                            isOpen={isModalOpen}
+                                            onClose={closeModal}
+                                            onSave={handleSave}
+                                            crewId={location.state?.crewId} // crewId 전달
+                                            placeId={placeId} // placeId 전달
+                                            planDate={planDate}
+                                            placeTitle={place.placeName}
+                                            placeAddre={place.placeAddress}
+                                        />
                                     </div>
                                 </div>
                             </div>

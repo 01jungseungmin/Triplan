@@ -2,11 +2,11 @@ import './css/PlaceBoardItem.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function PlaceBoardItem({ placeId, name, address, phone, distance, rating, reviews, state }) {
-    console.log("받아온 데이터:", { placeId, name, address, phone, distance, rating, reviews, state });
+function PlaceBoardItem({ placeId, name, address, phone, distance, rating, reviews, state, crewId, planDate }) {
+    console.log("받아온 데이터:", { placeId, name, address, phone, distance, rating, reviews, state, crewId, planDate });
 
     return (
-        <Link to={`/place/details/${placeId}`} className="board-item-link" state={{ from: state }}>
+        <Link to={`/place/details/${placeId}`} className="board-item-link" state={{ from: state, crewId, planDate }}>
             <div className="board-item">
                 <div className="board-item-image">
                     {/* 이미지가 있으면 보여주고, 없으면 기본 이미지 */}

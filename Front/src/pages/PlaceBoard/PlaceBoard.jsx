@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import CategoryItem from '../../components/CategoryItem';
 import PlaceBoardItem from '../../components/PlaceBoardItem';
 import Footer from '../../components/Footer';
+import MyPlaceAddModal from '../MyTripDetail/MyPlaceAddModal/MyPlaceAddModal';
 import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -16,6 +17,7 @@ function PlaceBoard() {
     const [loading, setLoading] = useState(true); // 로딩 상태
     const [error, setError] = useState(null); // 에러 상태
     const [currentPage, setCurrentPage] = useState(1);
+    const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
 
     const location = useLocation(); // 전달받은 state 확인
     const navigate = useNavigate();
@@ -23,6 +25,9 @@ function PlaceBoard() {
     const placesPerPage = 9; // 한 페이지에 9개의 장소 표시
     const startIndex = (currentPage - 1) * placesPerPage;
     const endIndex = startIndex + placesPerPage;
+
+    const crewId = location.state?.crewId || null; // crewId가 없으면 null
+    const planDate = location.state?.planDate || null; // 기본값: 현재 날짜    
 
     useEffect(() => {
         console.log('Location state in PlaceBoard:', location.state); // 디버깅용
@@ -35,18 +40,14 @@ function PlaceBoard() {
         { name: '레스토랑', icon: '🍽️', value: 'RESTAURANT' },
         { name: '쇼핑', icon: '🛍️', value: 'SHOPPING' },
         { name: '숙소', icon: '🏨', value: 'ACCOMMODATION' },
-        { name: '관광지', icon: '🗽', value: 'TOUR'},
+        { name: '관광지', icon: '🗽', value: 'TOUR' },
         { name: '기타', icon: '🛣️', value: 'ETC' },
-        { name: '지역별', icon: '🌏' ,value: 'REGION' }
+        { name: '지역별', icon: '🌏', value: 'REGION' }
     ];
 
     // 장소 데이터를 API에서 불러오는 useEffect
     useEffect(() => {
         const token = localStorage.getItem('token');
-        if (!token) {
-            alert('로그인이 필요합니다.');
-            return;
-        }
 
         fetch('http://localhost:8080/place/findAll', {
             method: 'GET',
@@ -95,6 +96,23 @@ function PlaceBoard() {
         }
     };
 
+    // 나만의 장소 추가 버튼 클릭 핸들러
+    const handleAddMyPlace = () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            alert('로그인 후 이용해주세요.');
+        } else if (planDate == null) {
+            alert('내 여행 일정에서 나만의 장소를 추가해보세요.');
+        }
+        else {
+            setIsModalOpen(true); // 모달창 열기
+        }
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     // 페이지 버튼 렌더링
     const totalPages = Math.ceil(filteredPlaces.length / placesPerPage);
     const pageNumbers = Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1);
@@ -127,21 +145,42 @@ function PlaceBoard() {
                         />
                     ))}
                 </div>
-                <div className='placeBoardGridContent'>
-                    <div className="placeBoardGrid">
-                        {filteredPlaces.map((place, index) => (
-                            <PlaceBoardItem
-                                key={index}
-                                placeId={place.placeId}
-                                name={place.placeName} // API 데이터에 맞게 수정
-                                address={place.placeAddress} // API 데이터에 맞게 수정
-                                phone={place.placeNumber} // API 데이터에 맞게 수정
-                                distance={place.distance} // 필요한 경우 API 데이터에 맞게 수정
-                                state={location.state?.from}
-                            />
-                        ))}
+                {filteredPlaces.length > 0 ? (
+                    <div className='placeBoardGridContent'>
+                        <div className="placeBoardGrid">
+                            {filteredPlaces.map((place, index) => (
+                                <PlaceBoardItem
+                                    key={index}
+                                    placeId={place.placeId}
+                                    name={place.placeName} // API 데이터에 맞게 수정
+                                    address={place.placeAddress} // API 데이터에 맞게 수정
+                                    phone={place.placeNumber} // API 데이터에 맞게 수정
+                                    distance={place.distance} // 필요한 경우 API 데이터에 맞게 수정
+                                    crewId={crewId} // crewId 전달
+                                    planDate={planDate}
+                                    state={location.state?.from}
+                                />
+                            ))}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    // 장소가 없을 경우 표시
+                    <div className="noPlaceFound">
+                        <div className="noPlaceMessage">검색된 장소가 없다면?</div>
+                        <div className='noPlaceContent'>나만의 장소를 추가해보세요!</div>
+                        <button className="addMyPlaceButton" onClick={handleAddMyPlace}>
+                            나만의 장소 추가하기
+                        </button>
+                        {isModalOpen && (
+                            <MyPlaceAddModal
+                                isOpen={isModalOpen}
+                                onClose={closeModal}
+                                crewId={crewId} // crewId 전달
+                                planDate={planDate}
+                            />
+                        )}
+                    </div>
+                )}
                 {filteredPlaces.length > 0 && (
                     <div className="pagination">
                         <button onClick={() => handlePageChange(1)} disabled={currentPage === 1} className="arrow-btn">
