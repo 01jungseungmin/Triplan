@@ -144,15 +144,19 @@ function CommunityDetail() {
                                     <div className="travelPostCommentCount">({comments.length})</div>
                                 </div>
                                 <div className="travelPostCommentItem">
-                                    {comments.map((comment, index) => (
-                                        <CommentItem
-                                            key={index}
-                                            answerId={comment.answerId}
-                                            content={comment.content}
-                                            nickName={comment.nickName}
-                                            createdAt={comment.createdAt}
-                                        />
-                                    ))}
+                                    {comments.length > 0 ? (
+                                        comments.map((comment, index) => (
+                                            <CommentItem
+                                                key={index}
+                                                answerId={comment.answerId}
+                                                content={comment.content}
+                                                nickName={comment.nickName}
+                                                createdAt={comment.createdAt}
+                                            />
+                                        ))
+                                    ) : (
+                                        <div className="noCommentsMessage">현재 등록된 댓글이 없습니다.</div>
+                                    )}
                                 </div>
                                 <div className="commentInputGroup">
                                     <input

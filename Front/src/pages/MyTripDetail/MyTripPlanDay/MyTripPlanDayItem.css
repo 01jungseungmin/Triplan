@@ -7,11 +7,27 @@
     align-items: center;
 }
 
+.iconWrapper {
+    position: relative;
+    margin-right: 16px; /* 아이콘과 텍스트 간격 */
+}
+
 .planUpIcon {
-    font-size: 1.8rem;
+    font-size: 2rem;
     color: #74DEEB;
-    margin-right: 4%;
-    transform: rotate(25deg); /* 오른쪽으로 15도 기울이기 */
+    transform: rotate(25deg); /* 비행기 아이콘 기울이기 */
+}
+
+.iconWrapper::after {
+    content: '';
+    position: absolute;
+    top: 96%; /* 아이콘 바로 아래 시작 */
+    left: 42%; /* 아이콘 중심 정렬 */
+    transform: translateX(-50%);
+    width: 0.6px; /* 선 두께 */
+    height: calc(var(--line-height, 0px) + 30px); /* 동적 높이 설정 */
+    z-index: -1; /* 아이콘 뒤로 배치 */
+    border-left: 1px dotted #ccc; /* 점선 스타일 적용 */
 }
 
 .myTripPlanDayTitle {

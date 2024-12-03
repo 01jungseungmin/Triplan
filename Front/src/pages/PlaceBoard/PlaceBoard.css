@@ -41,4 +41,34 @@
 .pagination button:hover {
     color: #67C1C7; /* 호버할 때 글자 색상 */
 }
+
+.noPlaceFound {
+    text-align: center;
+    margin: 9% 0;
+}
+
+.noPlaceMessage {
+    font-family: 'PretendardFont-Light';
+    font-size: 0.92rem;
+    color: black;
+    margin-bottom: 1%;
+}
+
+.noPlaceContent {
+    font-family: 'PretendardFont-Light';
+    font-size: 1rem;
+    color: black;
+    margin-bottom: 1%;
+}
+
+.addMyPlaceButton {
+    background-color: white;
+    border: 2px solid #67C1C7;
+    border-radius: 20px;
+    font-family: 'PretendardFont-Bold';
+    font-size: 1.02rem;
+    color: #67C1C7;
+    padding: 1% 6%;
+    cursor: pointer;
+}
   
