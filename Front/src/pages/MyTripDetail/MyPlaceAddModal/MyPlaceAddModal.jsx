@@ -41,16 +41,15 @@ function MyPlaceAddModal({ isOpen, onClose, crewId, planDate }) {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // 인증 토큰 포함
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(requestData),
             });
         
-            console.log("HTTP Status:", response.status); // 상태 코드 확인
-            console.log("HTTP Response Text:", await response.text()); // 응답 본문 확인
+            console.log("HTTP Status:", response.status);
         
             if (response.ok) {
-                const result = await response.json();
+                const result = await response.json(); // JSON 응답 처리
                 alert('저장이 완료되었습니다!');
                 console.log('서버 응답:', result);
                 onClose(); // 모달 닫기
@@ -59,9 +58,9 @@ function MyPlaceAddModal({ isOpen, onClose, crewId, planDate }) {
                 alert(`저장 실패: ${errorMessage}`);
             }
         } catch (error) {
-            alert('저장이 완료되었습니다!');
-            onClose(); // 모달 닫기
+            console.error("Network or Server Error:", error); // 네트워크 또는 서버 에러 로그
         }
+        
         
     };
 
