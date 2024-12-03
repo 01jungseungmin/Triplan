@@ -1,6 +1,7 @@
 package com.example.triplan.application.crew.controller;
 
 import com.example.triplan.application.crew.dto.request.CrewRequest;
+import com.example.triplan.application.crew.dto.request.CrewUpdateRequest;
 import com.example.triplan.application.crew.dto.response.CrewResponse;
 import com.example.triplan.application.crew.service.CrewReadService;
 import com.example.triplan.application.crew.service.CrewWriteService;
@@ -48,5 +49,11 @@ public class CrewController {
         Optional<CrewResponse> crew = crewReadService.findCrew(crewId);
         return crew.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    //전체 일정 수정
+    @PutMapping("/crew/update/{crewId}")
+    public String update(@PathVariable Long crewId, @RequestBody CrewUpdateRequest crewUpdateRequest){
+        return crewWriteService.update(crewId, crewUpdateRequest);
     }
 }

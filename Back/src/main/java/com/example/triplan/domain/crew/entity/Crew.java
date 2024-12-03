@@ -35,4 +35,10 @@ public class Crew extends BaseEntity {
         this.planEndDate = planEndDate;
         this.account = account;
     }
+
+    public void setCrew(String crewName, LocalDate planStartDate, LocalDate planEndDate) {
+        this.crewName = crewName;
+        this.planStartDate = planStartDate;
+        this.planEndDate = planEndDate;
+    }
 }
