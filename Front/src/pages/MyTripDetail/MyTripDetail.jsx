@@ -87,6 +87,63 @@ function MyTripDetail() {
         };
     }, [isModalOpen]);
 
+    useEffect(() => {
+        if (isModalOpen && plan) {
+            setTripName(plan.crewName);
+            setStartDate(plan.planStartDate);
+            setEndDate(plan.planEndDate);
+        }
+    }, [isModalOpen, plan]);
+    
+
+    const handleEditTrip = async () => {
+        // 필수 입력값 확인
+        if (!tripName || !startDate || !endDate) {
+            alert('모든 필드를 입력해주세요.');
+            return;
+        }
+    
+        const token = localStorage.getItem('token');
+    
+        // 서버에 보낼 데이터
+        const requestData = {
+            crewName: tripName,
+            planStartDate: startDate,
+            planEndDate: endDate,
+        };
+
+        console.log("Request Data:", JSON.stringify(requestData));
+    
+        try {
+            const response = await fetch(`http://localhost:8080/crew/update/${crewId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // 인증 토큰 포함
+                },
+                body: JSON.stringify(requestData),
+            });
+        
+            console.log("Response Status Code:", response.status); // 상태 코드 로깅
+        
+            if (response.ok) {
+                alert('일정이 수정되었습니다!');
+                const updatedData = await response.json(); // 필요 시 서버에서 수정된 데이터 가져오기
+                setPlan(updatedData); // 상태 업데이트
+                setIsModalOpen(false); // 모달 닫기
+            } else {
+                const errorMessage = await response.text();
+                console.error("Error Response Body:", errorMessage); // 에러 메시지 확인
+                alert(`수정 실패: ${errorMessage}`);
+            }
+        } catch (error) {
+            console.error("Network or Server Error:", error); // 네트워크 또는 서버 에러 로그
+            setIsModalOpen(false); // 모달 닫기
+        }
+        
+    };
+    
+
     const handleDeleteCrew = () => {
         if (window.confirm('정말로 이 그룹을 삭제하시겠습니까?')) {
             const token = localStorage.getItem('token');
@@ -197,6 +254,7 @@ function MyTripDetail() {
                 </div>
                 <InviteDialog isOpen={isDialogOpen} onClose={() => setIsDialogOpen(false)} crewId={crewId} />
                 {isModalOpen && (
+                    // 모달 내부
                     <div>
                         <div className="backdrop" onClick={closeModal}></div>
                         <div className="modal">
@@ -241,7 +299,7 @@ function MyTripDetail() {
                                         </div>
                                     </div>
                                     <div className='testBtnGroup'>
-                                        <button className="tripCreateButton" onClick={closeModal}>
+                                        <button className="tripCreateButton" onClick={handleEditTrip}>
                                             일정 수정하기
                                         </button>
                                     </div>
