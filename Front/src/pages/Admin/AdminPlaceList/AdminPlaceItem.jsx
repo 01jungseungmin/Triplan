@@ -8,6 +8,7 @@ function AdminPlaceItem({ placeId, name, address, phone, distance, rating, revie
     console.log("받아온 데이터:", { placeId, name, address, phone, distance, rating, review });
 
     return (
+        <Link to={`/place/details/${placeId}`} className="board-item-link">
             <div className="board-item">
                 <div className="board-item-image">
                     {/* 이미지가 있으면 보여주고, 없으면 기본 이미지 */}
@@ -26,6 +27,7 @@ function AdminPlaceItem({ placeId, name, address, phone, distance, rating, revie
                     <FontAwesomeIcon icon={faTrash} className='trashIcon'/>
                 </div>
             </div>
+        </Link>
     );
 }
 
