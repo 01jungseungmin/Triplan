@@ -50,7 +50,7 @@ function PlaceDetail() {
                                 <div className="placeInfo">
                                     <div className='placeName-Count'>
                                         <div className='placeName'>{place.placeName}</div>
-                                        <div className='placeCount'>일정에 {place.heart}번 추가된 장소입니다.</div>
+                                        <div className='placeCount'>일정에 {place.count}번 추가된 장소입니다.</div>
                                     </div>
                                     <div className='placeAddress'>{place.placeAddress}</div>
                                     <div className='placePhone'>{place.placeNumber}</div>
