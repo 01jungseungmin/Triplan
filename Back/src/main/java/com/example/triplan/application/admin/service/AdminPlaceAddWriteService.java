@@ -41,10 +41,15 @@ public class AdminPlaceAddWriteService {
         placeRepository.save(place);
 
         if (images != null && !images.isEmpty()) {
-            s3ImageService.uploadImages(images);
-        }
+            // S3 업로드 후 URL 리스트 반환
+            List<String> uploadedImageUrls = s3ImageService.uploadImages(images);
 
-        place.setImgUrl(images.toString());
+            // 첫 번째 이미지를 대표 이미지로 설정
+            if (!uploadedImageUrls.isEmpty()) {
+                String representativeImageUrl = uploadedImageUrls.get(0);
+                place.setImgUrl(representativeImageUrl); // 이미지 URL 설정
+            }
+        }
 
         return "관리자 장소 추가 완료";
     }

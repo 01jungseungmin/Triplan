@@ -36,6 +36,6 @@ public class PlaceListDetailResponse {
     @Schema(description = "장소 count", example = "1")
     private Integer count;
 
-//    @Schema(description = "이미지 url", example = "link")
-//    private String imgUrl;
+    @Schema(description = "이미지 url", example = "link")
+    private String imgUrl;
 }

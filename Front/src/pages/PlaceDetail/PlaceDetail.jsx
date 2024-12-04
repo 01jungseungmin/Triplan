@@ -46,8 +46,9 @@ function PlaceDetail() {
                     {place ? (
                         <>
                             <div className="placeDetailHeader">
-                                <div className="placeImagePlaceholder"></div>
-                                <div className="placeInfo">
+                                <div className="placeImagePlaceholder">
+                                    <img src={place.imgUrl} alt={place.placeName || "이미지"} />
+                                </div>                                <div className="placeInfo">
                                     <div className='placeName-Count'>
                                         <div className='placeName'>{place.placeName}</div>
                                         <div className='placeCount'>일정에 {place.count}번 추가된 장소입니다.</div>
@@ -56,7 +57,7 @@ function PlaceDetail() {
                                     <div className='placePhone'>{place.placeNumber}</div>
                                     <div className='CalendarPlusBtnBox'>
                                         {isFromMyTripPlanDay && <button className='CalendarPlusBtn' onClick={openModal}>
-                                            <FontAwesomeIcon icon={faPlus} className='plusIcon'/>
+                                            <FontAwesomeIcon icon={faPlus} className='plusIcon' />
                                             일정 추가
                                         </button>}
                                         <PlanPlaceAddModal

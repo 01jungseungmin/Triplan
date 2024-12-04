@@ -24,7 +24,7 @@ public class PlaceReadService {
         List<Place> places = placeRepository.findAll();
         return places.stream()
                 .map(place -> new PlaceListResponse(place.getId(), place.getPlaceCategory(),
-                        place.getPlaceName(), place.getPlaceAddress(), place.getPlaceNumber(), place.getCount()))
+                        place.getPlaceName(), place.getPlaceAddress(), place.getPlaceNumber(), place.getCount(),place.getImgUrl()))
                 .collect(Collectors.toList());
     }
 
@@ -32,6 +32,6 @@ public class PlaceReadService {
     public PlaceListDetailResponse getPlaceDetails(Long placeId){
         Place place = placeRepository.findById(placeId).orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
         return new PlaceListDetailResponse(place.getId(), place.getPlaceName(), place.getPlaceAddress(), place.getPlaceCategory() ,place.getPlaceNumber(), place.getPlaceBusinessHours(),
-                place.getPlaceLatitude(), place.getPlaceLongitude(),place.getCount());
+                place.getPlaceLatitude(), place.getPlaceLongitude(),place.getCount(),place.getImgUrl());
     }
 }

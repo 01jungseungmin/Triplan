@@ -5,8 +5,9 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
-function PlaceBoardItem({ placeId, name, address, phone, distance, rating, reviews, state, crewId, planDate }) {
+function PlaceBoardItem({ placeId, name, address, phone, distance, rating, reviews, state, crewId, planDate, imgUrl }) {
     const [isAdmin, setIsAdmin] = useState(false);
+    const defaultImageUrl = "https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-landscape-photographer-image_13347284.jpg";
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -58,9 +59,9 @@ function PlaceBoardItem({ placeId, name, address, phone, distance, rating, revie
                 <div className="board-item-image">
                     {/* 이미지가 있으면 보여주고, 없으면 기본 이미지 */}
                     <img
-                        src="https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA1MTNfMTAz%2FMDAxNjIwODgyMTQ1NzYx.PFIlobbvbexGiulZmt59rbm5NkH9KcEnZR3A-lGAk2Yg.W9N1TZka_suiFjasFi11tKiumUtlztw5vqn-YLpPEMAg.JPEG.xoxo_0717%2FIMG_3538.JPG&type=a340" // 기본 이미지 (또는 실제 데이터에서 받아온 이미지 URL)
-                        alt={`${name} 이미지`}
-                        className="board-item-img"
+                        src={imgUrl || defaultImageUrl}
+                        alt={name || "장소 이미지"}
+                        className="placeImg"
                     />
                 </div>
                 <div className="board-item-info">

@@ -182,6 +182,7 @@ function PlaceBoard() {
                             {filteredPlaces.slice(startIndex, endIndex).map((place, index) => (
                                 <PlaceBoardItem
                                     key={index}
+                                    imgUrl={place.imgUrl}
                                     placeId={place.placeId}
                                     name={place.placeName} // API 데이터에 맞게 수정
                                     address={place.placeAddress} // API 데이터에 맞게 수정
