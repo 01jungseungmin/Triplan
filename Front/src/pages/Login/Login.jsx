@@ -26,23 +26,30 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/login', {  // 정확한 API 경로 사용
+      const response = await fetch('http://localhost:8080/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email: email, password: pass }),
       });
-      
 
       if (response.ok) {
         const data = await response.json();
 
-        // JWT 토큰을 로컬 스토리지에 저장
+        // JWT 토큰과 이메일을 로컬 스토리지에 저장
         localStorage.setItem('token', data.token);
+        localStorage.setItem('email', email); // 이메일 저장
 
         alert("로그인 성공!");
-        navigate('/');
+
+        // 이메일이 특정 관리자 계정이라면 adminPlace로 리다이렉션
+        if (email === "admin@naver.com") {
+          navigate('/admin/place/list');
+        } else {
+          // 일반 계정은 메인 페이지로 리다이렉션
+          navigate('/main');
+        }
       } else {
         const errorData = await response.json();
         alert(errorData.error || "로그인에 실패했습니다.");
@@ -52,7 +59,7 @@ function Login() {
       alert("로그인 중 오류가 발생했습니다.");
     }
   };
-  
+
   return (
     <div className="login">
       <div className="login-container">

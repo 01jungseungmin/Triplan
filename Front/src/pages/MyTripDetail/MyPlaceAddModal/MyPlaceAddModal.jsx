@@ -46,7 +46,6 @@ function MyPlaceAddModal({ isOpen, onClose, crewId, planDate }) {
                 body: JSON.stringify(requestData),
             });
         
-            console.log("HTTP Status:", response.status);
         
             if (response.ok) {
                 const result = await response.json(); // JSON 응답 처리
@@ -60,8 +59,6 @@ function MyPlaceAddModal({ isOpen, onClose, crewId, planDate }) {
         } catch (error) {
             console.error("Network or Server Error:", error); // 네트워크 또는 서버 에러 로그
         }
-        
-        
     };
 
     if (!isOpen) return null;

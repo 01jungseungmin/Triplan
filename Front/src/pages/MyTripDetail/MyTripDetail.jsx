@@ -124,25 +124,22 @@ function MyTripDetail() {
                 body: JSON.stringify(requestData),
             });
         
-            console.log("Response Status Code:", response.status); // 상태 코드 로깅
+            const rawResponse = await response.text(); // 서버 응답을 원시 텍스트로 가져오기
+            console.log("Raw Response:", rawResponse);
         
             if (response.ok) {
-                alert('일정이 수정되었습니다!');
-                const updatedData = await response.json(); // 필요 시 서버에서 수정된 데이터 가져오기
-                setPlan(updatedData); // 상태 업데이트
+                alert(rawResponse); // 서버에서 반환한 메시지 표시
                 setIsModalOpen(false); // 모달 닫기
             } else {
-                const errorMessage = await response.text();
-                console.error("Error Response Body:", errorMessage); // 에러 메시지 확인
-                alert(`수정 실패: ${errorMessage}`);
+                console.error("Error Response Body:", rawResponse);
+                alert(`수정 실패: ${rawResponse}`);
             }
         } catch (error) {
-            console.error("Network or Server Error:", error); // 네트워크 또는 서버 에러 로그
-            setIsModalOpen(false); // 모달 닫기
-        }
-        
+            console.error("Network or Server Error:", error);
+            alert("서버와의 연결 중 오류가 발생했습니다.");
+            setIsModalOpen(false);
+        }        
     };
-    
 
     const handleDeleteCrew = () => {
         if (window.confirm('정말로 이 그룹을 삭제하시겠습니까?')) {

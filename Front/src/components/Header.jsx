@@ -7,55 +7,66 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 function Header() {
     const [selectedMenu, setSelectedMenu] = useState("navHome");
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const navigate = useNavigate();
-    const location = useLocation(); // 현재 경로를 가져오기 위한 hook
+    const location = useLocation();
 
     useEffect(() => {
-        // 페이지 이동 시 URL 경로에 따라 선택된 메뉴를 업데이트
-        const path = location.pathname.toLowerCase(); // 경로를 소문자로 변환
+        const path = location.pathname.toLowerCase();
         if (path === '/') {
             setSelectedMenu("navHome");
-        } else if (path.includes('/mytrip')) { // 경로에 '/mytrip'이 포함된 경우
+        } else if (path.includes('/mytrip')) {
             setSelectedMenu("navMyTrip");
         } else if (path.includes('/community')) {
             setSelectedMenu("navCommunity");
+        } else if (path.includes('/admin/place/list')) {
+            setSelectedMenu("navAdminPlace");
+        } else if (path.includes('/admin/community/list')) {
+            setSelectedMenu("navAdminCommunity");
         }
-    }, [location.pathname]); // 경로가 바뀔 때마다 실행
+    }, [location.pathname]);
 
     useEffect(() => {
-        // localStorage에서 토큰이 있는지 확인하여 로그인 상태 결정
         const token = localStorage.getItem("token");
+        const email = localStorage.getItem("email");
         if (token) {
-            setIsLoggedIn(true); // 토큰이 있으면 로그인 상태로 설정
+            setIsLoggedIn(true);
+            if (email === "admin@naver.com") {
+                setIsAdmin(true);
+            }
         }
     }, []);
 
     const handleMenuClick = (menuId, path) => {
+        setSelectedMenu(menuId); // 클릭된 메뉴를 선택된 메뉴로 설정
         navigate(path);
     };
 
     const logoClick = () => {
-        navigate('/');
+        if (isAdmin) {
+            navigate('/admin/place/list');
+        } else {
+            navigate('/');
+        }
     };
 
-    // 로그아웃 처리 함수
     const handleLogoutClick = (e) => {
         e.preventDefault();
         if (isLoggedIn) {
-            // 백엔드로 로그아웃 요청 보내기
             fetch('http://ec2-13-209-211-218.ap-northeast-2.compute.amazonaws.com:8080/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` // 토큰을 Authorization 헤더에 포함
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
             .then((response) => {
                 if (response.ok) {
-                    // 로그아웃 성공 시, localStorage에서 토큰 삭제
                     localStorage.removeItem("token");
-                    setIsLoggedIn(false); // 로그인 상태 해제
-                    navigate('/'); // 홈으로 이동
+                    localStorage.removeItem("email");
+                    setIsLoggedIn(false);
+                    setIsAdmin(false);
+                    navigate('/');
                 } else {
                     console.error("로그아웃 실패");
                 }
@@ -64,15 +75,14 @@ function Header() {
                 console.error("로그아웃 요청 중 오류 발생:", error);
             });
         } else {
-            navigate('/login'); // 로그인 페이지로 이동
+            navigate('/login');
         }
     };
 
-    // 마이페이지로 이동하는 함수
     const handleUserIconClick = (e) => {
         e.preventDefault();
         if (isLoggedIn) {
-            navigate('/mypage'); // 마이페이지로 이동
+            navigate('/mypage');
         } else {
             alert('로그인이 필요합니다.');
             navigate('/login');
@@ -86,29 +96,57 @@ function Header() {
                 <span className="subtitle">TRIPLAN</span>
             </div>
             <nav className="nav-menu">
-                <a href="/"
-                    className={`nav-item ${selectedMenu === "navHome" ? "selected" : ""}`}
-                    onClick={(e) => { e.preventDefault(); handleMenuClick("navHome", '/'); }}>홈</a>
+                {isAdmin ? (
+                    <>
+                        <a href="/admin/place/list"
+                            className={`nav-item ${selectedMenu === "navAdminPlace" ? "selected" : ""}`}
+                            onClick={(e) => { e.preventDefault(); handleMenuClick("navAdminPlace", '/admin/place/list'); }}>
+                            장소 관리
+                        </a>
 
-                <a href="/mytrip"
-                    className={`nav-item ${selectedMenu === "navMyTrip" ? "selected" : ""}`}
-                    onClick={(e) => { e.preventDefault(); handleMenuClick("navMyTrip", '/mytrip'); }}>내 여행</a>
+                        <a href="/admin/community/list"
+                            className={`nav-item ${selectedMenu === "navAdminCommunity" ? "selected" : ""}`}
+                            onClick={(e) => { e.preventDefault(); handleMenuClick("navAdminCommunity", '/admin/community/list'); }}>
+                            커뮤니티 관리
+                        </a>
+                    </>
+                ) : (
+                    <>
+                        <a href="/"
+                            className={`nav-item ${selectedMenu === "navHome" ? "selected" : ""}`}
+                            onClick={(e) => { e.preventDefault(); handleMenuClick("navHome", '/'); }}>
+                            홈
+                        </a>
 
-                <a href="/community"
-                    className={`nav-item ${selectedMenu === "navCommunity" ? "selected" : ""}`}
-                    onClick={(e) => { e.preventDefault(); handleMenuClick("navCommunity", '/community'); }}>커뮤니티</a>
+                        <a href="/mytrip"
+                            className={`nav-item ${selectedMenu === "navMyTrip" ? "selected" : ""}`}
+                            onClick={(e) => { e.preventDefault(); handleMenuClick("navMyTrip", '/mytrip'); }}>
+                            내 여행
+                        </a>
+
+                        <a href="/community"
+                            className={`nav-item ${selectedMenu === "navCommunity" ? "selected" : ""}`}
+                            onClick={(e) => { e.preventDefault(); handleMenuClick("navCommunity", '/community'); }}>
+                            커뮤니티
+                        </a>
+                    </>
+                )}
             </nav>
             <div className="auth">
                 {isLoggedIn ? (
                     <div className="logout-section">
-                        <FontAwesomeIcon
-                            icon={faUser}
-                            className="faUser"
-                            size="lg"
-                            color="#adb5bd"
-                            onClick={handleUserIconClick} // 아이콘 클릭 시 마이페이지로 이동
-                        />
-                        <div className="login-btn" onClick={handleLogoutClick}>Log out</div> {/* 로그아웃 버튼 */}
+                        {isAdmin ? (
+                            <div className="admin-text">관리자</div>
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={faUser}
+                                className="faUser"
+                                size="lg"
+                                color="#adb5bd"
+                                onClick={handleUserIconClick}
+                            />
+                        )}
+                        <div className="login-btn" onClick={handleLogoutClick}>Log out</div>
                     </div>
                 ) : (
                     <a href="/" className="login-btn" onClick={(e) => { e.preventDefault(); navigate('/login'); }}>Log in</a>
