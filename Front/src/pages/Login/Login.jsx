@@ -46,15 +46,7 @@ function Login() {
         const userAuth = decodedToken.auth; // 'auth' 필드를 사용
   
         alert("로그인 성공!");
-  
-        // 사용자의 권한에 따라 리디렉션
-        if (userAuth === "ADMIN") {
-          navigate('/admin/place/list');
-        } else if (userAuth === "USER") {
-          navigate('/');
-        } else {
-          navigate('/'); // 기본 홈으로 리디렉션
-        }
+        navigate('/'); // 기본 홈으로 리디렉션
       } else {
         const errorData = await response.json();
         alert(errorData.error || "로그인에 실패했습니다.");
