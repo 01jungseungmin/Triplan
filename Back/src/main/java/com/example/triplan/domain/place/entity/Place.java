@@ -29,6 +29,9 @@ public class Place extends BaseEntity {
 
     private String imgUrl;
 
+    @Column(name = "count", nullable = false)
+    private Integer count = 0;
+
     public Place() {}
 
     public void setImgUrl(String imgUrl){
@@ -41,5 +44,9 @@ public class Place extends BaseEntity {
         this.placeNumber = placeNumber;
         this.placeHoliday = placeHoliday;
         this.placeBusinessHours = placeBusinessHours;
+    }
+
+    public void incrementCount() {
+        this.count++;
     }
 }
