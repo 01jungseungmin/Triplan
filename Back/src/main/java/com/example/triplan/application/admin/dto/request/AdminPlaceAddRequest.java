@@ -25,4 +25,6 @@ public class AdminPlaceAddRequest {
 
     @Schema(description = "장소 카테고리", example = "CAFE,RESTAURANT,SHOPPING,TOUR,ACCOMMODATION,ETC,REGION")
     private PlaceCategory placeCategory;
+
+    private String imgUrl;
 }

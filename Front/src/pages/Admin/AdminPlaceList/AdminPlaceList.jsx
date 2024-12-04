@@ -11,7 +11,7 @@ function AdminPlaceList() {
     const handlePlaceAddClick = () => {
         navigate('/admin/place/add'); // '/admin/place/add' 경로로 이동
     };
-
+    
     return (
         <div>
             <div className='AdminPlaceListContainer'>

@@ -13,6 +13,7 @@ function AdminPlaceAdd() {
     const [operationTime, setOperationTime] = useState("");
     const [dayOff, setDayOff] = useState("");
     const [image, setImage] = useState(null);
+    const [placeCategory, setPlaceCategory] = useState("CAFE"); // 기본 카테고리 설정
 
     // 이미지 변경 핸들러
     const handleImageChange = (e) => {
@@ -20,9 +21,8 @@ function AdminPlaceAdd() {
             setImage(e.target.files[0]);
         }
     };
-
+    // 이미지 변경 핸들러
     const handleAddPlace = async () => {
-        // 필수 입력값 확인
         if (!placeName || !address || !phoneNumber || !operationTime || !dayOff) {
             alert("모든 필드를 입력해주세요.");
             return;
@@ -32,14 +32,14 @@ function AdminPlaceAdd() {
 
         // 서버에 보낼 요청 데이터
         const requestData = {
-            placeName: placeName,
-            address: address,
-            phoneNumber: phoneNumber,
-            operationTime: operationTime,
-            dayOff: dayOff
+            placeAddName: placeName,
+            placeAddAddress: address,
+            placeNumber: phoneNumber,
+            placeBusinessHours: operationTime,
+            placeHoliday: dayOff,
+            placeCategory, // 선택된 카테고리 추가
         };
 
-        // FormData 생성 후 데이터 추가
         const formData = new FormData();
         formData.append("adminPlaceAddRequest", new Blob([JSON.stringify(requestData)], { type: "application/json" }));
 
@@ -51,18 +51,20 @@ function AdminPlaceAdd() {
             const response = await fetch('http://localhost:8080/admin/create', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: formData,
             });
 
             if (response.ok) {
                 alert("장소가 성공적으로 등록되었습니다.");
+                // 상태 초기화
                 setPlaceName("");
                 setAddress("");
                 setPhoneNumber("");
                 setOperationTime("");
                 setDayOff("");
+                setPlaceCategory("CAFE");
                 setImage(null);
             } else {
                 const errorMessage = await response.text();
@@ -95,6 +97,22 @@ function AdminPlaceAdd() {
                             onChange={(e) => setAddress(e.target.value)}
                         />
                     </div>
+                    <div className='AdminCategoryContainer'>
+                        <div className='AdminCategoryTitle'>카테고리</div>
+                        <select
+                            value={placeCategory}
+                            onChange={(e) => setPlaceCategory(e.target.value)}
+                            className="AdminCategorySelect"
+                        >
+                            <option value="CAFE">카페</option>
+                            <option value="RESTAURANT">레스토랑</option>
+                            <option value="SHOPPING">쇼핑</option>
+                            <option value="TOUR">관광지</option>
+                            <option value="ACCOMMODATION">숙박</option>
+                            <option value="ETC">기타</option>
+                            <option value="REGION">지역</option>
+                        </select>
+                    </div>
                     <div className='AdminPhoneContainer'>
                         <div className='AdminPhoneTitle'>전화번호</div>
                         <input
@@ -106,7 +124,7 @@ function AdminPlaceAdd() {
                     <div className='AdminTimeContainer'>
                         <div className='AdminTimeTitle'>영업/운영시간</div>
                         <input
-                            placeholder='영업, 운영 시간을 입력하세요'
+                            placeholder='예: 09:00~18:00'
                             value={operationTime}
                             onChange={(e) => setOperationTime(e.target.value)}
                         />

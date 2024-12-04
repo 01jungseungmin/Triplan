@@ -16,9 +16,15 @@ function PlanPlaceAddModal({ isOpen, onClose, onSave, crewId, placeId, planDate,
     }, [isOpen, placeTitle, placeAddre]);
 
     const formatDate = (planDate) => {
+        if (!planDate) return null;
+    
         const date = new Date(planDate); // 전달받은 planDate를 Date 객체로 변환
-        const isoString = date.toISOString(); // "2024-12-03T00:00:00.000Z"
-        return isoString.split('T')[0]; // "2024-12-03"
+        if (isNaN(date.getTime())) {
+            console.error("Invalid date format:", planDate);
+            return null; // 유효하지 않은 날짜
+        }
+    
+        return new Intl.DateTimeFormat('en-CA').format(date); // yyyy-MM-dd 형식 반환
     };
     
     console.log('포맷된 planDate:', formatDate(planDate)); // 가져온 planDate를 yyyy-MM-dd로 포맷    
@@ -31,7 +37,7 @@ function PlanPlaceAddModal({ isOpen, onClose, onSave, crewId, placeId, planDate,
 
         const token = localStorage.getItem('token');
 
-        const formattedDate = formatDate(planDate);
+       const formattedDate = formatDate(planDate);
 
         const planRequest = {
             placeType: "PLACE",
