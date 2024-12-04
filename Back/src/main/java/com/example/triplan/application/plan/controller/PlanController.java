@@ -32,9 +32,9 @@ public class PlanController {
     }
     @PutMapping("/plan/{crewId}/{planId}/modify")
     @Operation(summary = "일정 수정", description = "일정 수정")
-    public ResponseEntity<PlanResponse> modifyPlan(@PathVariable Long planId,@PathVariable Long crewId, @RequestBody PlanRequest planRequest) {
+    public ResponseEntity<PlanRequest> modifyPlan(@PathVariable Long planId, @PathVariable Long crewId, @RequestBody PlanRequest planRequest) {
         List<PlanResponse> planResponses = planReadService.findAllPlansForCurrentUser(crewId);
-        PlanResponse updatedPlan = planWriteService.modify(planId, planRequest);
+        PlanRequest updatedPlan = planWriteService.modify(planId, planRequest);
         return ResponseEntity.ok(updatedPlan);
     }
 

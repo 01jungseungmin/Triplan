@@ -16,6 +16,8 @@ public class PlanResponse {
     private Long refId;
     private PlaceType placeType;
     private Long crewId;
+    private String placeName; // 장소 이름 추가
+    private String placeAddress; // 장소 주소 추가
 }
 
 
