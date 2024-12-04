@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import './css/Header.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { jwtDecode } from 'jwt-decode';
+
 
 function Header() {
     const [selectedMenu, setSelectedMenu] = useState("navHome");
@@ -19,20 +21,29 @@ function Header() {
             setSelectedMenu("navMyTrip");
         } else if (path.includes('/community')) {
             setSelectedMenu("navCommunity");
-        } else if (path.includes('/admin/place/list')) {
-            setSelectedMenu("navAdminPlace");
-        } else if (path.includes('/admin/community/list')) {
-            setSelectedMenu("navAdminCommunity");
+        } else if (path.includes('/placeboard')) {
+            setSelectedMenu("navPlace");
         }
     }, [location.pathname]);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        const email = localStorage.getItem("email");
         if (token) {
             setIsLoggedIn(true);
-            if (email === "admin@naver.com") {
-                setIsAdmin(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const userAuth = decodedToken.auth; // JWT의 'auth' 필드를 통해 권한 확인
+                if (userAuth === 'ADMIN') {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error('JWT 디코딩 중 오류 발생:', error);
             }
         }
     }, []);
@@ -43,9 +54,7 @@ function Header() {
     };
 
     const logoClick = () => {
-        if (isAdmin) {
-            navigate('/admin/place/list');
-        } else {
+        {
             navigate('/');
         }
     };
@@ -98,18 +107,24 @@ function Header() {
             <nav className="nav-menu">
                 {isAdmin ? (
                     <>
-                        <a href="/admin/place/list"
-                            className={`nav-item ${selectedMenu === "navAdminPlace" ? "selected" : ""}`}
-                            onClick={(e) => { e.preventDefault(); handleMenuClick("navAdminPlace", '/admin/place/list'); }}>
-                            장소 관리
-                        </a>
-
-                        <a href="/admin/community/list"
-                            className={`nav-item ${selectedMenu === "navAdminCommunity" ? "selected" : ""}`}
-                            onClick={(e) => { e.preventDefault(); handleMenuClick("navAdminCommunity", '/admin/community/list'); }}>
-                            커뮤니티 관리
-                        </a>
-                    </>
+                <a href="/"
+                    className={`nav-item ${selectedMenu === "navHome" ? "selected" : ""}`}
+                    onClick={(e) => { e.preventDefault(); handleMenuClick("navHome", '/'); }}>
+                    홈
+                </a>
+                {isAdmin && (
+                    <a href="/placeboard"
+                        className={`nav-item ${selectedMenu === "navPlace" ? "selected" : ""}`}
+                        onClick={(e) => { e.preventDefault(); handleMenuClick("navPlace", '/placeboard'); }}>
+                        장소관리
+                    </a>
+                )}
+                <a href="/community"
+                    className={`nav-item ${selectedMenu === "navCommunity" ? "selected" : ""}`}
+                    onClick={(e) => { e.preventDefault(); handleMenuClick("navCommunity", '/community'); }}>
+                    커뮤니티
+                </a>
+                </>
                 ) : (
                     <>
                         <a href="/"
