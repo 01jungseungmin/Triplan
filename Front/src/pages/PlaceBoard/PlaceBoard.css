@@ -71,4 +71,18 @@
     padding: 1% 6%;
     cursor: pointer;
 }
-  
+.adminPlaceAdd {
+    margin-left: auto;
+    font-family: 'PretendardFont-Medium';
+    font-size: 0.94rem;
+    color: rgb(176, 176, 176);
+    border: none;
+    border-bottom: 1px solid rgb(176, 176, 176);
+    background: none;
+    cursor: pointer;
+}
+
+.adminPlaceAdd:hover {
+    color: #67C1C7;
+    border-bottom: 1px solid #67C1C7;
+}

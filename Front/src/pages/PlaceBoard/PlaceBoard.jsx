@@ -9,6 +9,7 @@ import Footer from '../../components/Footer';
 import MyPlaceAddModal from '../MyTripDetail/MyPlaceAddModal/MyPlaceAddModal';
 import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { jwtDecode } from 'jwt-decode';
 
 function PlaceBoard() {
     const [selectedCategory, setSelectedCategory] = useState('전체');
@@ -18,6 +19,7 @@ function PlaceBoard() {
     const [error, setError] = useState(null); // 에러 상태
     const [currentPage, setCurrentPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const location = useLocation(); // 전달받은 state 확인
     const navigate = useNavigate();
@@ -70,6 +72,21 @@ function PlaceBoard() {
                 setError('장소 데이터를 불러오는 중 오류가 발생했습니다.');
                 setLoading(false); // 로딩 상태 해제
             });
+    }, []);
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const userAuth = decodedToken.auth; // JWT의 'auth' 필드를 통해 권한 확인
+                if (userAuth === 'ADMIN') {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error('JWT 디코딩 중 오류 발생:', error);
+            }
+        }
     }, []);
 
     const filteredPlaces = places.filter(place => {
@@ -154,6 +171,10 @@ function PlaceBoard() {
                             }}
                         />
                     ))}
+                    {isAdmin && (
+                        <button className='adminPlaceAdd' onClick={() => navigate('/admin/place/add')}>
+                            장소 추가</button>
+                    )}
                 </div>
                 {filteredPlaces.length > 0 ? (
                     <div className='placeBoardGridContent'>
