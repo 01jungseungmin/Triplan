@@ -5,6 +5,7 @@ import com.example.triplan.application.board.dto.response.BoardDetailResponse;
 import com.example.triplan.application.board.dto.response.BoardResponse;
 import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.board.entity.BoardImage;
+import com.example.triplan.domain.board.enums.BoardEnum;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +25,15 @@ public class BoardReadService {
     // 게시글 전체 조회
     public List<BoardResponse> findAll() {
         return boardRepository.findAll().stream()
-                .map(board -> new BoardResponse(board.getId(), board.getTitle(), board.getContent(), board.getCount(),board.getAccount().getNickName()))
+                .map(board ->{
+                    String captianImageurl = board.getBoardImages().stream()
+                            .filter(image -> image.getBoardEnum() == BoardEnum.CAPTIAN)
+                            .map(BoardImage::getBoardImageUrl)
+                            .findFirst()
+                            .orElse(null);
+                        return new BoardResponse(board.getId(), board.getTitle(), board.getContent(), board.getCount(),board.getAccount().getNickName(),captianImageurl
+                        );
+                })
                 .collect(Collectors.toList());
     }
 
@@ -72,6 +81,6 @@ public class BoardReadService {
 
         // 게시글 상세 조회 반환
         return new BoardDetailResponse(board.getId(), board.getTitle(), board.getContent(),
-                imageUrls,board.getCrew().getPlanStartDate(),board.getCrew().getPlanEndDate(),board.getAccount().getNickName());
+                imageUrls,board.getCrew().getPlanStartDate(),board.getCrew().getPlanEndDate(),board.getAccount().getNickName(),board.getAccount().getEmail());
     }
 }

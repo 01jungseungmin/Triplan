@@ -24,6 +24,9 @@ public class PlaceListResponse {
     @Schema(description = "장소 전화번호", example = "010-1234-1234")
     private String placeNumber;
 
+    @Schema(description = "장소 count", example = "1")
+    private Integer count;
+
 //    @Schema(description = "이미지 url", example = "link")
 //    private String imgUrl;
 }

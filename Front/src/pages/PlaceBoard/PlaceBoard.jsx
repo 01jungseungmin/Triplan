@@ -42,7 +42,6 @@ function PlaceBoard() {
         { name: '숙소', icon: '🏨', value: 'ACCOMMODATION' },
         { name: '관광지', icon: '🗽', value: 'TOUR' },
         { name: '기타', icon: '🛣️', value: 'ETC' },
-        { name: '지역별', icon: '🌏', value: 'REGION' }
     ];
 
     // 장소 데이터를 API에서 불러오는 useEffect

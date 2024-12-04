@@ -94,6 +94,7 @@ function CommunityBoard() {
                             content={board.content}
                             nickName={board.nickName}
                             count={board.count}
+                            imageUrl={board.captainImageUrl} // 대표 이미지 URL 전달
                         />
                     ))}
                 </div>

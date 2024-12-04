@@ -16,4 +16,5 @@ public class BoardDetailResponse {
     private LocalDate planStartDate;
     private LocalDate planEndDate;
     private String nickName;
+    private String email;
 }

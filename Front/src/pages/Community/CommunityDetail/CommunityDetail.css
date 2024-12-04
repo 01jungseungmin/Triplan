@@ -34,6 +34,21 @@ hr {
     border-bottom: 1px solid rgb(255, 0, 0);
     color: rgb(255, 0, 0);
 }
+.postModifyBtn {
+    border: none;
+    border-bottom: 1px solid rgba(185, 185, 185, 0.59);
+    background: none;
+    font-size: 0.76rem;
+    color: rgba(185, 185, 185, 0.59);
+    cursor: pointer;
+    transition: all 0.3s ease; /* 부드러운 효과 */
+    margin-left: 1%;
+}
+
+.postModifyBtn:hover {
+    border-bottom: 1px solid rgb(255, 0, 0);
+    color: rgb(255, 0, 0);
+}
 
 .travelPostHeaderGroup {
     display: flex;
@@ -77,10 +92,57 @@ hr {
     font-size: 1rem;
 }
 
-.travelPostImage { /* 이미지 디자인 수정 필요 */
-    height: 150px;
+.travelPostImage {
+    position: relative;
+    width: 100%; /* 부모 컨테이너의 크기를 채움 */
+    height: 100%;
     margin-top: 2%;
     background-color: rgb(228, 228, 228);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.imageSlider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.postImage {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* 이미지가 박스 크기에 맞게 조정됨 */
+    border-radius: 5px; /* 모서리를 둥글게 */
+}
+
+.communityarrow {
+    position: absolute; /* absolute로 부모 요소에 상대적으로 배치 */
+    top: 50%; /* 부모의 높이 기준으로 중앙 정렬 */
+    transform: translateY(-50%); /* 수직 중앙 정렬 */
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 투명도 */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%; /* 둥근 버튼 */
+    z-index: 1;
+}
+
+.communityarrow.left {
+    left: 5%; /* 이미지 왼쪽에서 적당히 떨어진 위치 */
+}
+
+.communityarrow.right {
+    right: 5%; /* 이미지 오른쪽에서 적당히 떨어진 위치 */
+}
+
+.communityarrow:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* 호버 시 배경 더 진하게 */
 }
 
 .travelPostScheduleTitle,

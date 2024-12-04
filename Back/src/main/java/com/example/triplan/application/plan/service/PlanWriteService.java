@@ -1,5 +1,6 @@
 package com.example.triplan.application.plan.service;
 
+import ch.qos.logback.core.joran.conditional.IfAction;
 import com.example.triplan.application.account.service.AccountService;
 import com.example.triplan.application.plan.dto.request.PlanRequest;
 import com.example.triplan.application.plan.dto.response.PlanResponse;
@@ -16,6 +17,8 @@ import com.example.triplan.domain.placeadd.repository.PlaceAddRepository;
 import com.example.triplan.domain.plan.entity.Plan;
 import com.example.triplan.domain.plan.enums.PlaceType;
 import com.example.triplan.domain.plan.repository.PlanRepository;
+import com.example.triplan.exception.ErrorCode;
+import com.example.triplan.exception.TriplanException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -72,6 +75,19 @@ public class PlanWriteService {
                 .ifPresent(plan -> {
                     throw new ResponseStatusException(HttpStatus.CONFLICT, "이미 존재하는 일정입니다.");
                 });
+
+        if (placeType == PlaceType.PLACE) {
+            Place place = placeRepository.findById(refId)
+                    .orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
+            place.incrementCount();
+            placeRepository.save(place);
+        } else if (placeType == PlaceType.PLACE_ADD) {
+            if (!placeAddRepository.existsById(refId)) {
+                throw new TriplanException(ErrorCode.PLACE_ADD_NOT_FOUND);
+            }
+        } else {
+            throw new TriplanException(ErrorCode.INVALID_PLACE_TYPE);
+        }
 
         Plan plan = new Plan(
                         planRequest.getPlanDate(),
