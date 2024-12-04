@@ -24,7 +24,7 @@ public class PlaceReadService {
         List<Place> places = placeRepository.findAll();
         return places.stream()
                 .map(place -> new PlaceListResponse(place.getId(), place.getPlaceCategory(),
-                        place.getPlaceName(), place.getPlaceAddress(), place.getPlaceNumber()))
+                        place.getPlaceName(), place.getPlaceAddress(), place.getPlaceNumber(), place.getCount()))
                 .collect(Collectors.toList());
     }
 
