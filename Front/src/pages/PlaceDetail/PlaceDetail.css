@@ -25,8 +25,15 @@ hr {
     width: 48%;
     height: 200px;
     background-color: #ddd;
+    overflow: hidden; /* 부모 컨테이너를 넘치는 내용을 숨김 */
 }
-
+.placeImagePlaceholder img {
+    width: auto; /* 너비 자동 조정 */
+    height: 100%; /* 높이를 컨테이너에 맞춤 */
+    max-width: 100%; /* 부모 너비 초과 방지 */
+    object-fit: contain; /* 이미지를 비율 유지하며 완전 표시 */
+    border-radius: 8px;
+}
 .placeInfo {
     width: 48%;
     height: 200px;

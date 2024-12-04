@@ -15,6 +15,7 @@ function PlaceDetail() {
     const [isModalOpen, setIsModalOpen] = useState(false); //일정 추가 모달
     const crewId = location.state?.crewId;
     const planDate = location.state?.planDate;
+    const defaultImageUrl = "https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-landscape-photographer-image_13347284.jpg";
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -47,8 +48,9 @@ function PlaceDetail() {
                         <>
                             <div className="placeDetailHeader">
                                 <div className="placeImagePlaceholder">
-                                    <img src={place.imgUrl} alt={place.placeName || "이미지"} />
-                                </div>                                <div className="placeInfo">
+                                    <img src={place.imgUrl || defaultImageUrl} alt={place.placeName || "이미지"} />
+                                </div>                                
+                                <div className="placeInfo">
                                     <div className='placeName-Count'>
                                         <div className='placeName'>{place.placeName}</div>
                                         <div className='placeCount'>일정에 {place.count}번 추가된 장소입니다.</div>
