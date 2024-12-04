@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "../CommunityWrite/CommunityWrite.css";
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
@@ -8,6 +8,7 @@ import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 function CommunityWrite() {
     const { crewId } = useParams(); // URL에서 crewId 가져오기
+    const navigate = useNavigate(); // navigate 사용
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [startDate, setStartDate] = useState("");
@@ -115,7 +116,11 @@ function CommunityWrite() {
             );
     
             if (response.ok) {
+                const responseData = await response.json(); // 응답 데이터 파싱
+                const boardId = responseData.boardId; // 응답에서 boardId 가져오기
+                console.log("응답 데이터:", responseData); // 디버깅용 로그
                 alert("게시글이 성공적으로 작성되었습니다!");
+                navigate(`/api/boards/${boardId}`); // 작성한 글의 상세 페이지로 리다이렉트
             } else {
                 const errorText = await response.text();
                 alert(`게시글 작성 실패: ${errorText}`);

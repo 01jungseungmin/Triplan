@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import '../AdminPlaceAdd/AdminPlaceAdd.css';
 import Header from '../../../components/Header';
 import Footer from '../../../components/Footer';
@@ -14,6 +15,7 @@ function AdminPlaceAdd() {
     const [dayOff, setDayOff] = useState("");
     const [image, setImage] = useState(null);
     const [placeCategory, setPlaceCategory] = useState("CAFE"); // 기본 카테고리 설정
+    const navigate = useNavigate(); // navigate 추가
 
     // 이미지 변경 핸들러
     const handleImageChange = (e) => {
@@ -58,14 +60,7 @@ function AdminPlaceAdd() {
 
             if (response.ok) {
                 alert("장소가 성공적으로 등록되었습니다.");
-                // 상태 초기화
-                setPlaceName("");
-                setAddress("");
-                setPhoneNumber("");
-                setOperationTime("");
-                setDayOff("");
-                setPlaceCategory("CAFE");
-                setImage(null);
+                navigate('/placeboard');
             } else {
                 const errorMessage = await response.text();
                 alert(`등록 실패: ${errorMessage}`);

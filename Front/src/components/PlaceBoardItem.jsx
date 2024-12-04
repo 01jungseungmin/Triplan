@@ -2,11 +2,12 @@ import './css/PlaceBoardItem.css';
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
 function PlaceBoardItem({ placeId, name, address, phone, distance, rating, reviews, state, crewId, planDate, imgUrl }) {
     const [isAdmin, setIsAdmin] = useState(false);
+    const navigate = useNavigate();
     const defaultImageUrl = "https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-landscape-photographer-image_13347284.jpg";
 
     useEffect(() => {
@@ -44,7 +45,7 @@ function PlaceBoardItem({ placeId, name, address, phone, distance, rating, revie
 
             if (response.ok) {
                 alert('장소가 삭제되었습니다.');
-                window.location.reload(); // 페이지 새로고침
+                navigate('/placeboard'); // 페이지 새로고침
             } else {
                 throw new Error('장소 삭제 실패');
             }

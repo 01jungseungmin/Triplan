@@ -18,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/boards")
@@ -46,12 +48,17 @@ public class BoardController {
         return ResponseEntity.ok(boardDetail);
     }
 
-    // 게시글 작성
     @PostMapping("/write/{crewId}")
     @Operation(summary = "게시글 작성", description = "게시글 작성")
-    public ResponseEntity<String> createBoard(@RequestPart(value = "images", required = false) List<MultipartFile> images,@RequestPart SetBoardRequest setBoardRequest, @PathVariable Long crewId) throws S3Exception {
-        String message = boardWriteService.create(setBoardRequest, crewId, images);
-        return ResponseEntity.ok(message);
+    public ResponseEntity<Map<String, Object>> createBoard(@RequestPart(value = "images", required = false) List<MultipartFile> images, @RequestPart SetBoardRequest setBoardRequest, @PathVariable Long crewId) throws S3Exception {
+
+        Long boardId = boardWriteService.create(setBoardRequest, crewId, images);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "게시글 작성 완료");
+        response.put("boardId", boardId);
+
+        return ResponseEntity.ok(response);
     }
 
     // 게시글 수정

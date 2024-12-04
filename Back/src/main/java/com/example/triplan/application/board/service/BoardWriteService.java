@@ -30,7 +30,7 @@ public class BoardWriteService {
     private final S3ImageService s3ImageService;
 
     // 게시글 작성
-    public String create(SetBoardRequest setBoardRequest, Long crewId, List<MultipartFile> images) throws S3Exception {
+    public Long create(SetBoardRequest setBoardRequest, Long crewId, List<MultipartFile> images) throws S3Exception {
         Account account = accountService.getCurrentUser();
 
         Crew crew = crewRepository.findById(crewId)
@@ -50,7 +50,7 @@ public class BoardWriteService {
             }
         }
 
-        return "게시글 작성 완료";
+        return board.getId();
     }
 
 
