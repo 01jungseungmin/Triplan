@@ -7,6 +7,7 @@ import com.example.triplan.application.s3.service.S3ImageService;
 import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.board.entity.BoardImage;
+import com.example.triplan.domain.board.enums.BoardEnum;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.repository.CrewRepository;
@@ -29,28 +30,28 @@ public class BoardWriteService {
 
     // 게시글 작성
     public String create(SetBoardRequest setBoardRequest, Long crewId, List<MultipartFile> images) throws S3Exception {
-        Account account = accountService.getCurrentUser(); // 현재 로그인된 사용자 정보 가져오기
+        Account account = accountService.getCurrentUser();
 
-        // crewId로 그룹 찾기
         Crew crew = crewRepository.findById(crewId)
                 .orElseThrow(() -> new IllegalArgumentException("그룹을 찾을 수 없습니다."));
-        // 게시글 작성
-        Board board = new Board(setBoardRequest.getTitle(), setBoardRequest.getContent(), account, crew); // crew 추가
+
+        Board board = new Board(setBoardRequest.getTitle(), setBoardRequest.getContent(), account, crew);
         boardRepository.save(board);
 
-        // 이미지가 있으면 S3에 업로드하고 boardImage에 저장
         if (images != null && !images.isEmpty()) {
-            List<String> uploadedImageUrls = s3ImageService.uploadImages(images); // S3에 이미지 업로드
-            // 업로드된 이미지 URL로 BoardImage 생성 및 저장
-            for (String imageUrl : uploadedImageUrls) {
-                BoardImage boardImage = new BoardImage(imageUrl, board);
-                board.addBoardImage(boardImage); // 연관 관계 설정
+            // 대표 이미지는 첫 번째, 나머지는 추가 이미지로 구분
+            List<String> uploadedImageUrls = s3ImageService.uploadImages(images);
+            for (int i = 0; i < uploadedImageUrls.size(); i++) {
+                String imageUrl = uploadedImageUrls.get(i);
+                BoardEnum boardEnum = (i == 0) ? BoardEnum.CAPTIAN : BoardEnum.NORMAL;
+                BoardImage boardImage = new BoardImage(imageUrl, boardEnum, board);
+                board.addBoardImage(boardImage);
             }
         }
 
-
         return "게시글 작성 완료";
     }
+
 
     // 게시글 수정
     public String update(Long boardId, UpdateBoardRequest updateBoardRequest) {

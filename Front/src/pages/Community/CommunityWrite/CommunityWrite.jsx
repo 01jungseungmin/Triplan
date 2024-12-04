@@ -12,7 +12,8 @@ function CommunityWrite() {
     const [content, setContent] = useState("");
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [thumbnail, setThumbnail] = useState(null);
+    const [thumbnail, setThumbnail] = useState(null); // 파일 객체 저장
+    const [thumbnailPreview, setThumbnailPreview] = useState(null); // 미리보기 URL 저장
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -54,17 +55,22 @@ function CommunityWrite() {
 
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
-        const fileURLs = files.map((file) => URL.createObjectURL(file));
-        setImages((prevImages) => [
-            ...prevImages,
-            ...fileURLs,
-        ].slice(0, 5)); // 최대 5장까지
+    
+        const newImages = files.map((file) => ({
+            file, // 실제 파일 객체
+            preview: URL.createObjectURL(file), // 미리보기 URL
+        }));
+    
+        setImages((prevImages) => [...prevImages, ...newImages].slice(0, 5)); // 최대 5장까지
     };
+
+
 
     const handleThumbnailChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setThumbnail(URL.createObjectURL(file)); // 미리보기 이미지 생성
+            setThumbnail(file); // 파일 객체 저장
+            setThumbnailPreview(URL.createObjectURL(file)); // 미리보기 URL 생성
         }
     };
 
@@ -73,7 +79,7 @@ function CommunityWrite() {
             alert("필수 항목을 입력해주세요.");
             return;
         }
-
+    
         const token = localStorage.getItem("token");
         const formData = new FormData();
         formData.append(
@@ -89,13 +95,13 @@ function CommunityWrite() {
                 { type: "application/json" }
             )
         );
-
+    
         if (thumbnail) {
-            formData.append("images", thumbnail);
+            formData.append("images", thumbnail); // 대표 이미지 추가
         }
-
-        images.forEach((image) => formData.append("images", image));
-
+    
+        images.forEach((image) => formData.append("images", image.file)); // 추가 이미지의 파일 객체 추가
+    
         try {
             const response = await fetch(
                 `http://localhost:8080/api/boards/write/${crewId}`,
@@ -107,7 +113,7 @@ function CommunityWrite() {
                     body: formData,
                 }
             );
-
+    
             if (response.ok) {
                 alert("게시글이 성공적으로 작성되었습니다!");
             } else {
@@ -119,6 +125,7 @@ function CommunityWrite() {
             alert("게시글 작성 중 오류가 발생했습니다.");
         }
     };
+    
 
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;
@@ -178,64 +185,65 @@ function CommunityWrite() {
                             </div>
                         </div>
                         <div className="thumbnailImageGroup">
-    <div className="thumbnailImageContent">
-        <div className="thumbnailImageTitle">대표 이미지 추가</div>
-        <div className="thumbnailImageBox">
-            <input
-                type="file"
-                onChange={handleThumbnailChange}
-                style={{ display: "none" }} // input 요소 숨김
-                id="thumbnailInput"
-            />
-            <label htmlFor="thumbnailInput" className="imageUploadBox">
-                <FontAwesomeIcon icon={faPlus} />
-            </label>
-            <div
-                className="imageBox"
-                style={{
-                    backgroundImage: thumbnail ? `url(${thumbnail})` : "none",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                }}
-            ></div>
-        </div>
-    </div>
-</div>
+                            <div className="thumbnailImageContent">
+                                <div className="thumbnailImageTitle">대표 이미지 추가</div>
+                                <div className="thumbnailImageBox">
+                                    <input
+                                        type="file"
+                                        onChange={handleThumbnailChange}
+                                        style={{ display: "none" }} // input 요소 숨김
+                                        id="thumbnailInput"
+                                    />
+                                    <label htmlFor="thumbnailInput" className="imageUploadBox">
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </label>
+                                    <div
+                                        className="imageBox"
+                                        style={{
+                                            backgroundImage: thumbnailPreview ? `url(${thumbnailPreview})` : "none",
+                                            backgroundSize: "cover",
+                                            backgroundPosition: "center",
+                                        }}
+                                    ></div>
+                                </div>
+                            </div>
+                        </div>
 
-<div className="tripWriteUploadImageGroup">
-    <div className="tripWriteUploadImageContent">
-        <div className="tripWriteUploadImageTitle">
-            이미지 추가 (최대 5장까지)
-        </div>
-        <div className="tripWriteUploadImageBox">
-            <input
-                type="file"
-                multiple
-                onChange={handleImageChange}
-                style={{ display: "none" }} // input 요소 숨김
-                id="uploadInput"
-            />
-            <label htmlFor="uploadInput" className="imageUploadBox">
-                <FontAwesomeIcon icon={faPlus} />
-            </label>
-            {Array(5)
-                .fill(null)
-                .map((_, index) => (
-                    <div
-                        key={index}
-                        className="imageBox"
-                        style={{
-                            backgroundImage: images[index]
-                                ? `url(${images[index]})`
-                                : "none",
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                        }}
-                    ></div>
-                ))}
-        </div>
-    </div>
-</div>
+                        <div className="tripWriteUploadImageGroup">
+                            <div className="tripWriteUploadImageContent">
+                                <div className="tripWriteUploadImageTitle">
+                                    이미지 추가 (최대 5장까지)
+                                </div>
+                                <div className="tripWriteUploadImageBox">
+                                    <input
+                                        type="file"
+                                        multiple
+                                        onChange={handleImageChange}
+                                        style={{ display: "none" }} // input 요소 숨김
+                                        id="uploadInput"
+                                    />
+                                    <label htmlFor="uploadInput" className="imageUploadBox">
+                                        <FontAwesomeIcon icon={faPlus} />
+                                    </label>
+                                    {Array(5)
+                                        .fill(null)
+                                        .map((_, index) => (
+                                            <div
+                                                key={index}
+                                                className="imageBox"
+                                                style={{
+                                                    backgroundImage:
+                                                        images[index]?.preview
+                                                            ? `url(${images[index].preview})`
+                                                            : "none",
+                                                    backgroundSize: "cover",
+                                                    backgroundPosition: "center",
+                                                }}
+                                            ></div>
+                                        ))}
+                                </div>
+                            </div>
+                        </div>
                         <div className="CommunityCreateBtnGroup">
                             <button className="CommunityCreateBtn" onClick={handleSubmit}>
                                 등록하기

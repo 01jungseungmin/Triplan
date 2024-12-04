@@ -50,7 +50,8 @@ public class BoardController {
     @PostMapping("/write/{crewId}")
     @Operation(summary = "게시글 작성", description = "게시글 작성")
     public ResponseEntity<String> createBoard(@RequestPart(value = "images", required = false) List<MultipartFile> images,@RequestPart SetBoardRequest setBoardRequest, @PathVariable Long crewId) throws S3Exception {
-        return ResponseEntity.ok(boardWriteService.create(setBoardRequest, crewId, images));
+        String message = boardWriteService.create(setBoardRequest, crewId, images);
+        return ResponseEntity.ok(message);
     }
 
     // 게시글 수정
