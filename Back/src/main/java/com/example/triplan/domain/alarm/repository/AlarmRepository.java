@@ -15,4 +15,6 @@ public interface AlarmRepository extends JpaRepository<Alarm, Long>{
     List<Alarm> findAllByCrewListIn(List<CrewList> crewLists);
 
     Optional<Alarm> findByAccountAndId(Account account, Long alarmId);
+
+    Optional<Alarm> findByCrewList(CrewList crewList);
 }
