@@ -48,7 +48,7 @@ function Login() {
           navigate('/admin/place/list');
         } else {
           // 일반 계정은 메인 페이지로 리다이렉션
-          navigate('/main');
+          navigate('/');
         }
       } else {
         const errorData = await response.json();
