@@ -33,6 +33,9 @@ public class PlaceListDetailResponse {
     @Schema(description = "장소 경도", example = "129.225503779861")
     private String placeLongitude;
 
+    @Schema(description = "장소 count", example = "1")
+    private Integer count;
+
 //    @Schema(description = "이미지 url", example = "link")
 //    private String imgUrl;
 }
