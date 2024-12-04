@@ -3,6 +3,8 @@ import '../CommentItem/CommentItem.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import { formatDistanceToNow } from 'date-fns';
+import { ko } from 'date-fns/locale'; // 한국어 로케일 추가
+
 
 function CommentItem({ answerId, content, nickName, createdAt, updatedAt, boardId }) {
     return (
@@ -12,7 +14,7 @@ function CommentItem({ answerId, content, nickName, createdAt, updatedAt, boardI
                 <FontAwesomeIcon icon={faCircle} className='circleIcon'/>
                 <div className="commentTime">
                     {createdAt
-                        ? `${formatDistanceToNow(new Date(createdAt), { addSuffix: true })}`
+                        ? `${formatDistanceToNow(new Date(createdAt), { addSuffix: true, locale: ko })}`
                         : '방금 전'}
                 </div>
             </div>
