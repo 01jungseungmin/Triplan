@@ -27,7 +27,7 @@ function PlaceBoard() {
     const endIndex = startIndex + placesPerPage;
 
     const crewId = location.state?.crewId || null; // crewId가 없으면 null
-    const planDate = location.state?.planDate || null; // 기본값: 현재 날짜    
+    const planDate = location.state?.planDate || null; // 기본값: 현재 날짜   
 
     useEffect(() => {
         console.log('Location state in PlaceBoard:', location.state); // 디버깅용
@@ -83,17 +83,27 @@ function PlaceBoard() {
         setCurrentPage(pageNumber);
     };
 
+    // 페이지 범위 계산
+    const getPageRange = () => {
+        const startPage = Math.floor((currentPage - 1) / 10) * 10 + 1;
+        const endPage = Math.min(startPage + 9, totalPages);
+        return { startPage, endPage };
+    };
+
+    // 다음 페이지
     const handleNextPage = () => {
-        if (currentPage < Math.ceil(filteredPlaces.length / placesPerPage)) {
+        if (currentPage < totalPages) {
             setCurrentPage(currentPage + 1);
         }
     };
 
+    // 이전 페이지
     const handlePrevPage = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
     };
+
 
     // 나만의 장소 추가 버튼 클릭 핸들러
     const handleAddMyPlace = () => {
@@ -114,7 +124,8 @@ function PlaceBoard() {
 
     // 페이지 버튼 렌더링
     const totalPages = Math.ceil(filteredPlaces.length / placesPerPage);
-    const pageNumbers = Array.from({ length: Math.min(totalPages, 9) }, (_, i) => i + 1);
+    const { startPage, endPage } = getPageRange();
+    const pageNumbers = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
 
     if (loading) {
         return <div>로딩 중...</div>; // 로딩 중 상태
@@ -147,7 +158,7 @@ function PlaceBoard() {
                 {filteredPlaces.length > 0 ? (
                     <div className='placeBoardGridContent'>
                         <div className="placeBoardGrid">
-                            {filteredPlaces.map((place, index) => (
+                            {filteredPlaces.slice(startIndex, endIndex).map((place, index) => (
                                 <PlaceBoardItem
                                     key={index}
                                     placeId={place.placeId}

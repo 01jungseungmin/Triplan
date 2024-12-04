@@ -2,6 +2,7 @@ package com.example.triplan.domain.board.entity;
 
 import com.example.triplan.common.BaseEntity;
 import com.example.triplan.domain.account.entity.Account;
+import com.example.triplan.domain.answer.entity.Answer;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.plan.entity.Plan;
 import jakarta.persistence.*;
@@ -32,6 +33,9 @@ public class Board extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private List<Answer> answers = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardImage> boardImages = new ArrayList<>();
