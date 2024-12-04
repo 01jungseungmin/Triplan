@@ -133,6 +133,12 @@
     font-family: 'PretendardFont-Medium';
 }
 
+.planPlaceAddBtn.active {
+    background-color: #26cee7;
+    color: white;
+    cursor: pointer;
+}
+
 .planPlaceAddBtn:hover {
     background-color: #8edeea;
 }
