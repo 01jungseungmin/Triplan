@@ -1,0 +1,27 @@
+.admin-board-item-title {
+    margin-top: 2%;
+    font-family: 'PretendardFont-Bold';
+    font-size: 1.16rem;
+    color: rgb(49, 49, 49);
+}
+
+.admin-board-item-address,
+.admin-board-item-phone {
+    margin-top: 2%;
+    font-family: 'PretendardFont-Light';
+    font-size: 0.96rem;
+    color: rgb(49, 49, 49);
+}
+
+.trashIconBox {
+    display: flex;
+    margin-top: 6%;
+}
+
+.trashIcon {
+    margin-left: auto;
+    margin-right: 6%;
+    margin-bottom: 2%;
+    color: rgb(107, 107, 107);
+    font-size: 1rem;
+}
