@@ -120,29 +120,29 @@ hr {
     border-radius: 5px; /* 모서리를 둥글게 */
 }
 
-.arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+.communityarrow {
+    position: absolute; /* absolute로 부모 요소에 상대적으로 배치 */
+    top: 50%; /* 부모의 높이 기준으로 중앙 정렬 */
+    transform: translateY(-50%); /* 수직 중앙 정렬 */
+    background-color: rgba(0, 0, 0, 0.5); /* 배경 투명도 */
     color: white;
     border: none;
     padding: 10px;
     cursor: pointer;
-    border-radius: 50%;
+    border-radius: 50%; /* 둥근 버튼 */
     z-index: 1;
 }
 
-.arrow.left {
-    left: 10px;
+.communityarrow.left {
+    left: 5%; /* 이미지 왼쪽에서 적당히 떨어진 위치 */
 }
 
-.arrow.right {
-    right: 10px;
+.communityarrow.right {
+    right: 5%; /* 이미지 오른쪽에서 적당히 떨어진 위치 */
 }
 
-.arrow:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+.communityarrow:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* 호버 시 배경 더 진하게 */
 }
 
 .travelPostScheduleTitle,

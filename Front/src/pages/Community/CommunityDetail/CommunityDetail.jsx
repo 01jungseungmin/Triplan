@@ -251,7 +251,7 @@ function CommunityDetail() {
                                 {community.imageUrls && community.imageUrls.length > 0 && (
                                     <div className="travelPostImage">
                                         <div className="imageSlider">
-                                            <button className="arrow left" onClick={handlePrevImage}>
+                                            <button className="communityarrow left" onClick={handlePrevImage}>
                                                 &#8592;
                                             </button>
                                             <img
@@ -259,7 +259,7 @@ function CommunityDetail() {
                                                 alt={`이미지 ${currentImageIndex + 1}`}
                                                 className="postImage"
                                             />
-                                            <button className="arrow right" onClick={handleNextImage}>
+                                            <button className="communityarrow right" onClick={handleNextImage}>
                                                 &#8594;
                                             </button>
                                         </div>
