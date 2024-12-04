@@ -216,7 +216,6 @@ function MyTrip() {
                                         <input
                                             type="date"
                                             className='MytripDateStart'
-                                            placeholder='2024-10-10'
                                             value={startDate}
                                             onChange={(e) => setStartDate(e.target.value)}
                                         />
@@ -224,9 +223,9 @@ function MyTrip() {
                                         <input
                                             type="date"
                                             className='MytripDateEnd'
-                                            placeholder='2024-11-10'
                                             value={endDate}
                                             onChange={(e) => setEndDate(e.target.value)}
+                                            min={startDate} // startDate 이후 날짜만 선택 가능
                                         />
                                     </div>
                                 </div>

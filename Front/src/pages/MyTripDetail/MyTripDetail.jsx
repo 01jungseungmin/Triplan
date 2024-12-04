@@ -94,7 +94,7 @@ function MyTripDetail() {
             setEndDate(plan.planEndDate);
         }
     }, [isModalOpen, plan]);
-    
+
 
     const handleEditTrip = async () => {
         // 필수 입력값 확인
@@ -102,9 +102,9 @@ function MyTripDetail() {
             alert('모든 필드를 입력해주세요.');
             return;
         }
-    
+
         const token = localStorage.getItem('token');
-    
+
         // 서버에 보낼 데이터
         const requestData = {
             crewName: tripName,
@@ -113,7 +113,7 @@ function MyTripDetail() {
         };
 
         console.log("Request Data:", JSON.stringify(requestData));
-    
+
         try {
             const response = await fetch(`http://localhost:8080/crew/update/${crewId}`, {
                 method: 'PUT',
@@ -123,23 +123,26 @@ function MyTripDetail() {
                 },
                 body: JSON.stringify(requestData),
             });
-        
-            const rawResponse = await response.text(); // 서버 응답을 원시 텍스트로 가져오기
-            console.log("Raw Response:", rawResponse);
-        
+
+            console.log("Response Status Code:", response.status); // 상태 코드 로깅
+
             if (response.ok) {
-                alert(rawResponse); // 서버에서 반환한 메시지 표시
+                alert('일정이 수정되었습니다!');
+                const updatedData = await response.json(); // 필요 시 서버에서 수정된 데이터 가져오기
+                setPlan(updatedData); // 상태 업데이트
                 setIsModalOpen(false); // 모달 닫기
             } else {
-                console.error("Error Response Body:", rawResponse);
-                alert(`수정 실패: ${rawResponse}`);
+                const errorMessage = await response.text();
+                console.error("Error Response Body:", errorMessage); // 에러 메시지 확인
+                alert(`수정 실패: ${errorMessage}`);
             }
         } catch (error) {
-            console.error("Network or Server Error:", error);
-            alert("서버와의 연결 중 오류가 발생했습니다.");
-            setIsModalOpen(false);
-        }        
+            console.error("Network or Server Error:", error); // 네트워크 또는 서버 에러 로그
+            setIsModalOpen(false); // 모달 닫기
+        }
+
     };
+
 
     const handleDeleteCrew = () => {
         if (window.confirm('정말로 이 그룹을 삭제하시겠습니까?')) {
@@ -281,7 +284,6 @@ function MyTripDetail() {
                                             <input
                                                 type="date"
                                                 className='MytripDateStart'
-                                                placeholder='2024-10-10'
                                                 value={startDate}
                                                 onChange={(e) => setStartDate(e.target.value)}
                                             />
@@ -289,9 +291,9 @@ function MyTripDetail() {
                                             <input
                                                 type="date"
                                                 className='MytripDateEnd'
-                                                placeholder='2024-11-10'
                                                 value={endDate}
                                                 onChange={(e) => setEndDate(e.target.value)}
+                                                min={startDate}
                                             />
                                         </div>
                                     </div>

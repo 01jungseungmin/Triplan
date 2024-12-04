@@ -12,9 +12,10 @@ function Mypage() {
     const [loading, setLoading] = useState(true);
     const [passwordVerified, setPasswordVerified] = useState(false); // 비밀번호 인증 여부
     const [password, setPassword] = useState(''); // 비밀번호 입력 값
+    const [currentPassword, setCurrentPassword] = useState(''); // 현재 비밀번호
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false); // 모달 창 열림 여부
     const [newPassword, setNewPassword] = useState(''); // 새 비밀번호
-    const [confirmNewPassword, setConfirmNewPassword] = useState(''); // 새 비밀번호 확인
+    const [newPasswordConfirm, setnewPasswordConfirm] = useState(''); // 새 비밀번호 확인
 
     useEffect(() => {
         if (passwordVerified) {
@@ -76,12 +77,12 @@ function Mypage() {
     };
 
     const handlePasswordChangeSubmit = () => {
-        if (!newPassword || !confirmNewPassword) {
+        if (!newPassword || !newPasswordConfirm) {
             alert('모든 필드를 입력해주세요.');
             return;
         }
 
-        if (newPassword !== confirmNewPassword) {
+        if (newPassword !== newPasswordConfirm) {
             alert('새 비밀번호와 확인 비밀번호가 일치하지 않습니다.');
             return;
         }
@@ -95,8 +96,9 @@ function Mypage() {
                 'Authorization': `Bearer ${token}`
             },
             body: JSON.stringify({
+                currentPassword,
                 newPassword,
-                confirmNewPassword
+                newPasswordConfirm
             })
         })
             .then(response => {
@@ -114,13 +116,14 @@ function Mypage() {
     };
 
     const openPasswordModal = () => {
+        setPassword('');
         setIsPasswordModalOpen(true);
     };
 
     const closePasswordModal = () => {
         setIsPasswordModalOpen(false);
         setNewPassword('');
-        setConfirmNewPassword('');
+        setnewPasswordConfirm('');
     };
 
     const handleInputChange = (e) => {
@@ -258,8 +261,8 @@ function Mypage() {
                                         type="password"
                                         id="currentPassword"
                                         placeholder="현재 비밀번호"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
+                                        value={currentPassword} // 상태 바인딩
+                                        onChange={(e) => setCurrentPassword(e.target.value)} // 상태 업데이트
                                         className="passChangeModalInput"
                                     />
                                 </div>
@@ -280,8 +283,8 @@ function Mypage() {
                                         type="password"
                                         id="confirmNewPassword"
                                         placeholder="새 비밀번호 확인"
-                                        value={confirmNewPassword}
-                                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                                        value={newPasswordConfirm}
+                                        onChange={(e) => setnewPasswordConfirm(e.target.value)}
                                         className="passChangeModalInput"
                                     />
                                 </div>
