@@ -6,27 +6,34 @@ function PlanPlaceAddModal({ isOpen, onClose, onSave, crewId, placeId, planDate,
     const [address, setAddress] = useState('');
     const [time, setTime] = useState('');
     const [memo, setMemo] = useState('');
+    const [isFormValid, setIsFormValid] = useState(false); // 입력 유효성 상태
 
     useEffect(() => {
         if (isOpen) {
             // 모달이 열릴 때 placeTitle과 placeAddre로 상태 초기화
-            setPlaceName(placeTitle || ''); 
+            setPlaceName(placeTitle || '');
             setAddress(placeAddre || '');
         }
     }, [isOpen, placeTitle, placeAddre]);
 
+    useEffect(() => {
+        // 입력 필드 유효성 확인
+        setIsFormValid(!!placeName && !!address && !!time && !!memo);
+    }, [placeName, address, time, memo]);
+
+
     const formatDate = (planDate) => {
         if (!planDate) return null;
-    
+
         const date = new Date(planDate); // 전달받은 planDate를 Date 객체로 변환
         if (isNaN(date.getTime())) {
             console.error("Invalid date format:", planDate);
             return null; // 유효하지 않은 날짜
         }
-    
+
         return new Intl.DateTimeFormat('en-CA').format(date); // yyyy-MM-dd 형식 반환
     };
-    
+
     console.log('포맷된 planDate:', formatDate(planDate)); // 가져온 planDate를 yyyy-MM-dd로 포맷    
 
     const handleSave = async () => {
@@ -37,7 +44,7 @@ function PlanPlaceAddModal({ isOpen, onClose, onSave, crewId, placeId, planDate,
 
         const token = localStorage.getItem('token');
 
-       const formattedDate = formatDate(planDate);
+        const formattedDate = formatDate(planDate);
 
         const planRequest = {
             placeType: "PLACE",
@@ -127,9 +134,11 @@ function PlanPlaceAddModal({ isOpen, onClose, onSave, crewId, placeId, planDate,
                     </div>
                 </div>
                 <div className="planPlaceAddFooter">
-                    <div>
-                        <button className="planPlaceAddBtn" onClick={handleSave}>저장</button>
-                    </div>
+                    <button
+                        className={`planPlaceAddBtn ${isFormValid ? 'active' : ''}`}
+                        onClick={handleSave} >
+                        저장
+                    </button>
                     <div>
                         <button className="planPlaceDeleteBtn" onClick={onClose}>닫기</button>
                     </div>

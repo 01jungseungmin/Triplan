@@ -45,8 +45,10 @@ function Login() {
         const decodedToken = jwtDecode(data.token);
         const userAuth = decodedToken.auth; // 'auth' 필드를 사용
   
-        alert("로그인 성공!");
+        alert("로그인 성공!")
+
         navigate('/'); // 기본 홈으로 리디렉션
+
       } else {
         const errorData = await response.json();
         alert(errorData.error || "로그인에 실패했습니다.");
