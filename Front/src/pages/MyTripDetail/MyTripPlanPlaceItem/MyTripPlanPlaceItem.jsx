@@ -5,7 +5,6 @@ function MyTripPlanPlaceItem({ onClick, crewId, date }) {
     const [places, setPlaces] = useState([]); // 데이터를 저장할 상태
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     // 데이터를 가져오는 useEffect
     useEffect(() => {
         const fetchPlaces = async () => {
@@ -14,9 +13,7 @@ function MyTripPlanPlaceItem({ onClick, crewId, date }) {
                 if (!token) {
                     throw new Error('로그인이 필요합니다.');
                 }
-
                 console.log(`Fetching data for crewId: ${crewId}, date: ${date}`); // 요청 전 로그
-
                 const response = await fetch(
                     `http://localhost:8080/plan/${crewId}?date=${date}`,
                     {
@@ -27,7 +24,6 @@ function MyTripPlanPlaceItem({ onClick, crewId, date }) {
                         },
                     }
                 );
-
                 if (response.ok) {
                     const data = await response.json();
                     console.log('Fetched data:', data); // 성공적으로 데이터를 가져온 경우
@@ -47,17 +43,24 @@ function MyTripPlanPlaceItem({ onClick, crewId, date }) {
                 setLoading(false);
             }
         };
-
         fetchPlaces();
     }, [crewId, date]);
-
     if (loading) {
         return <div>로딩 중...</div>;
     }
-
     if (error) {
         return <div>오류 발생: {error}</div>;
     }
+
+    const formatTime = (timeString) => {
+        if (!timeString) return '시간 없음';
+        try {
+            const [hours, minutes] = timeString.split(':');
+            return `${hours}:${minutes}`;
+        } catch {
+            return '시간 형식 오류';
+        }
+    };
 
     return (
         <>
@@ -71,6 +74,7 @@ function MyTripPlanPlaceItem({ onClick, crewId, date }) {
                         <div className="planPlaceItemHeader">
                             <div className="planPlaceItemName">{place.placeName}</div>
                             <div className="planPlaceItemAddress">{place.placeAddress || '주소 없음'}</div>
+                            <div className='planPlaceItemTime'>{formatTime(place.planStartTime)}</div>
                         </div>
                         <div className="planPlaceItemComment">{place.planMemo}</div>
                     </div>

@@ -50,8 +50,7 @@ function MyTripDetail() {
             navigate('/login');
             return;
         }
-    
-        // Crew 데이터 가져오기
+
         fetch(`http://localhost:8080/crew/list/${crewId}`, {
             method: 'GET',
             headers: {
@@ -60,43 +59,14 @@ function MyTripDetail() {
         })
             .then(response => response.json())
             .then(data => {
-                console.log('Crew Data:', data); // Crew 데이터 로그 추가
                 setPlan(data);
                 setLoading(false);
             })
             .catch(error => {
-                console.error('Error loading crew data:', error); // Crew 데이터 로드 에러 로그 추가
                 setError('일정 데이터를 불러오는 중 오류가 발생했습니다.');
                 setLoading(false);
             });
-    
-        // 일정 데이터 가져오기
-        const fetchPlans = async () => {
-            try {
-                console.log('Fetching plans for crewId:', crewId); // 요청 로그 추가
-                const response = await fetch(`http://localhost:8080/plan/${crewId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
-    
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Fetched Plans:', data); // Plan 데이터 로그 추가
-                    setPlan(data); // 상태에 저장
-                } else {
-                    const errorMessage = await response.text();
-                    console.error('Error fetching plans:', errorMessage); // Plan 데이터 로드 에러 로그 추가
-                }
-            } catch (error) {
-                console.error('Network error fetching plans:', error); // 네트워크 에러 로그 추가
-            }
-        };
-    
-        fetchPlans();
     }, [crewId, navigate]);
-    
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
