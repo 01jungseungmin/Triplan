@@ -5,6 +5,7 @@ import com.example.triplan.application.board.dto.request.SetBoardRequest;
 import com.example.triplan.application.board.dto.request.UpdateBoardRequest;
 import com.example.triplan.application.s3.service.S3ImageService;
 import com.example.triplan.domain.account.entity.Account;
+import com.example.triplan.domain.account.enums.Role;
 import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.board.entity.BoardImage;
 import com.example.triplan.domain.board.enums.BoardEnum;
@@ -76,7 +77,7 @@ public class BoardWriteService {
         Account account = accountService.getCurrentUser(); // 현재 로그인된 사용자 정보 가져오기
 
         // 작성자만 삭제할 수 있도록 권한 체크
-        if (!board.getAccount().getId().equals(account.getId())) {
+        if (!board.getAccount().getId().equals(account.getId()) && account.getRole() != Role.ROLE_ADMIN) {
             throw new RuntimeException("작성자만 게시글을 삭제할 수 있습니다.");
         }
         boardRepository.delete(board);
