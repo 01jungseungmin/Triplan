@@ -37,7 +37,7 @@ public class AdminPlaceAddWriteService {
         }
 
         Place place = new Place(adminPlaceAddRequest.getPlaceAddName(), adminPlaceAddRequest.getPlaceAddAddress(), null, null, adminPlaceAddRequest.getPlaceNumber(),
-                adminPlaceAddRequest.getPlaceHoliday(), adminPlaceAddRequest.getPlaceBusinessHours(), adminPlaceAddRequest.getPlaceCategory(), null);
+                adminPlaceAddRequest.getPlaceHoliday(), adminPlaceAddRequest.getPlaceBusinessHours(), adminPlaceAddRequest.getPlaceCategory(), null, 0);
         placeRepository.save(place);
 
         if (images != null && !images.isEmpty()) {
