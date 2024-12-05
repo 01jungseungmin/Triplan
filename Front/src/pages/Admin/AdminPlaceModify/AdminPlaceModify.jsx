@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import '../AdminPlaceModify/AdminPlaceModify.css';
-import Header from '../../../components/Header';
+import './AdminPlaceModify.css';
+import Header from '../../../components/Header'
 import Footer from '../../../components/Footer';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
