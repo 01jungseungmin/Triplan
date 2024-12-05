@@ -56,7 +56,7 @@ public class AdminPlaceAddWriteService {
 
 
     //관리자 장소 수정
-    public String adminPlaceUpdate(AdminPlaceAddUpdateRequest adminPlaceAddUpdateRequest) {
+    public String adminPlaceUpdate(AdminPlaceAddUpdateRequest adminPlaceAddUpdateRequest, List<MultipartFile> images) throws S3Exception {
         Account account = accountService.getCurrentUser();
 
         if (account.getRole() != Role.ROLE_ADMIN){
@@ -64,6 +64,15 @@ public class AdminPlaceAddWriteService {
         }
 
         Place place = placeRepository.findById(adminPlaceAddUpdateRequest.getPlaceId()).orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
+        // 새 이미지를 업로드한 경우 업데이트
+        if (images != null && !images.isEmpty()) {
+            List<String> uploadedImageUrls = s3ImageService.uploadImages(images);
+            // 대표 이미지를 첫 번째 이미지로 설정
+            if (!uploadedImageUrls.isEmpty()) {
+                place.setImgUrl(uploadedImageUrls.get(0));
+            }
+        }
+
         place.setPlace(adminPlaceAddUpdateRequest.getPlaceAddName(), adminPlaceAddUpdateRequest.getPlaceAddAddress(), adminPlaceAddUpdateRequest.getPlaceNumber(), adminPlaceAddUpdateRequest.getPlaceHoliday(),
                 adminPlaceAddUpdateRequest.getPlaceBusinessHours());
 

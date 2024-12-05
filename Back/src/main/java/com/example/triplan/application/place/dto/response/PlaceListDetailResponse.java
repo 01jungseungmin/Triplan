@@ -33,6 +33,9 @@ public class PlaceListDetailResponse {
     @Schema(description = "장소 경도", example = "129.225503779861")
     private String placeLongitude;
 
+    @Schema(description = "휴일", example = "일요일")
+    private String placeHoliday;
+
     @Schema(description = "장소 count", example = "1")
     private Integer count;
 

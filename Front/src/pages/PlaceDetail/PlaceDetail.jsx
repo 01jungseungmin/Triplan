@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate  } from 'react-router-dom';
 import './PlaceDetail.css';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -7,13 +7,17 @@ import PlanPlaceAddModal from '../MyTripDetail/PlanPlaceAddModal/PlanPlaceAddMod
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { jwtDecode } from 'jwt-decode';
 
 function PlaceDetail() {
     const { placeId } = useParams();
     const [place, setPlace] = useState(null);
     const location = useLocation();
     const [isModalOpen, setIsModalOpen] = useState(false); //일정 추가 모달
+    const [isAdmin, setIsAdmin] = useState(false);
+    
     const crewId = location.state?.crewId;
+    const navigate = useNavigate();
     const planDate = location.state?.planDate;
     const defaultImageUrl = "https://png.pngtree.com/thumb_back/fw800/background/20231004/pngtree-landscape-photographer-image_13347284.jpg";
 
@@ -24,6 +28,21 @@ function PlaceDetail() {
         console.log('저장 버튼 클릭');
         closeModal();
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
+                const decodedToken = jwtDecode(token);
+                const userAuth = decodedToken.auth; // JWT의 'auth' 필드를 통해 권한 확인
+                if (userAuth === 'ADMIN') {
+                    setIsAdmin(true);
+                }
+            } catch (error) {
+                console.error('JWT 디코딩 중 오류 발생:', error);
+            }
+        }
+    }, []);
 
     useEffect(() => {
         console.log('Location state in PlaceDetail:', location.state); // 디버깅용
@@ -58,6 +77,7 @@ function PlaceDetail() {
                                     <div className='placeAddress'>{place.placeAddress}</div>
                                     <div className='placePhone'>{place.placeNumber}</div>
                                     <div className='CalendarPlusBtnBox'>
+                                        {(isAdmin && <button className='AdminModifyBtn' onClick={() => navigate(`/admin/place/edit/${placeId}`)}>수정</button>)}
                                         {isFromMyTripPlanDay && <button className='CalendarPlusBtn' onClick={openModal}>
                                             <FontAwesomeIcon icon={faPlus} className='plusIcon' />
                                             일정 추가

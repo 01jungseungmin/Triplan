@@ -144,6 +144,18 @@ hr {
     margin-top: 30%;
 }
 
+.AdminModifyBtn {
+    width: 25%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #67c1c7b9;
+    font-size: 0.93rem;
+    font-family: 'PretendardFont-Medium';
+    margin-left: auto;
+    margin-right: 6%;
+}
+
 .CalendarPlusBtn {
     width: 25%;
     background: none;

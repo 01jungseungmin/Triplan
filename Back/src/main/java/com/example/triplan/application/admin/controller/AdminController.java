@@ -7,6 +7,7 @@ import com.example.triplan.application.admin.dto.response.AdminBoardDeleteRespon
 import com.example.triplan.application.admin.service.AdminPlaceAddReadService;
 import com.example.triplan.application.admin.service.AdminPlaceAddWriteService;
 import com.example.triplan.exception.S3Exception;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,9 @@ public class AdminController {
     }
 
     @PutMapping("/update")
-    public String adminPlaceUpdate(@RequestBody AdminPlaceAddUpdateRequest adminPlaceAddUpdateRequest) {
-        return adminPlaceAddWriteService.adminPlaceUpdate(adminPlaceAddUpdateRequest);
+    @Operation(summary = "관리자 장소 수정", description = "관리자 장소 수정")
+    public String adminPlaceUpdate(@RequestPart(value = "adminPlaceAddUpdateRequest") AdminPlaceAddUpdateRequest adminPlaceAddUpdateRequest, @RequestPart(value = "images", required = false) List<MultipartFile> images) throws S3Exception {
+        return adminPlaceAddWriteService.adminPlaceUpdate(adminPlaceAddUpdateRequest, images);
     }
 
     @DeleteMapping("/delete/{placeId}")
