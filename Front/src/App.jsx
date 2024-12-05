@@ -16,6 +16,7 @@ import AdminCommunity from './pages/Admin/AdminCommunity/AdminCommunity';
 import AdminPlaceDetail from './pages/Admin/AdminPlaceList/AdminPlaceDetail';
 import AdminCommunityDetail from './pages/Admin/AdminCommunity/AdminCommunityDetail';
 import AdminPlaceAdd from './pages/Admin/AdminPlaceAdd/AdminPlaceAdd';
+import AdminPlaceModify from './pages/Admin/AdminPlaceModify/AdminPlaceModify';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path='/admin/place/details/:placeId' element={<AdminPlaceDetail />} />
         <Route path='/admin/community/details/:communityId' element={<AdminCommunityDetail />} />
         <Route path='/admin/place/add' element={<AdminPlaceAdd />} />
+        <Route path="/admin/place/edit/:placeId" element={<AdminPlaceModify />} />
       </Routes>
     </Router>
   );
