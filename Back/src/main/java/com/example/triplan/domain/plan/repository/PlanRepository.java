@@ -4,6 +4,8 @@ import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.plan.entity.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -14,7 +16,10 @@ import java.util.Optional;
 @Repository
 public interface PlanRepository extends JpaRepository<Plan, Long>{
     Optional<Plan> findByCrewAndPlanDateAndPlanStartTime(Crew crew, LocalDate planDate, LocalTime planStartTime);
-    List<Plan> findAllByCrewIdAndCrewAccountId(Long crewId, Long accountId); // 특정 Crew와 Account에 속한 모든 Plan 조회
+    @Query("SELECT p FROM Plan p " +
+            "WHERE p.crew.id = :crewId " +
+            "AND :accountId IN (SELECT cl.account.id FROM CrewList cl WHERE cl.crew.id = :crewId AND cl.isAccept = 'ACCEPT')")
+    List<Plan> findAllByCrewIdAndAccountId(@Param("crewId") Long crewId, @Param("accountId") Long accountId);
     void deleteAllByCrew(Crew crew);
 }
 

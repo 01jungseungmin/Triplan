@@ -28,7 +28,7 @@ public class PlanReadService {
     // 로그인된 사용자의 모든 Plan 정보를 조회
     public List<PlanResponse> findAllPlansForCurrentUser(Long crewId) {
         Account account = accountService.getCurrentUser();
-        List<Plan> plans = planRepository.findAllByCrewIdAndCrewAccountId(crewId, account.getId());
+        List<Plan> plans = planRepository.findAllByCrewIdAndAccountId(crewId, account.getId());
 
         return plans.stream()
                 .map(plan -> {

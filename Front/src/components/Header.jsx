@@ -62,7 +62,7 @@ function Header() {
     const handleLogoutClick = (e) => {
         e.preventDefault();
         if (isLoggedIn) {
-            fetch('http://ec2-13-209-211-218.ap-northeast-2.compute.amazonaws.com:8080/api/logout', {
+            fetch('http://localhost:8080/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
