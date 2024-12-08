@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import CommentItem from '../CommentItem/CommentItem';
 import { jwtDecode } from 'jwt-decode';
+import MyTripPlanPlaceItem from "../../MyTripDetail/MyTripPlanPlaceItem/MyTripPlanPlaceItem";
 
 function CommunityDetail() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -282,6 +283,17 @@ function CommunityDetail() {
                                     </div>
                                 )}
                             </div>
+                            <div className="addedPlans">
+                                <h3>작성자가 추가한 일정</h3>
+                                {community.plans.map((plan) => (
+                                    <MyTripPlanPlaceItem
+                                        key={plan.planId}
+                                        crewId={plan.crewId}
+                                        date={plan.planDate}
+                                    />
+                                ))}
+                            </div>
+
                             <hr />
                             <div className="travelPostCommentGroup">
                                 <div className="travelPostCommentHeader">

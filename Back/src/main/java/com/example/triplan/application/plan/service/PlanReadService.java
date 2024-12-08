@@ -53,16 +53,8 @@ public class PlanReadService {
                     // Crew ID 가져오기
                     Long crewIdForResponse = plan.getCrew() != null ? plan.getCrew().getId() : null;
 
-                    return new PlanResponse(
-                            plan.getPlanDate(),
-                            plan.getPlanStartTime(),
-                            plan.getPlanMemo(),
-                            plan.getRefId(),
-                            plan.getPlaceType(),
-                            crewIdForResponse,
-                            placeName,
-                            placeAddress
-                    );
+                    return new PlanResponse(plan, placeName, placeAddress); // 수정된 생성자 사용
+
                 })
                 .collect(Collectors.toList());
     }

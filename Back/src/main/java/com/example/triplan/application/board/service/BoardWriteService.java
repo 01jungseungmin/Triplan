@@ -12,6 +12,8 @@ import com.example.triplan.domain.board.enums.BoardEnum;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.repository.CrewRepository;
+import com.example.triplan.domain.plan.entity.Plan;
+import com.example.triplan.domain.plan.repository.PlanRepository;
 import com.example.triplan.exception.S3Exception;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class BoardWriteService {
     private final CrewRepository crewRepository;
     private final AccountService accountService;
     private final S3ImageService s3ImageService;
+    private final PlanRepository planRepository;
 
     // 게시글 작성
     public Long create(SetBoardRequest setBoardRequest, Long crewId, List<MultipartFile> images) throws S3Exception {
@@ -48,6 +51,14 @@ public class BoardWriteService {
                 BoardImage boardImage = new BoardImage(imageUrl, boardEnum, board);
                 board.addBoardImage(boardImage);
             }
+        }
+
+        if (setBoardRequest.getSelectedPlanIds() != null) {
+            List<Plan> selectedPlans = planRepository.findAllById(setBoardRequest.getSelectedPlanIds());
+            for (Plan plan : selectedPlans) {
+                plan.setBoard(board); // 게시글과 Plan 연결
+            }
+            planRepository.saveAll(selectedPlans);
         }
 
         return board.getId();

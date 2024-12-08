@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -18,6 +20,7 @@ public class BoardImage extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "board_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Board board;
 
     @Enumerated(EnumType.STRING)

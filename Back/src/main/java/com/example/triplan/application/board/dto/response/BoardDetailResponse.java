@@ -1,5 +1,6 @@
 package com.example.triplan.application.board.dto.response;
 
+import com.example.triplan.application.plan.dto.response.PlanResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -17,4 +18,5 @@ public class BoardDetailResponse {
     private LocalDate planEndDate;
     private String nickName;
     private String email;
+    private List<PlanResponse> plans; // 연결된 플랜 리스트
 }

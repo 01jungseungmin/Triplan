@@ -5,6 +5,8 @@ import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import MyTripPlanPlaceItem from "../../MyTripDetail/MyTripPlanPlaceItem/MyTripPlanPlaceItem";
+
 
 function CommunityWrite() {
     const { crewId } = useParams(); // URL에서 crewId 가져오기
@@ -15,6 +17,8 @@ function CommunityWrite() {
     const [endDate, setEndDate] = useState("");
     const [thumbnail, setThumbnail] = useState(null); // 파일 객체 저장
     const [thumbnailPreview, setThumbnailPreview] = useState(null); // 미리보기 URL 저장
+    const [plans, setPlans] = useState([]); // 전체 일정 데이터
+    const [selectedDate, setSelectedDate] = useState(null); // 선택된 날짜
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -27,41 +31,48 @@ function CommunityWrite() {
         }
 
         // crewId 기반 여행 기간 데이터 가져오기
-        fetch(`http://localhost:8080/crew/list/${crewId}`, {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(
-                        `여행 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`
-                    );
-                }
-                return response.json();
-            })
-            .then((data) => {
-                setStartDate(data.planStartDate); // 여행 시작일 설정
-                setEndDate(data.planEndDate); // 여행 종료일 설정
+        // 여행 기간 및 일정 데이터 가져오기
+        const fetchData = async () => {
+            try {
+                // 여행 기간 가져오기
+                const periodResponse = await fetch(`http://localhost:8080/crew/list/${crewId}`, {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!periodResponse.ok) throw new Error("여행 기간 데이터를 가져오지 못했습니다.");
+                const periodData = await periodResponse.json();
+                setStartDate(periodData.planStartDate);
+                setEndDate(periodData.planEndDate);
+
+                // 일정 데이터 가져오기
+                const planResponse = await fetch(`http://localhost:8080/plan/${crewId}`, {
+                    method: "GET",
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!planResponse.ok) throw new Error("일정 데이터를 가져오지 못했습니다.");
+                const planData = await planResponse.json();
+                setPlans(planData);
+
                 setLoading(false);
-            })
-            .catch((error) => {
-                setError(
-                    `여행 데이터를 불러오는 중 오류가 발생했습니다: ${error.message}`
-                );
+            } catch (error) {
+                setError(error.message);
                 setLoading(false);
-            });
+            }
+        };
+
+        fetchData();
     }, [crewId]);
 
     const handleImageChange = (event) => {
         const files = Array.from(event.target.files);
-    
+
         const newImages = files.map((file) => ({
             file, // 실제 파일 객체
             preview: URL.createObjectURL(file), // 미리보기 URL
         }));
-    
+
         setImages((prevImages) => [...prevImages, ...newImages].slice(0, 5)); // 최대 5장까지
     };
 
@@ -75,6 +86,16 @@ function CommunityWrite() {
         }
     };
 
+    const handlePlanSelect = (planDate) => {
+        // "전체" 클릭 시 전체 일정을 선택
+        if (planDate === "ALL") {
+            setSelectedDate(selectedDate === "ALL" ? null : "ALL");
+        } else {
+            // 개별 날짜 선택 또는 해제
+            setSelectedDate(selectedDate === planDate ? null : planDate);
+        }
+    };
+
     const handleSubmit = async () => {
         if (!title || !content) {
             alert("필수 항목을 입력해주세요.");
@@ -83,6 +104,17 @@ function CommunityWrite() {
     
         const token = localStorage.getItem("token");
         const formData = new FormData();
+    
+        // 선택된 일정 ID만 추출
+        const selectedPlanIds =
+            selectedDate === "ALL"
+                ? plans.map((plan) => plan.planId) // "전체" 선택 시 모든 planId
+                : plans.filter((plan) => plan.planDate === selectedDate).map((plan) => plan.planId);
+    
+        console.log("Plans:", plans); // 전체 일정 확인
+        console.log("Selected Plan IDs:", selectedPlanIds); // 선택된 ID 확인
+    
+        // 폼 데이터에 추가
         formData.append(
             "setBoardRequest",
             new Blob(
@@ -91,18 +123,21 @@ function CommunityWrite() {
                         title,
                         content,
                         crewId,
+                        selectedPlanIds, // 선택된 일정 ID
                     }),
                 ],
                 { type: "application/json" }
             )
         );
     
+    
+
         if (thumbnail) {
             formData.append("images", thumbnail); // 대표 이미지 추가
         }
-    
+
         images.forEach((image) => formData.append("images", image.file)); // 추가 이미지의 파일 객체 추가
-    
+
         try {
             const response = await fetch(
                 `http://localhost:8080/api/boards/write/${crewId}`,
@@ -114,7 +149,7 @@ function CommunityWrite() {
                     body: formData,
                 }
             );
-    
+
             if (response.ok) {
                 const responseData = await response.json(); // 응답 데이터 파싱
                 const boardId = responseData.boardId; // 응답에서 boardId 가져오기
@@ -129,7 +164,7 @@ function CommunityWrite() {
             alert("게시글 작성 중 오류가 발생했습니다.");
         }
     };
-    
+
 
     if (loading) return <div>로딩 중...</div>;
     if (error) return <div>{error}</div>;
@@ -248,6 +283,66 @@ function CommunityWrite() {
                                 </div>
                             </div>
                         </div>
+                        <div className="tripWritePlanGroup">
+                            <div className="planButtonGroup">
+                                <button
+                                    onClick={() => handlePlanSelect("ALL")}
+                                    className={`planButton ${selectedDate === "ALL" ? "active" : ""}`}
+                                >
+                                    전체
+                                </button>
+                                {plans.map((plan, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handlePlanSelect(plan.planDate)}
+                                        className={`planButton ${selectedDate === plan.planDate ? "active" : ""}`}
+                                    >
+                                        {`DAY ${index + 1}`}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="selectedPlans">
+                                {selectedDate === "ALL" ? (
+                                    (() => {
+                                        // 그룹화된 일정 생성
+                                        const groupedPlans = plans.reduce((acc, plan) => {
+                                            const date = plan.planDate;
+                                            if (!acc[date]) {
+                                                acc[date] = [];
+                                            }
+                                            acc[date].push(plan);
+                                            return acc;
+                                        }, {});
+
+                                        return (
+                                            <>
+                                                {Object.entries(groupedPlans).map(([date, plansForDate]) => (
+                                                    <div key={date} className="dayGroup">
+                                                        <h3 className="dayTitle">{`DAY ${Object.keys(groupedPlans).indexOf(date) + 1} (${date})`}</h3>
+                                                        {plansForDate.map((plan, index) => (
+                                                            <MyTripPlanPlaceItem
+                                                                key={index}
+                                                                crewId={crewId}
+                                                                date={plan.planDate}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                ))}
+                                            </>
+                                        );
+                                    })()
+                                ) : (
+                                    // 특정 날짜를 선택한 경우
+                                    plans
+                                        .filter((plan) => plan.planDate === selectedDate)
+                                        .map((plan, index) => (
+                                            <MyTripPlanPlaceItem key={index} crewId={crewId} date={plan.planDate} />
+                                        ))
+                                )}
+                            </div>
+
+                        </div>
+
                         <div className="CommunityCreateBtnGroup">
                             <button className="CommunityCreateBtn" onClick={handleSubmit}>
                                 등록하기

@@ -1,6 +1,7 @@
 package com.example.triplan.domain.plan.repository;
 
 import com.example.triplan.domain.account.entity.Account;
+import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.plan.entity.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,5 +22,7 @@ public interface PlanRepository extends JpaRepository<Plan, Long>{
             "AND :accountId IN (SELECT cl.account.id FROM CrewList cl WHERE cl.crew.id = :crewId AND cl.isAccept = 'ACCEPT')")
     List<Plan> findAllByCrewIdAndAccountId(@Param("crewId") Long crewId, @Param("accountId") Long accountId);
     void deleteAllByCrew(Crew crew);
+
+    List<Plan> findByBoard(Board board);
 }
 
