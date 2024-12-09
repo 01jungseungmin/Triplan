@@ -23,6 +23,5 @@ public interface PlanRepository extends JpaRepository<Plan, Long>{
     List<Plan> findAllByCrewIdAndAccountId(@Param("crewId") Long crewId, @Param("accountId") Long accountId);
     void deleteAllByCrew(Crew crew);
 
-    List<Plan> findByBoard(Board board);
 }
 

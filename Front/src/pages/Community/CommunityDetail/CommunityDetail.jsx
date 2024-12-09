@@ -18,6 +18,7 @@ function CommunityDetail() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [selectedDate, setSelectedDate] = useState(null);
     const [currentnickName, setcurrentnickName] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -57,7 +58,6 @@ function CommunityDetail() {
     }, []);
 
 
-
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -72,9 +72,11 @@ function CommunityDetail() {
 
                 if (!response.ok) throw new Error('게시글을 불러오지 못했습니다.');
                 const data = await response.json();
-                {console.log("현재 사용자 이메일:", data)}
+                { console.log("현재 사용자 이메일:", data) }
                 setCommunity(data);
-
+                if (data.plans?.length > 0) {
+                    setSelectedDate(data.plans[0].planDate); // 기본적으로 첫 날짜를 선택
+                }
                 // 댓글 데이터 가져오기
                 const commentsResponse = await fetch(`http://localhost:8080/${boardId}/answer`, {
                     method: 'GET',
@@ -93,6 +95,15 @@ function CommunityDetail() {
 
         fetchData();
     }, [boardId]);
+
+    const handleDateSelect = (date) => {
+        setSelectedDate(date);
+    };
+
+    const filteredPlans =
+        selectedDate && community.plans
+            ? community.plans.filter((plan) => plan.planDate === selectedDate)
+            : [];
 
     const handleNextImage = () => {
         setCurrentImageIndex((prevIndex) =>
@@ -146,16 +157,16 @@ function CommunityDetail() {
             navigate('/login');
             return;
         }
-    
+
         // Collect updated data (you can replace this with inputs or a modal)
         const updatedTitle = prompt('새 제목을 입력하세요:', community?.title);
         const updatedContent = prompt('새 내용을 입력하세요:', community?.content);
-    
+
         if (!updatedTitle || !updatedContent) {
             alert('제목과 내용을 입력하세요.');
             return;
         }
-    
+
         try {
             const response = await fetch(`http://localhost:8080/api/boards/${boardId}/modify`, {
                 method: 'PUT',
@@ -168,12 +179,12 @@ function CommunityDetail() {
                     content: updatedContent,
                 }),
             });
-    
+
             if (!response.ok) throw new Error('게시글 수정 실패');
-            
+
             const message = await response.text();
             alert(message);
-            
+
             // Optionally, refresh the post data
             const updatedResponse = await fetch(`http://localhost:8080/api/boards/${boardId}`, {
                 method: 'GET',
@@ -183,7 +194,7 @@ function CommunityDetail() {
             });
             const updatedData = await updatedResponse.json();
             setCommunity(updatedData);
-    
+
         } catch (error) {
             alert(`게시글 수정 중 오류가 발생했습니다: ${error.message}`);
         }
@@ -241,13 +252,13 @@ function CommunityDetail() {
                     <>
                         <div className="travelPostContainer">
                             <div className="travelPostHeader">
-                                {(isAdmin ||(currentnickName && community && currentnickName === community.email)) && (
+                                {(isAdmin || (currentnickName && community && currentnickName === community.email)) && (
                                     <>
                                         <div className="postDeleteBtnContainer">
                                             <button className="postDeleteBtn" onClick={handleDeletePost}>
                                                 삭제하기
                                             </button>
-                                            { !isAdmin &&(<button className="postModifyBtn" onClick={handleModifyPost}>
+                                            {!isAdmin && (<button className="postModifyBtn" onClick={handleModifyPost}>
                                                 수정하기
                                             </button>)}
                                         </div>
@@ -283,15 +294,40 @@ function CommunityDetail() {
                                     </div>
                                 )}
                             </div>
-                            <div className="addedPlans">
-                                <h3>작성자가 추가한 일정</h3>
-                                {community.plans.map((plan) => (
-                                    <MyTripPlanPlaceItem
-                                        key={plan.planId}
-                                        crewId={plan.crewId}
-                                        date={plan.planDate}
-                                    />
-                                ))}
+                            <hr />
+                            {/* 날짜 선택 버튼 */}
+                            <div className="selectedsPlanGroup">
+                                <h2 className="planTitle">여행 일정</h2>
+                                <div className="plansButtonGroup">
+                                    {community.plans.map((plan, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => handleDateSelect(plan.planDate)}
+                                            className={`plansButton ${selectedDate === plan.planDate ? 'active' : ''}`}
+                                        >
+                                            DAY {index + 1}
+                                        </button>
+                                    ))}
+                                </div>
+                                {selectedDate && (
+                                    <div className="selectedDate">
+                                        <h3>{selectedDate}</h3> {/* 선택된 날짜 출력 */}
+                                    </div>
+                                )}
+                                <div className="selectedPlans">
+                                    {filteredPlans.length > 0 ? (
+                                        filteredPlans.map((plan, index) => (
+                                            <MyTripPlanPlaceItem
+                                                key={index}
+                                                crewId={plan.crewId || community.crewId} // plan에 crewId가 없으면 community에서 가져오기
+                                                date={plan.planDate} // 필터링된 날짜 전달
+                                                onClick={() => console.log(`${plan.placeName} 클릭됨`)} // 클릭 이벤트
+                                            />
+                                        ))
+                                    ) : (
+                                        <div>해당 날짜에 일정이 없습니다.</div>
+                                    )}
+                                </div>
                             </div>
 
                             <hr />

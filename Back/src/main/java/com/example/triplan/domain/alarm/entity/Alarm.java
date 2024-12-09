@@ -17,7 +17,7 @@ public class Alarm extends BaseEntity {
     @JoinColumn(name = "account_id")
     private Account account;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE) // cascade 추가
+    @ManyToOne(fetch = FetchType.LAZY) // cascade 추가
     @JoinColumn(name = "crew_list")
     private CrewList crewList;
 

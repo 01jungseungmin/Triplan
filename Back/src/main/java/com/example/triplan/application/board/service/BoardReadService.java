@@ -7,11 +7,11 @@ import com.example.triplan.application.plan.dto.response.PlanResponse;
 import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.board.entity.BoardImage;
 import com.example.triplan.domain.board.enums.BoardEnum;
+import com.example.triplan.domain.board.repository.BoardPlanRepository;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import com.example.triplan.domain.place.repository.PlaceRepository;
 import com.example.triplan.domain.placeadd.repository.PlaceAddRepository;
 import com.example.triplan.domain.plan.entity.Plan;
-import com.example.triplan.domain.plan.repository.PlanRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BoardReadService {
     private final BoardRepository boardRepository;
-    private final PlanRepository planRepository;
+    private final BoardPlanRepository boardPlanRepository;
     private final PlaceRepository placeRepository;
     private final PlaceAddRepository placeAddRepository;
 
@@ -85,8 +85,11 @@ public class BoardReadService {
         List<String> imageUrls = board.getBoardImages().stream()
                 .map(BoardImage::getBoardImageUrl) // BoardImage에서 URL 가져오기
                 .collect(Collectors.toList());
-        // 게시글에 연결된 플랜 데이터 가져오기
-        List<Plan> associatedPlans = planRepository.findByBoard(board);
+        // 게시글과 연결된 플랜 데이터 가져오기
+        List<Plan> associatedPlans = boardPlanRepository.findByBoardId(boardId).stream()
+                .map(boardPlan -> boardPlan.getPlan())
+                .collect(Collectors.toList());
+
         List<PlanResponse> planResponses = associatedPlans.stream()
                 .map(plan -> new PlanResponse(plan, placeRepository, placeAddRepository))
                 .collect(Collectors.toList());
@@ -94,6 +97,6 @@ public class BoardReadService {
 
         // 게시글 상세 조회 반환
         return new BoardDetailResponse(board.getId(), board.getTitle(), board.getContent(),
-                imageUrls,board.getCrew().getPlanStartDate(),board.getCrew().getPlanEndDate(),board.getAccount().getNickName(),board.getAccount().getEmail(),planResponses);
+                imageUrls,board.getCrew().getPlanStartDate(),board.getCrew().getPlanEndDate(),board.getAccount().getNickName(),board.getAccount().getEmail(),planResponses,board.getCrew().getId());
     }
 }

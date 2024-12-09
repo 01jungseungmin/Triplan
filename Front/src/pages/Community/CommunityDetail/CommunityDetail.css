@@ -249,3 +249,28 @@ hr {
     font-family: 'PretendardFont-Medium';
     color: #484848;
 }
+.plansButtonGroup {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.plansButton {
+    width: 100px;
+    height: 40px;
+    border-radius: 30px;
+    border: 1.5px solid gray; /* 테두리 색상 추가 */
+    color: gray;
+    background-color:#fff;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'PretendardFont-Medium';
+    font-size: 1.09rem;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.plansButton:hover {
+    transform: scale(1.05);
+    background-color: #67c1c7;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+}

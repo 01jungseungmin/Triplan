@@ -8,7 +8,9 @@ import com.example.triplan.domain.account.entity.Account;
 import com.example.triplan.domain.account.enums.Role;
 import com.example.triplan.domain.board.entity.Board;
 import com.example.triplan.domain.board.entity.BoardImage;
+import com.example.triplan.domain.board.entity.BoardPlan;
 import com.example.triplan.domain.board.enums.BoardEnum;
+import com.example.triplan.domain.board.repository.BoardPlanRepository;
 import com.example.triplan.domain.board.repository.BoardRepository;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.repository.CrewRepository;
@@ -31,6 +33,7 @@ public class BoardWriteService {
     private final AccountService accountService;
     private final S3ImageService s3ImageService;
     private final PlanRepository planRepository;
+    private final BoardPlanRepository boardPlanRepository;
 
     // 게시글 작성
     public Long create(SetBoardRequest setBoardRequest, Long crewId, List<MultipartFile> images) throws S3Exception {
@@ -53,10 +56,11 @@ public class BoardWriteService {
             }
         }
 
-        if (setBoardRequest.getSelectedPlanIds() != null) {
+        if (setBoardRequest.getSelectedPlanIds() != null && !setBoardRequest.getSelectedPlanIds().isEmpty()) {
             List<Plan> selectedPlans = planRepository.findAllById(setBoardRequest.getSelectedPlanIds());
             for (Plan plan : selectedPlans) {
-                plan.setBoard(board); // 게시글과 Plan 연결
+                BoardPlan boardPlan = new BoardPlan(board,plan);
+                boardPlanRepository.save(boardPlan); // BoardPlan 저장
             }
             planRepository.saveAll(selectedPlans);
         }

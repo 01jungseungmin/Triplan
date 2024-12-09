@@ -29,18 +29,17 @@ public class AlarmWriteService {
 
         CrewList crewList = crewListRepository.findByAccountAndCrewId(account, alarmRequest.getCrewId())
                 .orElseThrow(() -> new TriplanException(ErrorCode.CREW_NOT_FOUND));
+        Alarm alarm = alarmRepository.findByCrewList(crewList)
+                .orElseThrow(() -> new TriplanException(ErrorCode.ALARM_NOT_FOUND));
 
         if (alarmRequest.getInviteType() == IsAccept.ACCEPT) {
             // 초대 수락: 상태 변경
-            crewList.setIsAccept(alarmRequest.getInviteType());
+            crewList.setIsAccept(IsAccept.ACCEPT); // CrewList의 상태를 ACCEPT로 변경
+            alarmRepository.delete(alarm);        // 알림 삭제
         } else if (alarmRequest.getInviteType() == IsAccept.DECLINE) {
-            // 초대 거절: CrewList 상태를 DECLINE으로 변경
-            crewList.setIsAccept(IsAccept.DECLINE);
-
-            // 관련 알림 삭제
-            Alarm alarm = alarmRepository.findByCrewList(crewList)
-                    .orElseThrow(() -> new TriplanException(ErrorCode.ALARM_NOT_FOUND));
-            alarmRepository.delete(alarm);
+            // 초대 거절: CrewList 삭제
+            alarmRepository.delete(alarm);        // 알림 삭제
+            crewListRepository.delete(crewList);  // CrewList 삭제
         }
 
         return new AlarmInviteResponse(account.getId(), crewList.getCrew().getId(), crewList.getIsAccept());

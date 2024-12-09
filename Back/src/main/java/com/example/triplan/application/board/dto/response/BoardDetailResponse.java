@@ -19,4 +19,5 @@ public class BoardDetailResponse {
     private String nickName;
     private String email;
     private List<PlanResponse> plans; // 연결된 플랜 리스트
+    private Long crewId;
 }

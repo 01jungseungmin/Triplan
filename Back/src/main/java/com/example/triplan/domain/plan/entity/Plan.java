@@ -32,23 +32,9 @@ public class Plan extends BaseEntity {
     @JoinColumn(name = "crew_id")
     private Crew crew;
 
-    @ManyToOne
-    @JoinColumn(name = "board_id", nullable = true) // 게시글과의 관계
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    private Board board;
-
     @Column(name = "refId", nullable = false)
     private Long refId;
 
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
-
-    public Plan(LocalDate planDate, LocalTime planTime, String memo, Crew crew, Long id, PlaceType placeType) {
-        this.planDate = planDate;
-        this.planStartTime = planTime;
-        this.planMemo = memo;
-        this.crew = crew;
-        this.refId = id;
-        this.placeType = placeType;
-    }
 }
