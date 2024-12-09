@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef,useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../CommunityDetail/CommunityDetail.css';
 import Header from '../../../components/Header';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp, faAnglesLeft, faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faUser, faEllipsisVertical, faMinus } from '@fortawesome/free-solid-svg-icons';
 import CommentItem from '../CommentItem/CommentItem';
 import { jwtDecode } from 'jwt-decode';
 import MyTripPlanPlaceItem from "../../MyTripDetail/MyTripPlanPlaceItem/MyTripPlanPlaceItem";
@@ -21,6 +22,11 @@ function CommunityDetail() {
     const [selectedDate, setSelectedDate] = useState(null);
     const [currentnickName, setcurrentnickName] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
+    const dropdownRef = useRef(null);
+    const modalRef = useRef(null);
+    const [isOpen, setIsOpen] = useState(false);
+
+    
 
     const itemsPerPage = 4;
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -95,6 +101,16 @@ function CommunityDetail() {
 
         fetchData();
     }, [boardId]);
+
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsOpen(false);
+        }
+    };
 
     const handleDateSelect = (date) => {
         setSelectedDate(date);
@@ -252,19 +268,27 @@ function CommunityDetail() {
                     <>
                         <div className="travelPostContainer">
                             <div className="travelPostHeader">
+
+                                <div className="travelPostHeaderContent">
                                 {(isAdmin || (currentnickName && community && currentnickName === community.email)) && (
                                     <>
-                                        <div className="postDeleteBtnContainer">
-                                            <button className="postDeleteBtn" onClick={handleDeletePost}>
-                                                삭제하기
+                                        <div className="dropdown-container" ref={dropdownRef}>
+                                            <button className="dropdowns-toggle" onClick={toggleDropdown}>
+                                                <FontAwesomeIcon icon={faEllipsisVertical} className='planDetailSetting' />
                                             </button>
-                                            {!isAdmin && (<button className="postModifyBtn" onClick={handleModifyPost}>
-                                                수정하기
-                                            </button>)}
+                                            {isOpen && (
+                                                <div className="dropdowns-menu">
+                                                    <ul>
+                                                        <li onClick={handleModifyPost}>수정하기</li>
+                                                        <hr />
+                                                        <li onClick={handleDeletePost}>삭제하기</li>
+                                                    </ul>
+                                                </div>
+                                            )}
                                         </div>
+
                                     </>
                                 )}
-                                <div className="travelPostHeaderContent">
                                     <div className="travelPostHeaderGroup">
                                         <div className="travelPostTitle">{community.title}</div>
                                         <div className="travelPostAuthor">작성자: {community.nickName}</div>
