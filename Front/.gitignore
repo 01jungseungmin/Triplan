@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .env
+../Back/nohup.out
+../Back/src/main/resources/static/
