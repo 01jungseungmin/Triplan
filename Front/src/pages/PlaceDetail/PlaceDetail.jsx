@@ -50,7 +50,7 @@ function PlaceDetail() {
 
     useEffect(() => {
         // placeId에 해당하는 장소 데이터를 백엔드에서 불러옵니다.
-        fetch(`http://localhost:8080/place/details/${placeId}`)
+        fetch(`http://13.209.211.218:8080/place/details/${placeId}`)
             .then(response => response.json())
             .then(data => setPlace(data))
             .catch(error => console.error('Error fetching place data:', error));

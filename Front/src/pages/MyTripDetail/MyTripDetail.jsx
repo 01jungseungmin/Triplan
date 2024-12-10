@@ -51,7 +51,7 @@ function MyTripDetail() {
             return;
         }
 
-        fetch(`http://localhost:8080/crew/list/${crewId}`, {
+        fetch(`http://13.209.211.218:8080/crew/list/${crewId}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -115,7 +115,7 @@ function MyTripDetail() {
         console.log("Request Data:", JSON.stringify(requestData));
 
         try {
-            const response = await fetch(`http://localhost:8080/crew/update/${crewId}`, {
+            const response = await fetch(`http://13.209.211.218:8080/crew/update/${crewId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -147,7 +147,7 @@ function MyTripDetail() {
     const handleDeleteCrew = () => {
         if (window.confirm('정말로 이 그룹을 삭제하시겠습니까?')) {
             const token = localStorage.getItem('token');
-            fetch(`http://localhost:8080/crew/delete/${crewId}`, {
+            fetch(`http://13.209.211.218:8080/crew/delete/${crewId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

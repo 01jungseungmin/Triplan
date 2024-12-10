@@ -22,7 +22,7 @@ function CommunityBoard() {
         let isMounted = true; // 컴포넌트 언마운트 후 API 응답 처리 방지
         const token = localStorage.getItem('token');
 
-        fetch('http://localhost:8080/api/boards', {
+        fetch('http://13.209.211.218:8080/api/boards', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`, // 인증 토큰 포함

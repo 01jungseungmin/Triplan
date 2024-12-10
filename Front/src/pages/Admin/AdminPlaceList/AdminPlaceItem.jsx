@@ -22,7 +22,7 @@ function AdminPlaceItem({ placeId, name, address, phone, distance, rating, revie
     
         try {
             // 문자열 템플릿 리터럴을 사용하여 placeId 삽입
-            const response = await fetch(`http://localhost:8080/admin/delete/${placeId}`, {
+            const response = await fetch(`http://13.209.211.218:8080/admin/delete/${placeId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

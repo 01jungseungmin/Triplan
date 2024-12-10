@@ -35,7 +35,7 @@ function CommunityWrite() {
         const fetchData = async () => {
             try {
                 // 여행 기간 가져오기
-                const periodResponse = await fetch(`http://localhost:8080/crew/list/${crewId}`, {
+                const periodResponse = await fetch(`http://13.209.211.218:8080/crew/list/${crewId}`, {
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` },
                 });
@@ -46,7 +46,7 @@ function CommunityWrite() {
                 setEndDate(periodData.planEndDate);
 
                 // 일정 데이터 가져오기
-                const planResponse = await fetch(`http://localhost:8080/plan/${crewId}`, {
+                const planResponse = await fetch(`http://13.209.211.218:8080/plan/${crewId}`, {
                     method: "GET",
                     headers: { Authorization: `Bearer ${token}` },
                 });
@@ -140,7 +140,7 @@ function CommunityWrite() {
 
         try {
             const response = await fetch(
-                `http://localhost:8080/api/boards/write/${crewId}`,
+                `http://13.209.211.218:8080/api/boards/write/${crewId}`,
                 {
                     method: "POST",
                     headers: {

@@ -17,7 +17,7 @@ function InviteDialog({ isOpen, onClose, crewId }) {
             try {
                 const token = localStorage.getItem('token');
                 // crewId를 쿼리 파라미터로 전달하도록 수정
-                const response = await axios.get(`http://localhost:8080/mail/autocomplete?crewId=${crewId}&email=${inputEmail}`, {
+                const response = await axios.get(`http://13.209.211.218:8080/mail/autocomplete?crewId=${crewId}&email=${inputEmail}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -43,7 +43,7 @@ function InviteDialog({ isOpen, onClose, crewId }) {
 
         try {
             const token = localStorage.getItem('token');
-            await axios.post(`http://localhost:8080/mail/send/${crewId}`, { email }, {
+            await axios.post(`http://13.209.211.218:8080/mail/send/${crewId}`, { email }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

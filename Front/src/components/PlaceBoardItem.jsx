@@ -36,7 +36,7 @@ function PlaceBoardItem({ placeId, name, address, phone, distance, rating, revie
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:8080/admin/delete/${placeId}`, {
+            const response = await fetch(`http://13.209.211.218:8080/admin/delete/${placeId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

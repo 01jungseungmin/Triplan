@@ -53,7 +53,7 @@ function AdminPlaceList() {
     useEffect(() => {
         const token = localStorage.getItem('token');  // 인증 토큰
 
-        fetch('http://localhost:8080/place/findAll', {
+        fetch('http://13.209.211.218:8080/place/findAll', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

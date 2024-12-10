@@ -23,7 +23,7 @@ function MyTrip() {
         if (!token) {
             navigate('/login');
         } else {
-            fetch('http://localhost:8080/crew/list', {
+            fetch('http://13.209.211.218:8080/crew/list', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -105,7 +105,7 @@ function MyTrip() {
             planEndDate: endDate,
         };
 
-        fetch('http://localhost:8080/crew/create', {
+        fetch('http://13.209.211.218:8080/crew/create', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ function MyTrip() {
                 if (response.ok) {
                     alert('일정이 성공적으로 생성되었습니다.');
                     closeModal(); // 모달 닫기
-                    return fetch('http://localhost:8080/crew/list', { // 새로 생성한 일정 목록을 업데이트
+                    return fetch('http://13.209.211.218:8080/crew/list', { // 새로 생성한 일정 목록을 업데이트
                         method: 'GET',
                         headers: {
                             'Authorization': `Bearer ${localStorage.getItem('token')}`

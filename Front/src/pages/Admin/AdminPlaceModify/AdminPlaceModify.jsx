@@ -23,7 +23,7 @@ function AdminPlaceModify() {
     useEffect(() => {
         const token = localStorage.getItem("token");
 
-        fetch(`http://localhost:8080/place/details/${placeId}`, {
+        fetch(`http://13.209.211.218:8080/place/details/${placeId}`, {
             method: "GET",
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -90,7 +90,7 @@ function AdminPlaceModify() {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/admin/update", {
+            const response = await fetch("http://13.209.211.218:8080/admin/update", {
                 method: "PUT",
                 headers: {
                     Authorization: `Bearer ${token}`,

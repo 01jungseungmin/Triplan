@@ -15,7 +15,7 @@ function MyTripPlanPlaceItem({ onClick, crewId, date }) {
                 }
                 console.log(`Fetching data for crewId: ${crewId}, date: ${date}`); // 요청 전 로그
                 const response = await fetch(
-                    `http://localhost:8080/plan/${crewId}?date=${date}`,
+                    `http://13.209.211.218:8080/plan/${crewId}?date=${date}`,
                     {
                         method: 'GET',
                         headers: {

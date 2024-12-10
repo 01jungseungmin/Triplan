@@ -58,7 +58,7 @@ function PlanPlaceAddModal({ isOpen, onClose, onSave, crewId, placeId, planDate,
         };
 
         try {
-            const response = await fetch('http://localhost:8080/plan/create', {
+            const response = await fetch('http://13.209.211.218:8080/plan/create', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

@@ -59,7 +59,7 @@ function MyPlaceAddModal({ isOpen, onClose, crewId, planDate }) {
         console.log("서버 요청 데이터:", requestData);
     
         try {
-            const response = await fetch("http://localhost:8080/placeAdd/create", {
+            const response = await fetch("http://13.209.211.218:8080/placeAdd/create", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

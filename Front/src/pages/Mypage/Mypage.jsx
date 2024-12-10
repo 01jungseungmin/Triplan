@@ -22,7 +22,7 @@ function Mypage() {
             const token = localStorage.getItem('token');
 
             if (token) {
-                fetch('http://localhost:8080/mypage/user-info', {
+                fetch('http://13.209.211.218:8080/mypage/user-info', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ function Mypage() {
 
         const token = localStorage.getItem('token');
 
-        fetch('http://localhost:8080/mypage/password-check', {
+        fetch('http://13.209.211.218:8080/mypage/password-check', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ function Mypage() {
 
         const token = localStorage.getItem('token');
 
-        fetch('http://localhost:8080/mypage/modify/password', {
+        fetch('http://13.209.211.218:8080/mypage/modify/password', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ function Mypage() {
     const handleSubmit = () => {
         const token = localStorage.getItem('token');
 
-        fetch('http://localhost:8080/mypage/modify', {
+        fetch('http://13.209.211.218:8080/mypage/modify', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

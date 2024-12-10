@@ -69,7 +69,7 @@ function CommunityDetail() {
             try {
                 const token = localStorage.getItem('token');
 
-                const response = await fetch(`http://localhost:8080/api/boards/${boardId}`, {
+                const response = await fetch(`http://13.209.211.218:8080/api/boards/${boardId}`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -84,7 +84,7 @@ function CommunityDetail() {
                     setSelectedDate(data.plans[0].planDate); // 기본적으로 첫 날짜를 선택
                 }
                 // 댓글 데이터 가져오기
-                const commentsResponse = await fetch(`http://localhost:8080/${boardId}/answer`, {
+                const commentsResponse = await fetch(`http://13.209.211.218:8080/${boardId}/answer`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -149,7 +149,7 @@ function CommunityDetail() {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:8080/api/boards/${boardId}`, {
+            const response = await fetch(`http://13.209.211.218:8080/api/boards/${boardId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -184,7 +184,7 @@ function CommunityDetail() {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/api/boards/${boardId}/modify`, {
+            const response = await fetch(`http://13.209.211.218:8080/api/boards/${boardId}/modify`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -202,7 +202,7 @@ function CommunityDetail() {
             alert(message);
 
             // Optionally, refresh the post data
-            const updatedResponse = await fetch(`http://localhost:8080/api/boards/${boardId}`, {
+            const updatedResponse = await fetch(`http://13.209.211.218:8080/api/boards/${boardId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -230,7 +230,7 @@ function CommunityDetail() {
         }
 
         try {
-            const response = await fetch(`http://localhost:8080/${boardId}/write`, {
+            const response = await fetch(`http://13.209.211.218:8080/${boardId}/write`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -244,7 +244,7 @@ function CommunityDetail() {
             setNewComment('');
 
             // 댓글 새로고침
-            const commentsResponse = await fetch(`http://localhost:8080/${boardId}/answer`, {
+            const commentsResponse = await fetch(`http://13.209.211.218:8080/${boardId}/answer`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
