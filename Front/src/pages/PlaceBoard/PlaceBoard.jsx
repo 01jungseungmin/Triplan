@@ -53,7 +53,7 @@ function PlaceBoard() {
         fetch('http://13.209.211.218:8080/place/findAll', {
             method: 'GET',
             headers: {
-                //'Authorization': `Bearer ${token}`, // 인증 토큰 포함
+                'Content-Type': 'application/json',
             }
         })
             .then(response => {
