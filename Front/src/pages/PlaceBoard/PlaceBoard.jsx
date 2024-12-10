@@ -171,10 +171,10 @@ function PlaceBoard() {
                             }}
                         />
                     ))}
-                    {isAdmin && (
+                    <div class="category-item ">                    {isAdmin && (
                         <button className='adminPlaceAdd' onClick={() => navigate('/admin/place/add')}>
                             장소 추가</button>
-                    )}
+                    )}</div>
                 </div>
                 {filteredPlaces.length > 0 ? (
                     <div className='placeBoardGridContent'>
