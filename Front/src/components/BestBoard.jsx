@@ -15,7 +15,7 @@ function BestBoard() {
           ? { Authorization: `Bearer ${token}` } // 토큰이 있으면 Authorization 헤더 추가
           : {};
 
-        const response = await     fetch('http://13.209.211.218:8080/place/findAll', {
+        const response = await fetch('http://13.209.211.218:8080/place/findAll', {
           method: 'GET',
           headers: {}, // 인증 없이 요청
         })
