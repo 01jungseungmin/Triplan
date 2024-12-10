@@ -116,9 +116,9 @@ function AdminPlaceModify() {
 
     return (
         <div>
-            <div className='AdminPlaceModifyContainer'>
-                <Header />
-                <div className='AdminPlaceModifyContent'>
+            <div className='AdminPlaceAddContainer'>
+            <Header />
+                <div className='AdminPlaceAddContent'>
                     <div className='AdminPlaceContainer'>
                         <div className='AdminPlaceTitle'>장소 이름</div>
                         <input
