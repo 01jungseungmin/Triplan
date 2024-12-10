@@ -20,6 +20,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -46,7 +47,7 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/","/swagger-ui/**","/{boardId}/answer" ,"/v3/api-docs/**","/login", "/join", "/main", "/api/load","/api/boards","/place/findAll", "/place/details/{placeId}", "/api/boards/{boardId}").permitAll() // 로그인, 회원가입, 메인 페이지는 모두 접근 가능
+                        .requestMatchers("/", "/favicon.ico","/swagger-ui/**","/{boardId}/answer" ,"/v3/api-docs/**","/login", "/join", "/main", "/api/load","/api/boards","/place/findAll", "/place/details/{placeId}", "/api/boards/{boardId}").permitAll() // 로그인, 회원가입, 메인 페이지는 모두 접근 가능
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
@@ -61,8 +62,8 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(Collections.singletonList("*")); // 모든 도메인 허용
-        config.setAllowedMethods(Collections.singletonList("*")); // 모든 HTTP 메소드 허용
-        config.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드
+        config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // 허용할 헤더
         config.setAllowCredentials(true); // 인증 정보를 포함한 요청 허용
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
