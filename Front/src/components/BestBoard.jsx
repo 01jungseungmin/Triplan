@@ -15,10 +15,11 @@ function BestBoard() {
           ? { Authorization: `Bearer ${token}` } // 토큰이 있으면 Authorization 헤더 추가
           : {};
 
-        const response = await fetch('http://localhost:8080/place/findAll', {
+        const response = await fetch('http://13.209.211.218:8080/place/findAll', {
           method: 'GET',
-          headers,
-        });
+          headers: {}, // 인증 없이 요청
+        })
+    
 
         if (!response.ok) {
           throw new Error(`장소 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`);

@@ -62,7 +62,7 @@ function Header() {
     const handleLogoutClick = (e) => {
         e.preventDefault();
         if (isLoggedIn) {
-            fetch('http://localhost:8080/api/logout', {
+            fetch('http://13.209.211.218:8080/api/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
