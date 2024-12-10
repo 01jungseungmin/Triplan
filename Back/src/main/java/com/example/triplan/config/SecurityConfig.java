@@ -1,7 +1,6 @@
 package com.example.triplan.config;
 
 
-import com.example.triplan.security.jwt.JwtFilter;
 import com.example.triplan.security.jwt.TokenProvider;
 import com.example.triplan.security.jwt.point.JwtAccessDeniedHandler;
 import com.example.triplan.security.jwt.point.JwtAuthenticationEntryPoint;
@@ -17,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -48,13 +46,13 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        // 정적 리소스 경로 인증 없이 허용
-                        .requestMatchers("/", "/index.html", "/favicon.ico", "/static/**").permitAll()
-                        // 로그인, 회원가입 등 인증 없이 허용
                         .requestMatchers("/","/swagger-ui/**","/{boardId}/answer" ,"/v3/api-docs/**","/login", "/join", "/main", "/api/load","/api/boards","/place/findAll", "/place/details/{placeId}", "/api/boards/{boardId}").permitAll() // 로그인, 회원가입, 메인 페이지는 모두 접근 가능
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
-                );
-        http.addFilterBefore(new JwtFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class); // JWT 필터 추가
+                )
+                .with(new JwtSecurityConfig(tokenProvider), customizer -> {}); //filterChain 등록
+
 
 
         return http.build();

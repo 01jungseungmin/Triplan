@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../components/css/BestBoard.css';
 import PlaceBoardItem from './PlaceBoardItem';
-// import { places } from '../data/mock';
 
 function BestBoard() {
   const [topPlaces, setTopPlaces] = useState([]);
@@ -10,18 +9,15 @@ function BestBoard() {
 
   useEffect(() => {
     const fetchTopPlaces = async () => {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        setError('로그인이 필요합니다.');
-        return;
-      }
-
       try {
+        const token = localStorage.getItem('token');
+        const headers = token
+          ? { Authorization: `Bearer ${token}` } // 토큰이 있으면 Authorization 헤더 추가
+          : {};
+
         const response = await fetch('http://localhost:8080/place/findAll', {
           method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`, // 인증 토큰 포함
-          },
+          headers,
         });
 
         if (!response.ok) {
@@ -38,7 +34,7 @@ function BestBoard() {
         setTopPlaces(sortedPlaces);
       } catch (error) {
         console.error('에러 발생:', error);
-        setError('데이터를 불러오는 중 오류가 발생했습니다.');
+
       } finally {
         setLoading(false); // 로딩 상태 해제
       }
@@ -47,16 +43,17 @@ function BestBoard() {
     fetchTopPlaces();
   }, []);
 
-  if (loading) return <div>로딩 중...</div>;
-  if (error) return <div>{error}</div>;
+  // 로딩 상태가 끝난 후 렌더링
+  if (loading) return null; // 로딩 중 상태 제거
+  if (error) console.error('에러 상태:', error); // 에러가 있더라도 화면에는 표시하지 않음
 
   return (
     <div className="best-Board-container">
       <div className="BestBoard-header-box">
-        <div className='BestBoard-header'>BEST PLACE</div>
+        <div className="BestBoard-header">BEST PLACE</div>
         <a href="/PlaceBoard">전체보기</a>
       </div>
-      <div className='BestBoardSub'>사람들이 많이 찾는 장소에요</div>
+      <div className="BestBoardSub">사람들이 많이 찾는 장소에요</div>
       <div className="best-board-grid">
         {topPlaces.map((place, index) => (
           <PlaceBoardItem
@@ -65,8 +62,7 @@ function BestBoard() {
             name={place.placeName} // API 데이터에 맞게 수정
             address={place.placeAddress} // API 데이터에 맞게 수정
             phone={place.placeNumber} // API 데이터에 맞게 수정
-            distance={place.distance} // 필요한 경우 API 데이터에 맞게 수정
-            count={place.count}
+            count={place.count} // API 데이터에 맞게 수정
           />
         ))}
       </div>
@@ -75,5 +71,3 @@ function BestBoard() {
 }
 
 export default BestBoard;
-
-

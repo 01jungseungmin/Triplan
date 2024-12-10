@@ -17,6 +17,8 @@ import AdminPlaceDetail from './pages/Admin/AdminPlaceList/AdminPlaceDetail';
 import AdminCommunityDetail from './pages/Admin/AdminCommunity/AdminCommunityDetail';
 import AdminPlaceAdd from './pages/Admin/AdminPlaceAdd/AdminPlaceAdd';
 import AdminPlaceModify from './pages/Admin/AdminPlaceModify/AdminPlaceModify';
+import UnauthorizedPage from './pages/UnauthorizedPage';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   return (
@@ -35,16 +37,61 @@ function App() {
         <Route path='/api/boards/:boardId' element={<CommunityDetail />} />
         <Route path='/write' element={<CommunityWrite />} />
         <Route path="/write/:crewId" element={<CommunityWrite />} />
+        <Route path='/unauthorized' element={<UnauthorizedPage />} /> {/* 권한 없음 페이지 */}
 
-        <Route path='/admin/place/list' element={<AdminPlaceList />} />
-        <Route path='/admin/community/list' element={<AdminCommunity />} />
-        <Route path='/admin/place/details/:placeId' element={<AdminPlaceDetail />} />
-        <Route path='/admin/community/details/:communityId' element={<AdminCommunityDetail />} />
-        <Route path='/admin/place/add' element={<AdminPlaceAdd />} />
-        <Route path="/admin/place/edit/:placeId" element={<AdminPlaceModify />} />
+        {/* 관리자 전용 경로 */}
+        <Route
+          path='/admin/place/list'
+          element={
+            <AdminRoute>
+              <AdminPlaceList />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path='/admin/community/list'
+          element={
+            <AdminRoute>
+              <AdminCommunity />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path='/admin/place/details/:placeId'
+          element={
+            <AdminRoute>
+              <AdminPlaceDetail />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path='/admin/community/details/:communityId'
+          element={
+            <AdminRoute>
+              <AdminCommunityDetail />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path='/admin/place/add'
+          element={
+            <AdminRoute>
+              <AdminPlaceAdd />
+            </AdminRoute>
+          }
+        />
+        <Route
+          path="/admin/place/edit/:placeId"
+          element={
+            <AdminRoute>
+              <AdminPlaceModify />
+            </AdminRoute>
+          }
+        />
       </Routes>
     </Router>
   );
 }
+
 
 export default App;
