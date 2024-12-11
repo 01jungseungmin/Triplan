@@ -1,0 +1,300 @@
+hr {
+    border: solid 0.01rem #e7e7e7bb;
+}
+
+.MyTripDetailContainer {
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 18%;
+    box-sizing: border-box;
+    font-family: 'PretendardFont-Light';
+}
+
+.myTripPlanDayContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.planContent {
+    display: flex;
+    justify-content: center;
+    margin: 3% 0;
+}
+
+.planDetailContent {
+    width: 80%;
+}
+
+.planDetailNameContainer {
+    display: flex;
+    align-items: center;
+}
+
+.planDetailName {
+    font-family: 'PretendardFont-Bold';
+    font-size: 1.6rem;
+    color: #272727;
+    text-align: left;
+
+}
+
+.planDetailSetting {
+    font-size: 1rem;
+    color: #848484;
+}
+
+.planDetailDate {
+    display: flex;
+    align-items: center;
+    margin-top: 4%;
+    color: #848484;
+}
+
+.planDetailUser {
+    display: flex;
+    align-items: center;
+    margin-top: 2%;
+    color: #848484;
+}
+
+.myTripDetailIcon {
+    font-size: 1.3rem;
+    margin-right: 1.4%;
+}
+
+.planDetailDateTxt,
+.planDetailUserTxt {
+    font-size: 1.13rem;
+}
+
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+    margin-left: auto;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-menu {
+    position: absolute;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 150px;
+}
+
+.dropdown-menu ul {
+    list-style: none;
+    padding: 6% 0;
+    margin: 0;
+}
+
+.dropdown-menu ul hr {
+    margin: 6% 4%;
+}
+
+.dropdown-menu li {
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f1f1f1;
+}
+
+hr {
+    margin: 8px 0;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.inviteButtonMyTrip {
+    border-radius: 10px;
+    border: none;
+    width: 13%;
+    font-size: 0.92rem;
+    font-family: 'PretendardFont-Bold';
+    color: white;
+    background-color: #82D3DD;
+    cursor: pointer;
+    padding: 4px 0;
+}
+
+.myTripPlanDayContent {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    width: 100%;
+    gap: 70px;
+    margin-bottom: 10%;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 20px;
+    z-index: 1001;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 700px;
+    max-width: 90%;
+    display: flex;
+    overflow: hidden;
+}
+
+/* 백드롭: 모달 뒤에 깔리는 회색 배경 */
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* 반투명한 회색 */
+    z-index: 1000;
+    /* 모달보다 뒤에 위치 */
+}
+
+/* 폼 컨테이너 */
+.form-container {
+    display: flex;
+    width: 100%;
+    background-color: #fff;
+}
+
+/* 이미지 섹션 */
+.image-section {
+    flex: 1;
+    background-color: #f5f5f5;
+}
+
+.background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 폼 섹션 */
+.form-section {
+    flex: 2;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: 'PretendardFont-Medium';
+}
+
+.form-subtitle {
+    color: #767676;
+    margin-bottom: 20px;
+    text-align: center;
+    font-family: 'PretendardFont-Medium';
+    margin-bottom: 6%;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+}
+
+.MytripNameInputContent,
+.MytripDateInputContent {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 10%;
+}
+
+.MytripNameInputTitle {
+    font-size: 1rem;
+    font-family: 'PretendardFont-Medium';
+    color: #a0a0a0;
+    margin-bottom: 1%;
+}
+
+.MytripDateInputTitle {
+    font-size: 1rem;
+    font-family: 'PretendardFont-Medium';
+    color: #a0a0a0;
+    margin-bottom: 1%;
+}
+
+.MytripNameInput {
+    width: 90%;
+    padding: 3%;
+    border: solid 1px #c2c2c2;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: 'PretendardFont-Light';
+}
+
+.MytripDateStart,
+.MytripDateEnd {
+    width: 36%;
+    padding: 3%;
+    border: solid 1px #c2c2c2;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: 'PretendardFont-Light';
+}
+
+.MytripDateInputBox {
+    display: flex;
+    align-items: center;
+}
+
+.minusIcon {
+    color: #a0a0a0;
+    margin: 0 2%;
+}
+
+.MytripCreateContent {
+    display: flex;
+    justify-content: center;
+}
+
+.tripCreateButton {
+    border: none;
+    background-color: #a2d2e8;
+    color: white;
+    border-radius: 10px;
+    height: 40px;
+    width: 50%;
+    font-family: 'PretendardFont-Medium';
+    font-size: 0.96rem;
+    cursor: pointer;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.MytripDateStart::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    /* 마우스 포인터 스타일 변경 */
+}
+
+
+.MytripDateEnd::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    /* 마우스 포인터 스타일 변경 */
+}

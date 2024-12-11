@@ -1,0 +1,177 @@
+hr {
+    border: 0.01rem solid #f1f1f1;
+}
+
+.TitleContent hr {
+    border: 0.01rem solid #67C1C7;
+}
+
+.placeDetailContainer {
+    text-align: center;
+    margin: 0 auto;
+    padding: 0 18%;
+    box-sizing: border-box;
+    font-family: 'PretendardFont';
+}
+
+.placeDetailHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin: 3% 12%;
+}
+
+.placeImagePlaceholder {
+    width: 48%;
+    height: 200px;
+    background-color: #ddd;
+    overflow: hidden; /* 부모 컨테이너를 넘치는 내용을 숨김 */
+}
+.placeImagePlaceholder img {
+    width: auto; /* 너비 자동 조정 */
+    height: 100%; /* 높이를 컨테이너에 맞춤 */
+    max-width: 100%; /* 부모 너비 초과 방지 */
+    object-fit: contain; /* 이미지를 비율 유지하며 완전 표시 */
+    border-radius: 8px;
+}
+.placeInfo {
+    width: 48%;
+    height: 200px;
+    text-align: left;
+}
+
+.placeName-Count {
+    display: flex;
+    align-items: center;
+}
+
+.placeName {
+    font-family: 'PretendardFont-Bold';
+    font-size: 1.38rem;
+    margin-bottom: 2.5%;
+    margin-right: 1.8%;
+    color: rgb(54, 54, 54);
+}
+
+.placeCount {
+    font-size: 0.8rem;
+    color: rgb(133, 133, 133);
+}
+
+.placeAddress {
+    margin-bottom: 1%;
+}
+
+.placeAddress, .placePhone {
+    color: rgb(54, 54, 54);
+    font-size: 1rem;
+}
+
+.placeDetailSection {
+    margin: 3% 12%;
+    cursor: context-menu;
+}
+
+.TitleContent {
+    width: 8%;
+}
+
+.placeDetailTitle {
+    font-size: 0.78rem;
+    font-family: 'PretendardFont-bold';
+    color: rgb(54, 54, 54);
+}
+
+.placeDetailContent {
+    margin-top: 3%;
+    text-align: left;
+}
+
+.basicInfoContent,
+.mapContent {
+    text-align: left;
+    margin-top: 2%;
+}
+
+.placeHours,
+.basicInfo,
+.mapTxt {
+    font-family: 'PretendardFont-bold';
+    color: rgb(54, 54, 54);
+    font-size: 1.2rem;
+}
+
+.placeHoursText {
+    color: rgb(77, 77, 77);
+    margin-top: 2.5%;
+    margin-bottom: 2%;
+}
+
+.basicInfoGroup {
+    margin-top: 2.5%;
+    color: rgb(77, 77, 77);
+    font-size: 1.02rem;
+}
+
+.basicInfoPhone,
+.basicInfoSite,
+.basicInfoAddress {
+    display: flex;
+    margin-top: 1.8%;
+}
+
+.basicInfoAddress {
+    margin-bottom: 2%;
+}
+
+.basicInfoPhoneTitle,
+.basicInfoSiteTitle,
+.basicInfoAddressTitle {
+    width: 12%;
+    color: rgb(151, 151, 151);
+}
+
+.kakaoMap {
+    margin-top: 2%;
+    background-color: rgb(197, 197, 197);
+    height: 400px;
+    width: 100%;
+}
+
+.CalendarPlusBtnBox {
+    width: 100%;
+    display: flex;
+    margin-top: 30%;
+}
+
+.AdminModifyBtn {
+    width: 25%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #67c1c7b9;
+    font-size: 0.93rem;
+    font-family: 'PretendardFont-Medium';
+    margin-left: auto;
+    margin-right: 6%;
+}
+
+.CalendarPlusBtn {
+    width: 25%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #67c1c7b9;
+    font-size: 0.93rem;
+    font-family: 'PretendardFont-Medium';
+    margin-left: auto;
+    margin-right: 6%;
+}
+
+.CalendarPlusBtn:hover {
+    color: #67C1C7;
+}
+
+.plusIcon {
+    margin-right: 4px;
+}

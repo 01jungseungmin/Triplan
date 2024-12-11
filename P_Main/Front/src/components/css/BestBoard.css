@@ -1,0 +1,42 @@
+.best-Board-container {
+    max-width: 100%;
+    margin-top: 30%;
+    padding: 3%;
+  }
+  
+  .BestBoard-header-box {
+    display: flex;
+    align-items: end;
+  }
+  
+  .BestBoard-header {
+    font-size: 26px;
+    font-weight: 700;
+    font-family: 'PretendardFont';
+  }
+  
+  .BestBoard-header-box a {
+    font-size: 12px;
+    color: #999;
+    margin-left: 1%;
+  }
+
+  .BestBoardSub {
+    font-size: 16px;
+    font-family: 'PretendardFont';
+    color: #8b8b8b;
+    text-align: left;
+    margin-top: 1%;
+  }
+  
+  .best-board-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 4%;
+    margin-top: 2%;
+    margin-bottom: 10%;
+    text-align: left;
+  }
+
+
+  

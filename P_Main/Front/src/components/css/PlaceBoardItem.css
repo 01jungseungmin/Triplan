@@ -1,0 +1,94 @@
+.board-item {
+  background-color: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.board-item-image {
+  background-color: #ccc;
+  height: 150px; /* 고정된 높이 설정 */
+  overflow: hidden; /* 넘치는 이미지를 숨김 */
+  display: flex; /* 이미지 중앙 정렬을 위한 flexbox 설정 */
+  justify-content: center;
+  align-items: center;
+}
+
+.placeImg {
+  width: 100%; /* 부모 컨테이너 너비에 맞게 */
+  height: auto; /* 높이는 자동으로 조정 */
+  max-height: 100%; /* 부모 컨테이너 높이를 초과하지 않도록 설정 */
+  object-fit: contain; /* 이미지 전체를 비율 유지하며 보여줌 */
+  border-radius: 8px; /* 둥근 모서리 */
+}
+
+.board-item-info {
+  padding: 2% 4%;
+  height: 120px;
+}
+
+.board-item-title {
+  font-size: 20px;
+  font-family: 'PretendardFont-Bold';
+  margin-bottom: 8%;
+}
+
+.board-item-address {
+  margin-bottom: 1%;
+}
+
+.board-item-address,
+.board-item-phone {
+  font-size: 14px;
+  font-family: 'PretendardFont-Light';
+  color: #505050;
+}
+
+.board-item-distance,
+.board-item-rating {
+  font-size: 14px;
+  font-family: 'PretendardFont-Light';
+  color: #707070;
+  margin-top: 4px; /* 항목들 사이의 간격 */
+}
+
+.board-item-distance {
+  display: flex;
+  align-items: center;
+}
+
+.board-item-rating {
+  display: flex;
+  align-items: center;
+}
+
+/* 아이템 hover 시 약간의 효과 추가 */
+.board-item:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Link 태그 또는 a 태그의 기본 링크 스타일 제거 */
+.board-item-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 기본 hover 스타일도 제거 */
+.board-item-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+.trashIconBox {
+  display: flex;
+  margin-top: 6%;
+}
+
+.trashIcon {
+  margin-left: auto;
+  margin-right: 6%;
+  margin-bottom: 2%;
+  color: rgb(107, 107, 107);
+  font-size: 1rem;
+}

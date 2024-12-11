@@ -14,7 +14,7 @@ function InviteAlarm() {
                 throw new Error('로그인이 필요합니다.');
             }
 
-            const response = await fetch('http://13.209.211.218:8080/alarm', {
+            const response = await fetch('http://localhost:8080/alarm', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -40,7 +40,7 @@ function InviteAlarm() {
     const handleUpdateAlarm = async (alarmId, crewId, inviteType) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://13.209.211.218:8080/alarm`, {
+            const response = await fetch(`http://localhost:8080/alarm`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
