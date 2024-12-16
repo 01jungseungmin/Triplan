@@ -19,7 +19,7 @@ function BestBoard() {
           method: 'GET',
           headers: {}, // 인증 없이 요청
         })
-    
+
 
         if (!response.ok) {
           throw new Error(`장소 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`);
@@ -52,8 +52,8 @@ function BestBoard() {
     <div className="best-Board-container">
       <div className="BestBoard-header-box">
         <div className="BestBoard-header">BEST PLACE</div>
-        <a href="/PlaceBoard">전체보기</a>
-      </div>
+        <a href="http://13.209.211.218:8080/place/findAll" target="_blank" rel="noopener noreferrer">전체보기</a>      
+        </div>
       <div className="BestBoardSub">사람들이 많이 찾는 장소에요</div>
       <div className="best-board-grid">
         {topPlaces.map((place, index) => (
