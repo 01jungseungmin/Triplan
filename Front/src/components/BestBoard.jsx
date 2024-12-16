@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../components/css/BestBoard.css';
 import PlaceBoardItem from './PlaceBoardItem';
+import { Link } from 'react-router-dom';
 
 function BestBoard() {
   const [topPlaces, setTopPlaces] = useState([]);
@@ -52,7 +53,7 @@ function BestBoard() {
     <div className="best-Board-container">
       <div className="BestBoard-header-box">
         <div className="BestBoard-header">BEST PLACE</div>
-        <a href="http://13.209.211.218:8080/place/findAll">전체보기</a>      
+        <Link to="/PlaceBoard">전체보기</Link>
         </div>
       <div className="BestBoardSub">사람들이 많이 찾는 장소에요</div>
       <div className="best-board-grid">
