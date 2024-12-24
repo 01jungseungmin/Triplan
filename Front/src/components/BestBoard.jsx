@@ -22,7 +22,7 @@ function BestBoard() {
         }
         const data = await response.json();
         console.log('API에서 받아온 데이터:', data);
-        setPlaces(data); // 받아온 데이터를 상태에 저장
+        setTopPlaces(data); // 받아온 데이터를 상태에 저장
         setLoading(false); // 로딩 상태 해제
       } catch (error) {
         console.error('에러 발생:', error);
