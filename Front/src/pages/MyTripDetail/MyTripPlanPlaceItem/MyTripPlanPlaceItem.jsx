@@ -10,9 +10,7 @@ function MyTripPlanPlaceItem({ onClick, crewId, date }) {
         const fetchPlaces = async () => {
             try {
                 const token = localStorage.getItem('token');
-                if (!token) {
-                    throw new Error('로그인이 필요합니다.');
-                }
+
                 console.log(`Fetching data for crewId: ${crewId}, date: ${date}`); // 요청 전 로그
                 const response = await fetch(
                     `http://13.209.211.218:8080/plan/${crewId}?date=${date}`,
