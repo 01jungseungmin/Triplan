@@ -14,12 +14,9 @@ function BestBoard() {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            // 필요 시 인증 헤더 추가
-            'Authorization': `Bearer ${localStorage.getItem('token') || ''}`,
-
           }
         });
-
+  
         if (!response.ok) {
           throw new Error(`장소 데이터를 불러오지 못했습니다. 상태 코드: ${response.status}`);
         }
@@ -33,7 +30,7 @@ function BestBoard() {
         setLoading(false); // 로딩 상태 해제
       }
     };
-
+  
     fetchTopPlaces();
   }, []);
 
@@ -46,7 +43,7 @@ function BestBoard() {
       <div className="BestBoard-header-box">
         <div className="BestBoard-header">BEST PLACE</div>
         <a href="/PlaceBoard">전체보기</a>
-      </div>
+     </div>
       <div className="BestBoardSub">사람들이 많이 찾는 장소에요</div>
       <div className="best-board-grid">
         {topPlaces.map((place, index) => (

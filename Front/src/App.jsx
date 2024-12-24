@@ -22,16 +22,6 @@ import AdminRoute from './components/AdminRoute';
 
 function App() {
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      // 토큰을 상태로 복구
-      console.log('토큰 복구:', token);
-    } else {
-      console.log('토큰 없음');
-    }
-  }, []);
-
   return (
     <Router>
       <Routes>
