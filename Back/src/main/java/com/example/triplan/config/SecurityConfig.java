@@ -60,6 +60,13 @@ public class SecurityConfig {
     }
 
     @Bean
+    public HttpFirewall allowDoubleSlashHttpFirewall() {
+        StrictHttpFirewall firewall = new StrictHttpFirewall();
+        firewall.setAllowUrlEncodedDoubleSlash(true); // 중복된 슬래시 허용
+        return firewall;
+    }
+
+    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(Collections.singletonList("*")); // 모든 도메인 허용
