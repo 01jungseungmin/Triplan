@@ -1,3 +1,4 @@
+import React from 'react';
 import Header from '../../components/Header';
 import '../MyTrip/MyTrip.css';
 import MyTripTabs from '../../components/MyTripTabs';
