@@ -48,10 +48,7 @@ public class SecurityConfig {
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))  // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/","/favicon.ico","/swagger-ui/**","/{boardId}/answer" ,"/v3/api-docs/**","/login", "/join", "/main", "/api/load","/api/boards","/place/findAll", "/PlaceBoard", "/place/details/{placeId}", "/api/boards/{boardId}","static/**", "/index.html").permitAll() // 로그인, 회원가입, 메인 페이지는 모두 접근 가능
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-
-                        .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
+                        .anyRequest().permitAll() // 그 외 모든 요청은 인증 필요
                 )
                 .with(new JwtSecurityConfig(tokenProvider), customizer -> {}); //filterChain 등록
 
@@ -59,13 +56,7 @@ public class SecurityConfig {
 
         return http.build();
     }
-    @Bean
-    public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-        StrictHttpFirewall firewall = new StrictHttpFirewall();
-        firewall.setAllowUrlEncodedSlash(true); // 인코딩된 슬래시 허용
-        firewall.setAllowUrlEncodedSlash(true); // URL 인코딩된 슬래시 허용
-        return firewall;
-    }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
