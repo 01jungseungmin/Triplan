@@ -35,40 +35,14 @@ public class AccountService {
 
     @Transactional
     public Account join(AccountDto accountDto) {
-        long startTime = System.nanoTime();
-        logger.info("회원가입 요청 시작: 이메일={}", accountDto.getEmail());
-
-        // 1. 중복 확인 시간 측정
-        long checkStart = System.nanoTime();
         if (accountRepository.existsByEmail(accountDto.getEmail())) {
-            logger.warn("중복된 이메일로 회원가입 시도: {}", accountDto.getEmail());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "이미 가입되어 있는 유저입니다.");
         }
-        long checkEnd = System.nanoTime();
-        logger.info("중복 확인 소요 시간: {}ms", (checkEnd - checkStart) / 1_000_000);
 
-        // 2. 비밀번호 해싱 시간 측정
-        long hashStart = System.nanoTime();
-        String hashedPassword = passwordEncoder.encode(accountDto.getPassword());
-        long hashEnd = System.nanoTime();
-        logger.info("비밀번호 해싱 소요 시간: {}ms", (hashEnd - hashStart) / 1_000_000);
+        String encodedPassword = passwordEncoder.encode(accountDto.getPassword());
 
-        // 3. 데이터 저장 시간 측정
-        long saveStart = System.nanoTime();
-        Account account = new Account(
-                accountDto.getEmail(),
-                accountDto.getNickName(),
-                hashedPassword,
-                Role.ROLE_USER
-        );
-        accountRepository.save(account);
-        long saveEnd = System.nanoTime();
-        logger.info("데이터 저장 소요 시간: {}ms", (saveEnd - saveStart) / 1_000_000);
-
-        long endTime = System.nanoTime();
-        logger.info("회원가입 요청 완료: 총 소요 시간={}ms", (endTime - startTime) / 1_000_000);
-
-        return account;
+        Account account = new Account(accountDto.getEmail(), accountDto.getNickName(), encodedPassword, Role.ROLE_USER);
+        return accountRepository.save(account);
     }
 
     public TokenDto login(AccountDto accountDto) {
