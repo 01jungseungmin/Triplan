@@ -4,7 +4,7 @@ function TestPage() {
   const [data, setData] = useState("");
 
   useEffect(() => {
-    fetch("http://13.209.211.218:8080/redis/test")
+    fetch("http://13.209.211.218/redis/test")
       .then((response) => response.text())
       .then((data) => {
         console.log("Received data:", data);
