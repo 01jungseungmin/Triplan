@@ -13,7 +13,7 @@ public class RedisTestService {
     public String testRedisConnection() {
         try {
             // Redis에 데이터 저장
-            redisTemplate.opsForValue().set("testKey", "Hello Redis!");
+            redisTemplate.opsForValue().set("testKey", "Hello!!!!");
 
             // Redis에서 데이터 가져오기
             String value = redisTemplate.opsForValue().get("testKey");
