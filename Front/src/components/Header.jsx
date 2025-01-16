@@ -19,7 +19,7 @@ function Header() {
             setSelectedMenu("navHome");
         } else if (path.includes('/mytrip')) {
             setSelectedMenu("navMyTrip");
-        } else if (path.includes('/community')) {
+        } else if (path.includes('/redis/test')) {
             setSelectedMenu("navCommunity");
         } else if (path.includes('/placeboard')) {
             setSelectedMenu("navPlace");
