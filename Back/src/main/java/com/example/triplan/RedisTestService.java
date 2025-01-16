@@ -12,25 +12,18 @@ public class RedisTestService {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    // Redis에 데이터를 저장하는 메서드
-    public void saveValue(String key, String value) {
-        redisTemplate.opsForValue().set(key, value, 10, TimeUnit.MINUTES); // 10분 만료
-    }
-
-    // Redis에서 데이터를 조회하는 메서드
-    public String getValue(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-
-    // Redis 연결 테스트 메서드
-    public boolean testConnection() {
+    public String testRedisConnection() {
         try {
-            redisTemplate.opsForValue().set("redis-test-key", "test-value", 1, TimeUnit.MINUTES);
-            String result = redisTemplate.opsForValue().get("redis-test-key");
-            return "test-value".equals(result); // Redis에 데이터 저장/조회 성공 여부 확인
+            // Redis에 데이터 저장
+            redisTemplate.opsForValue().set("testKey", "Hello Redis!");
+
+            // Redis에서 데이터 가져오기
+            String value = redisTemplate.opsForValue().get("testKey");
+
+            return "Redis 연결 성공! 값: " + value;
         } catch (Exception e) {
             e.printStackTrace();
-            return false; // Redis 연결 실패
+            return "Redis 연결 실패: " + e.getMessage();
         }
     }
 }
