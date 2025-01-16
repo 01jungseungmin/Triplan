@@ -1,4 +1,4 @@
-package com.example.triplan;
+package com.example.triplan.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
