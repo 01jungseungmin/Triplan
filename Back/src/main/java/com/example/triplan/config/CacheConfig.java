@@ -8,6 +8,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisPassword;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @EnableCaching
@@ -21,9 +23,17 @@ public class CacheConfig {
     @Value("${spring.data.redis.password}")
     private String redisPassword;
     @Bean
-    public LettuceConnectionFactory redisConnectionFactory() {
+    public RedisConnectionFactory redisConnectionFactory() {
         RedisStandaloneConfiguration config = new RedisStandaloneConfiguration(redisHost, redisPort);
-        config.setPassword(RedisPassword.of(redisPassword)); // 비밀번호 설정된 경우 추가
+        config.setPassword(RedisPassword.of(redisPassword));
         return new LettuceConnectionFactory(config);
+    }
+
+    @Bean
+    public StringRedisTemplate redisTemplate(RedisConnectionFactory connectionFactory) {
+        StringRedisTemplate template = new StringRedisTemplate();
+        template.setConnectionFactory(connectionFactory);
+        template.setDefaultSerializer(new StringRedisSerializer());
+        return template;
     }
 }
