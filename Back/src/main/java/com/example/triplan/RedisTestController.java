@@ -1,12 +1,18 @@
 package com.example.triplan;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class RedisTestController {
+
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     private RedisTestService redisTestService;
@@ -24,8 +30,8 @@ public class RedisTestController {
     }
 
     @GetMapping("/redis/test")
-    public String testRedisConnection() {
-        boolean result = redisTestService.testConnection();
-        return result ? "Redis is working properly!" : "Redis connection failed!";
+    public ResponseEntity<String> getRedisTestData() {
+        String value = redisTemplate.opsForValue().get("testKey"); // Redis에서 값 가져오기
+        return ResponseEntity.ok(value != null ? value : "No data found in Redis");
     }
 }
