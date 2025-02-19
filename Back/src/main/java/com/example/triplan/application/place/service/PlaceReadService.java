@@ -26,6 +26,8 @@ public class PlaceReadService {
     private final ObjectMapper objectMapper;
 
     private static final String REDIS_PLACE_KEY = "all_places";
+    private static final String REDIS_PLACE_DETAIL_KEY_PREFIX = "place_details:";
+    private static final long CACHE_EXPIRATION = 3600; // 1시간 캐싱 (초 단위)
 
     // 전체 장소 조회
     public List<PlaceListResponse> findAll() {
@@ -46,7 +48,7 @@ public class PlaceReadService {
                     .collect(Collectors.toList());
 
             // 데이터를 Redis에 저장 (1시간 동안 캐싱)
-            redisTemplate.opsForValue().set(REDIS_PLACE_KEY, objectMapper.writeValueAsString(response), 1, TimeUnit.HOURS);
+            redisTemplate.opsForValue().set(REDIS_PLACE_KEY, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
 
             return response;
         } catch (Exception e) {
@@ -54,10 +56,35 @@ public class PlaceReadService {
         }
     }
 
-    //장소 상세 조회
-    public PlaceListDetailResponse getPlaceDetails(Long placeId){
-        Place place = placeRepository.findById(placeId).orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
-        return new PlaceListDetailResponse(place.getId(), place.getPlaceName(), place.getPlaceAddress(), place.getPlaceCategory() ,place.getPlaceNumber(), place.getPlaceBusinessHours(),
-                place.getPlaceLatitude(), place.getPlaceLongitude(),place.getPlaceHoliday(),place.getCount(),place.getImgUrl());
+    // 장소 상세 조회 (Redis 캐싱 적용)
+    public PlaceListDetailResponse getPlaceDetails(Long placeId) {
+        String redisKey = REDIS_PLACE_DETAIL_KEY_PREFIX + placeId;
+
+        try {
+            // Redis에서 데이터 조회
+            String cachedPlace = redisTemplate.opsForValue().get(redisKey);
+            if (cachedPlace != null) {
+                return objectMapper.readValue(cachedPlace, PlaceListDetailResponse.class);
+            }
+
+            // Redis에 데이터가 없으면 DB에서 조회
+            Place place = placeRepository.findById(placeId)
+                    .orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
+            PlaceListDetailResponse response = new PlaceListDetailResponse(
+                    place.getId(), place.getPlaceName(), place.getPlaceAddress(),
+                    place.getPlaceCategory(), place.getPlaceNumber(), place.getPlaceBusinessHours(),
+                    place.getPlaceLatitude(), place.getPlaceLongitude(), place.getPlaceHoliday(),
+                    place.getCount(), place.getImgUrl()
+            );
+
+            //Redis에 저장 (1시간 동안 캐싱)
+            redisTemplate.opsForValue().set(redisKey, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
+
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Redis 캐싱 처리 중 오류 발생", e);
+        }
     }
+
 }
