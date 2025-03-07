@@ -59,13 +59,13 @@ public class PlaceReadService {
     public PlaceListDetailResponse getPlaceDetails(Long placeId) {
         String redisKey = "place_details_" + placeId;
         try {
-            // Redis에서 데이터 조회
+            // ✅ Redis에서 데이터 조회
             String cachedPlace = redisTemplate.opsForValue().get(redisKey);
             if (cachedPlace != null) {
                 return objectMapper.readValue(cachedPlace, PlaceListDetailResponse.class);
             }
 
-            // Redis에 데이터가 없으면 DB에서 조회
+            // ✅ Redis에 데이터가 없으면 DB에서 조회
             Place place = placeRepository.findById(placeId)
                     .orElseThrow(() -> new TriplanException(ErrorCode.PLACE_NOT_FOUND));
 
@@ -76,8 +76,8 @@ public class PlaceReadService {
                     place.getCount(), place.getImgUrl()
             );
 
-            // Redis에 데이터 저장 (1시간 동안 캐싱)
-            redisTemplate.opsForValue().set(redisKey, objectMapper.writeValueAsString(response), 1, TimeUnit.HOURS);
+            // ✅ Redis에 데이터 저장 (1시간 동안 캐싱)
+            redisTemplate.opsForValue().set(redisKey, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
 
             return response;
         } catch (Exception e) {
