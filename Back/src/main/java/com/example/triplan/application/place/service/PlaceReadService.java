@@ -60,9 +60,9 @@ public class PlaceReadService {
         String redisKey = "place_details_" + placeId;
         try {
             // ✅ Redis에서 데이터 조회
-            String cachedPlace = redisTemplate.opsForValue().get(redisKey);
-            if (cachedPlace != null) {
-                return objectMapper.readValue(cachedPlace, PlaceListDetailResponse.class);
+            String cachedDetailPlace = redisTemplate.opsForValue().get(redisKey);
+            if (cachedDetailPlace != null) {
+                return objectMapper.readValue(cachedDetailPlace, PlaceListDetailResponse.class);
             }
 
             // ✅ Redis에 데이터가 없으면 DB에서 조회
