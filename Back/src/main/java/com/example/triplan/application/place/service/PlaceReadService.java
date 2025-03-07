@@ -57,7 +57,7 @@ public class PlaceReadService {
     }
 
     public PlaceListDetailResponse getPlaceDetails(Long placeId) {
-        String redisKey = REDIS_PLACE_KEY + placeId; // ✅ 변수 올바르게 사용
+        String redisKey = REDIS_PLACE_DETAIL_KEY_PREFIX + placeId; // ✅ 수정된 부분
         try {
             // ✅ Redis에서 데이터 조회
             String cachedDetailPlace = redisTemplate.opsForValue().get(redisKey);
@@ -79,10 +79,12 @@ public class PlaceReadService {
 
             // ✅ Redis에 데이터 저장 (1시간 동안 캐싱)
             redisTemplate.opsForValue().set(redisKey, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
+            System.out.println("✅ Redis 저장 완료! Key: " + redisKey);
 
             return response;
         } catch (Exception e) {
             throw new RuntimeException("Redis 캐싱 중 오류 발생", e);
         }
     }
+
 }
