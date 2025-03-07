@@ -84,7 +84,4 @@ public class PlaceReadService {
             throw new RuntimeException("Redis 캐싱 중 오류 발생", e);
         }
     }
-
-
-
 }
