@@ -61,8 +61,6 @@ public class PlaceReadService {
         try {
             // ✅ Redis에서 데이터 조회
             String cachedDetailPlace = redisTemplate.opsForValue().get(redisKey);
-            System.out.println("🔍 Redis 조회 결과: " + cachedDetailPlace);
-
             if (cachedDetailPlace != null) {
                 return objectMapper.readValue(cachedDetailPlace, PlaceListDetailResponse.class);
             }
@@ -79,14 +77,7 @@ public class PlaceReadService {
             );
 
             // ✅ Redis에 데이터 저장 (1시간 동안 캐싱)
-            try {
-                String jsonData = objectMapper.writeValueAsString(response);
-                System.out.println("✅ Redis에 저장할 데이터: " + jsonData);
-                redisTemplate.opsForValue().set(redisKey, jsonData, CACHE_EXPIRATION, TimeUnit.SECONDS);
-                System.out.println("✅ Redis 저장 완료!");
-            } catch (Exception e) {
-                System.err.println("⚠️ Redis 저장 중 오류 발생: " + e.getMessage());
-            }
+            redisTemplate.opsForValue().set(redisKey, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
 
             return response;
         } catch (Exception e) {
