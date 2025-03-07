@@ -62,6 +62,7 @@ public class PlaceReadService {
             // ✅ Redis에서 데이터 조회
             String cachedDetailPlace = redisTemplate.opsForValue().get(redisKey);
             if (cachedDetailPlace != null) {
+                System.out.println("🔍 Redis 조회 성공! Key: " + redisKey);
                 return objectMapper.readValue(cachedDetailPlace, PlaceListDetailResponse.class);
             }
 
