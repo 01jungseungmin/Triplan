@@ -26,7 +26,7 @@ public class PlaceReadService {
     private final ObjectMapper objectMapper;
 
     private static final String REDIS_PLACE_KEY = "all_places";
-    private static final String REDIS_PLACE_DETAIL_KEY = "place_details_";
+    private static final String REDIS_PLACE_DETAIL_KEY_PREFIX = "place_details_"; // ✅ 올바르게 선언
     private static final long CACHE_EXPIRATION = 3600; // 1시간 캐싱 (초 단위)
 
     // 전체 장소 조회
@@ -57,7 +57,7 @@ public class PlaceReadService {
     }
 
     public PlaceListDetailResponse getPlaceDetails(Long placeId) {
-        String redisKey = REDIS_PLACE_DETAIL_KEY + placeId;
+        String redisKey = REDIS_PLACE_DETAIL_KEY_PREFIX + placeId; // ✅ 변수 올바르게 사용
         try {
             // ✅ Redis에서 데이터 조회
             String cachedDetailPlace = redisTemplate.opsForValue().get(redisKey);
@@ -76,7 +76,7 @@ public class PlaceReadService {
                     place.getCount(), place.getImgUrl()
             );
 
-
+            // ✅ Redis에 데이터 저장 (1시간 동안 캐싱)
             redisTemplate.opsForValue().set(redisKey, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
 
             return response;
@@ -84,6 +84,7 @@ public class PlaceReadService {
             throw new RuntimeException("Redis 캐싱 중 오류 발생", e);
         }
     }
+
 
 
 }
