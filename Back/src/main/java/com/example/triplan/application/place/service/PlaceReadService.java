@@ -57,12 +57,10 @@ public class PlaceReadService {
     }
 
     public PlaceListDetailResponse getPlaceDetails(Long placeId) {
-        String redisKey = REDIS_PLACE_DETAIL_KEY_PREFIX + placeId; // ✅ 변수 올바르게 사용
         try {
             // ✅ Redis에서 데이터 조회
-            String cachedDetailPlace = redisTemplate.opsForValue().get(redisKey);
+            String cachedDetailPlace = redisTemplate.opsForValue().get(REDIS_PLACE_DETAIL_KEY_PREFIX);
             if (cachedDetailPlace != null) {
-                System.out.println("🔍 Redis 조회 성공! Key: " + redisKey);
                 return objectMapper.readValue(cachedDetailPlace, PlaceListDetailResponse.class);
             }
 
@@ -78,7 +76,7 @@ public class PlaceReadService {
             );
 
             // ✅ Redis에 데이터 저장 (1시간 동안 캐싱)
-            redisTemplate.opsForValue().set(redisKey, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
+            redisTemplate.opsForValue().set(REDIS_PLACE_DETAIL_KEY_PREFIX, objectMapper.writeValueAsString(response), CACHE_EXPIRATION, TimeUnit.SECONDS);
 
             return response;
         } catch (Exception e) {
