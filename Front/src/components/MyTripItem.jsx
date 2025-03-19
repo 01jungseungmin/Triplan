@@ -13,7 +13,6 @@ function MyTripItem({ crewId, planName, plan_startDate, plan_endDate, user, area
                         alt={`${planName} 이미지`}
                         className="MyTripItemImg"
                     />
-                    
                 </div>
                 <div className="MytripItemInfo">
                     <div className="MytripItemTitle">{planName}</div>
