@@ -58,16 +58,11 @@ public class CrewWriteService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
         }
 
-        // 관련된 CrewList 삭제
-        crewListRepository.deleteByCrew(crew);
-
-        // 해당 Crew에 속한 Plan 삭제
-        planRepository.deleteAllByCrew(crew);
-
-        // Crew 삭제
-        crewRepository.delete(crew);
+        crewRepository.deleteBoardPlansByCrew(crewId);  // BoardPlan 삭제
+        crewRepository.deleteBoardsByCrew(crewId);      // Board 삭제
+        crewRepository.deletePlansByCrew(crewId);       // Plan 삭제
+        crewRepository.deleteCrewListsByCrew(crewId);   // CrewList 삭제
     }
-
 
     //그룹 수정 메서드
     public String update(Long crewId, CrewUpdateRequest crewUpdateRequest){
