@@ -29,6 +29,7 @@ public interface CrewListRepository extends JpaRepository<CrewList, Long>{
     @Query("SELECT cl.account.email FROM CrewList cl WHERE cl.crew.id = :crewId")
     List<String> findEmailsByCrewId(@Param("crewId") Long crewId);
 
+    void deleteByCrew(Crew crew);
 }
 
 

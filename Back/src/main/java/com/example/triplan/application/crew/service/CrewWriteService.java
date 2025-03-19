@@ -5,6 +5,8 @@ import com.example.triplan.application.crew.dto.request.CrewRequest;
 import com.example.triplan.application.crew.dto.request.CrewUpdateRequest;
 import com.example.triplan.application.crew.dto.response.CrewResponse;
 import com.example.triplan.domain.account.entity.Account;
+import com.example.triplan.domain.board.repository.BoardPlanRepository;
+import com.example.triplan.domain.board.repository.BoardRepository;
 import com.example.triplan.domain.crew.entity.Crew;
 import com.example.triplan.domain.crew.entity.CrewList;
 import com.example.triplan.domain.crew.enums.IsAccept;
@@ -28,6 +30,8 @@ public class CrewWriteService {
     private final CrewListRepository crewListRepository;
     private final PlanRepository planRepository;
     private final AccountService accountService;
+    private final BoardPlanRepository boardPlanRepository;
+    private final BoardRepository boardRepository;
 
     public CrewResponse create(CrewRequest crewRequest){
         Account account = accountService.getCurrentUser();
@@ -57,10 +61,10 @@ public class CrewWriteService {
         if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
         }
-        crewRepository.deleteBoardPlansByCrew(crewId);  // BoardPlan 삭제
-        crewRepository.deleteBoardsByCrew(crewId);      // Board 삭제
-        crewRepository.deletePlansByCrew(crewId);       // Plan 삭제
-        crewRepository.deleteCrewListsByCrew(crewId);   // CrewList 삭제
+        boardPlanRepository.deleteByBoard_Crew(crew); // BoardPlan 삭제
+        boardRepository.deleteByCrew(crew); // Board 삭제
+        planRepository.deleteAllByCrew(crew); // Plan 삭제
+        crewListRepository.deleteByCrew(crew); // CrewList 삭제
     }
 
     //그룹 수정 메서드
