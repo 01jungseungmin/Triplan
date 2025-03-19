@@ -48,6 +48,9 @@ function Main() {
             <span className="text">Scroll down</span>
           </button>
         </div>
+        <div ref={bestBoardRef}>
+          <BestBoard />
+        </div>
         <TopButton />
       </div>
       <Footer />
