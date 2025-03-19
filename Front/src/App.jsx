@@ -38,7 +38,6 @@ function App() {
         <Route path='/api/boards/:boardId' element={<CommunityDetail />} />
         <Route path='/write' element={<CommunityWrite />} />
         <Route path="/write/:crewId" element={<CommunityWrite />} />
-        <Route path="/redis/test" element={<TestPage />} />
         <Route path='/unauthorized' element={<UnauthorizedPage />} /> {/* 권한 없음 페이지 */}
 
         {/* 관리자 전용 경로 */}
