@@ -57,7 +57,6 @@ public class CrewWriteService {
         if (!crewList.getIsAccept().equals(IsAccept.ACCEPT)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "초대를 수락해주세요.");
         }
-
         crewRepository.deleteBoardPlansByCrew(crewId);  // BoardPlan 삭제
         crewRepository.deleteBoardsByCrew(crewId);      // Board 삭제
         crewRepository.deletePlansByCrew(crewId);       // Plan 삭제
