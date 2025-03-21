@@ -52,7 +52,7 @@ public class AccountController {
         } catch (Exception e) {
             logger.error("Authentication failed: ", e);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body("{\"error\": \"인증에 실패했습니다.\"}");
+                    .body("{\"error\": \"인증을 실패했습니다.\"}");
         }
     }
 
