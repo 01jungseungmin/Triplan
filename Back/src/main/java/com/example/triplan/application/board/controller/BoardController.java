@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/boards")
+
 @RequiredArgsConstructor
 @Tag(name = "커뮤니티 관련 API", description = "BoardController")
 public class BoardController {
@@ -33,7 +33,7 @@ public class BoardController {
     private final S3ImageService s3ImageService;
 
     // 게시글 전체 조회
-    @GetMapping
+    @GetMapping("/place/findAll")
     @Operation(summary = "게시글 리스트 출력", description = "게시글 리스트 출력")
     public ResponseEntity<List<BoardResponse>> getAllBoards() {
         List<BoardResponse> boards = boardReadService.findAll();

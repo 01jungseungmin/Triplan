@@ -14,13 +14,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/place")
+
 @Tag(name = "장소 API", description = "PlaceController")
 public class PlaceController {
 
     private final PlaceReadService placeReadService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/api/boards")
     public List<PlaceListResponse> findAll(){
         return placeReadService.findAll();
     }
