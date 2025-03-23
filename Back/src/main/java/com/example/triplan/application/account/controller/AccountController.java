@@ -59,7 +59,7 @@ public class AccountController {
     @PostMapping("/api/logout")
     @Operation(summary = "로그아웃", description = "로그아웃")
     public ResponseEntity<String> logout(HttpServletRequest servletRequest){
-
+        accountService.logout();
         return ResponseEntity.ok().body("로그아웃");
     }
 
