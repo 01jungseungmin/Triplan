@@ -32,10 +32,10 @@ https://www.figma.com/design/fibCnlSkB4lpAM68e6eitH/Untitled?node-id=0-1&node-ty
 <img src="README_img/placeService.drawio.png" alt="placeService.drawio.png" width="250"/>
 
 ## 실제 화면
-<img src="README_img/main.png" alt="main.png" width="250"/>
-<img src="README_img/mypage.png" alt="mypage.png" width="250"/>
-<img src="README_img/place.png" alt="place.png" width="250"/>
-<img src="README_img/plan.png" alt="plan.png" width="250"/>
-<img src="README_img/realplan.png" alt="realplan.png" width="250"/>
-<img src="README_img/invite.png" alt="invite.png" width="250"/>
-<img src="README_img/community.png" alt="community.png" width="250"/>
+<img src="README_img/main.png" alt="main.png" width="500"/>
+<img src="README_img/mypage.png" alt="mypage.png" width="500"/>
+<img src="README_img/place.png" alt="place.png" width="500"/>
+<img src="README_img/plan.png" alt="plan.png" width="500"/>
+<img src="README_img/realplan.png" alt="realplan.png" width="500"/>
+<img src="README_img/invite.png" alt="invite.png" width="500"/>
+<img src="README_img/community.png" alt="community.png" width="500"/>
