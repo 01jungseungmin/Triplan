@@ -21,3 +21,6 @@ https://www.erdcloud.com/d/k6aSQxnt3A6zBSXW6
 
 ## Fimga
 https://www.figma.com/design/fibCnlSkB4lpAM68e6eitH/Untitled?node-id=0-1&node-type=CANVAS&t=A80qmHp7WteoRb9X-0
+
+## Architecture
+C:\Users\정승민\OneDrive\바탕 화면\새 폴더 (2)\port\diagram.jpg
