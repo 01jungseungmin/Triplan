@@ -43,7 +43,7 @@ public class AccountController {
 
             // response header에 토큰 추가
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + tokenDto.getToken());
+            httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + tokenDto.getAccessToken());
 
             return new ResponseEntity<>(tokenDto, httpHeaders, HttpStatus.OK);
         } catch (UsernameNotFoundException e) {
@@ -58,8 +58,8 @@ public class AccountController {
 
     @PostMapping("/api/logout")
     @Operation(summary = "로그아웃", description = "로그아웃")
-    public ResponseEntity<String> logout(HttpServletRequest servletRequest){
-        accountService.logout();
+    public ResponseEntity<String> logout(HttpServletRequest request){
+        accountService.logout(request);
         return ResponseEntity.ok().body("로그아웃");
     }
 

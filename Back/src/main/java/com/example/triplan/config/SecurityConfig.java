@@ -1,6 +1,7 @@
 package com.example.triplan.config;
 
 
+import com.example.triplan.security.jwt.RedisTokenService;
 import com.example.triplan.security.jwt.TokenProvider;
 import com.example.triplan.security.jwt.point.JwtAccessDeniedHandler;
 import com.example.triplan.security.jwt.point.JwtAuthenticationEntryPoint;
@@ -30,6 +31,7 @@ import java.util.Collections;
 public class SecurityConfig {
 
     private final TokenProvider tokenProvider;
+    private final RedisTokenService redisTokenService;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
@@ -52,7 +54,7 @@ public class SecurityConfig {
                         .requestMatchers("/","/swagger-ui/**","/{boardId}/answer" ,"/v3/api-docs/**","/login", "/join", "/main", "/api/load","/api/boards","/place/findAll", "/place/details/{placeId}", "/api/boards/{boardId}","/redis/test").permitAll() // 로그인, 회원가입, 메인 페이지는 모두 접근 가능                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated() // 그 외 모든 요청은 인증 필요
                 )
-                .with(new JwtSecurityConfig(tokenProvider), customizer -> {}); //filterChain 등록
+                .with(new JwtSecurityConfig(tokenProvider,redisTokenService), customizer -> {}); //filterChain 등록
 
 
 

@@ -6,19 +6,20 @@ import com.example.triplan.domain.account.enums.Role;
 import com.example.triplan.domain.account.repository.AccountRepository;
 import com.example.triplan.security.jwt.TokenDto;
 import com.example.triplan.security.jwt.TokenProvider;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.Optional;
 import java.util.Set;
@@ -30,7 +31,7 @@ public class AccountService {
     private final TokenProvider tokenProvider;
     private final AccountRepository accountRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
+    private final AuthenticationManager authenticationManager;
     private static final Logger logger = LoggerFactory.getLogger(AccountService.class);
 
     @Transactional
@@ -49,28 +50,18 @@ public class AccountService {
         // 유저 인증
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(accountDto.getEmail(), accountDto.getPassword());
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         // 토큰 발급
-        String jwt = tokenProvider.createToken(authentication);
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        // 계정 검색
-        Account account = accountRepository.findByEmail(accountDto.getEmail());
-
-
-        String nickName = account.getNickName();
-        Set<Role> userRoles = account.getRoles();
-
-        // Set redirect URI based on user role
-        String redirectUri = userRoles.contains(Role.ROLE_USER) ? "/main" : "/login";
-
-        return new TokenDto(jwt, nickName);
+        return tokenDto;
     }
 
     public Account getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); // 현재 로그인한 사용자의 인증 정보를 가져옵니다.
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication == null || authentication.isAuthenticated()) {
             return null; // 로그인이 되어 있지 않으면 null 반환
         }
         String email = authentication.getName();
@@ -78,10 +69,12 @@ public class AccountService {
     }
 
     @Transactional
-    public void logout(){
+    public void logout(HttpServletRequest request){
+        String token = resolveToken(request);
         Authentication authentication =SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            ((UsernamePasswordAuthenticationToken) authentication).setDetails(null); // 토큰의 만료 시간을 현재 시간으로 설정하여 토큰을 무효화
+            String email = authentication.getName();
+            tokenProvider.logout(token, email);
         }else {
             logger.info("토큰이 존재하지 않음. 로그인 되어 있지 않음.");
         }
@@ -95,6 +88,14 @@ public class AccountService {
         } else {
             return Optional.empty(); // 비밀번호가 일치하지 않으면 빈 값 반환
         }
+    }
+
+    private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     public void updateCurrentUser(AccountDto accountDto) {

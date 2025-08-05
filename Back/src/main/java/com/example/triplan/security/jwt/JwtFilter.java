@@ -21,6 +21,7 @@ public class JwtFilter extends GenericFilterBean {
     private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
     public static final String AUTHORIZATION_HEADER = "Authorization"; //토큰 정보를 담고 있는 HTTP 요청의 헤더 이름
     private final TokenProvider tokenProvider;
+    private final RedisTokenService redisTokenService;
 
     // 실제 필터릴 로직
     // 토큰의 인증정보를 SecurityContext에 저장하는 역할 수행
@@ -32,9 +33,13 @@ public class JwtFilter extends GenericFilterBean {
 
 
         if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) { //토큰이 있는지와 유효한지를 검사
-            Authentication authentication = tokenProvider.getAuthentication(jwt); //토큰의 인증 정보를 가져오기
-            SecurityContextHolder.getContext().setAuthentication(authentication); //SecurityContext 인증 정보 저장
-            logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);  //인증 정보가 저장되었음을 로그에 남깁
+            if(!redisTokenService.isBlacklisted(jwt)){
+                Authentication authentication = tokenProvider.getAuthentication(jwt); //토큰의 인증 정보를 가져오기
+                SecurityContextHolder.getContext().setAuthentication(authentication); //SecurityContext 인증 정보 저장
+                logger.debug("Security Context에 '{}' 인증 정보를 저장했습니다, uri: {}", authentication.getName(), requestURI);  //인증 정보가 저장되었음을 로그에 남깁
+            } else {
+                logger.debug("블랙리스트 JWT token, URI: {}", requestURI);
+            }
         } else {
             logger.debug("유효한 JWT 토큰이 없습니다, uri: {}", requestURI);
         }

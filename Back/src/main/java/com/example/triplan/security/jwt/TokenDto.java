@@ -8,6 +8,7 @@
     @AllArgsConstructor
     @NoArgsConstructor
     public class TokenDto {
-        private String token;
-        private String nickName;
+        private String accessToken;
+        private String refreshToken;
+        private String tokenType = "Bearer";
     }

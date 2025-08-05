@@ -2,6 +2,7 @@ package com.example.triplan.config;
 
 
 import com.example.triplan.security.jwt.JwtFilter;
+import com.example.triplan.security.jwt.RedisTokenService;
 import com.example.triplan.security.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -12,6 +13,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain, HttpSecurity> {
     private final TokenProvider tokenProvider;
+    private final RedisTokenService redisTokenService;
+
 
     @Override
     public void configure(HttpSecurity http) {
@@ -19,7 +22,7 @@ public class JwtSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurity
         // security 로직에 JwtFilter 등록
         http.addFilterBefore(
 
-                new JwtFilter(tokenProvider),
+                new JwtFilter(tokenProvider,redisTokenService),
                 UsernamePasswordAuthenticationFilter.class
         );
     }
