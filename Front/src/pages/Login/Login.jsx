@@ -34,30 +34,29 @@ function Login() {
         },
         body: JSON.stringify({ email, password: pass }),
       });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("서버 응답 오류:", errorText);
-        alert("로그인 실패: " + errorText);
-        return;
-      }
-
+    
       const responseText = await response.text();
       console.log('서버 응답 Raw Text:', responseText);
-
+    
+      if (!response.ok) {
+        console.error("서버 응답 오류:", responseText);
+        alert("로그인 실패: " + responseText);
+        return;
+      }
+    
       const data = JSON.parse(responseText);
       console.log('서버 응답 JSON:', data);
-
+    
       const token = data.accessToken;
       console.log('accessToken:', token, 'typeof:', typeof token);
-
+    
       if (!token || typeof token !== 'string') {
         alert("서버 응답에 유효한 accessToken이 없습니다.");
         return;
       }
-
+    
       localStorage.setItem('token', token);
-
+    
       try {
         const decodedToken = jwtDecode(token);
         console.log('디코딩된 토큰:', decodedToken);
@@ -66,13 +65,14 @@ function Login() {
         alert("토큰 디코딩 실패");
         return;
       }
-
+    
       alert("로그인 성공!");
       navigate('/');
     } catch (error) {
       console.error("로그인 중 오류 발생:", error);
       alert("로그인 중 네트워크 오류 발생");
     }
+    
   };
   
 
