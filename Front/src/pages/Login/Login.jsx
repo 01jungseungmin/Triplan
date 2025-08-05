@@ -35,8 +35,9 @@ function Login() {
         body: JSON.stringify({ email, password: pass }),
       });
     
-      const responseText = await response.text();
-      console.log('서버 응답 Raw Text:', responseText);
+      // JSON으로 직접 파싱
+      const data = await response.json();
+      console.log('서버 응답 JSON:', data);
     
       if (!response.ok) {
         console.error("서버 응답 오류:", responseText);
@@ -44,17 +45,20 @@ function Login() {
         return;
       }
     
-      const data = JSON.parse(responseText);
-      console.log('서버 응답 JSON:', data);
-    
+      if (!response.ok) {
+        console.error("서버 응답 오류:", data);
+        alert("로그인 실패: " + (data.message || '오류 발생'));
+        return;
+      }
+      
       const token = data.accessToken;
       console.log('accessToken:', token, 'typeof:', typeof token);
-    
+      
       if (!token || typeof token !== 'string') {
         alert("서버 응답에 유효한 accessToken이 없습니다.");
         return;
       }
-    
+      
       localStorage.setItem('token', token);
     
       try {
