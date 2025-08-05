@@ -37,7 +37,13 @@ function Login() {
   
       if (response.ok) {
         const data = await response.json();
-  
+        console.log("서버 응답 확인:", data);
+
+        if (!data.accessToken) {
+          alert("서버 응답에 accessToken이 없습니다.");
+          return;
+        }
+        
         // JWT 토큰을 로컬 스토리지에 저장
         localStorage.setItem('token', data.accessToken);
   
