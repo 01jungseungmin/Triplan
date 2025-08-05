@@ -34,21 +34,25 @@ function Login() {
         },
         body: JSON.stringify({ email: email, password: pass }),
       });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log("서버 응답 확인:", data);
 
-        if (!data.accessToken) {
+      console.log('응답 상태 코드:', response.status);  // 추가
+      console.log('response.ok:', response.ok);        // 추가
+
+      const data = await response.json();
+
+      console.log('서버 응답 확인:', data); 
+      if (response.ok) {
+        const token = data.accessToken;
+        if (!token) {
           alert("서버 응답에 accessToken이 없습니다.");
           return;
         }
-        
+
         // JWT 토큰을 로컬 스토리지에 저장
-        localStorage.setItem('token', data.accessToken);
+        localStorage.setItem('token', token);
   
         // JWT 토큰 디코딩하여 사용자 권한(auth) 추출
-        const decodedToken = jwtDecode(data.accessToken);
+        const decodedToken = jwtDecode(token);
         const userAuth = decodedToken.auth; // 'auth' 필드를 사용
   
         alert("로그인 성공!")
