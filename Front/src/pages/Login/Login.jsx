@@ -34,40 +34,32 @@ function Login() {
         },
         body: JSON.stringify({ email: email, password: pass }),
       });
-
-      console.log('응답 상태 코드:', response.status);  // 추가
-      console.log('response.ok:', response.ok);        // 추가
-
-      const data = await response.json();
-
-      console.log('서버 응답 확인:', data); 
-      if (response.ok) {
-        const token = data.accessToken;
-        if (!token) {
-          alert("서버 응답에 accessToken이 없습니다.");
-          return;
-        }
-
-        // JWT 토큰을 로컬 스토리지에 저장
-        localStorage.setItem('token', token);
-  
-        // JWT 토큰 디코딩하여 사용자 권한(auth) 추출
-        const decodedToken = jwtDecode(token);
-        const userAuth = decodedToken.auth; // 'auth' 필드를 사용
-  
-        alert("로그인 성공!")
-
-        navigate('/'); // 기본 홈으로 리디렉션
-
-      } else {
-        const errorData = await response.json();
-        alert(errorData.error || "로그인에 실패했습니다.");
+    
+      console.log('응답 상태 코드:', response.status);
+    
+      const rawText = await response.text();  // 먼저 텍스트로 받음
+      console.log('서버 응답 Raw Text:', rawText);
+    
+      const data = JSON.parse(rawText);       // JSON 파싱
+      console.log('서버 응답 JSON:', data);
+    
+      const token = data.accessToken;
+      if (!token) {
+        alert("서버 응답에 accessToken이 없습니다.");
+        return;
       }
+    
+      localStorage.setItem('token', token);
+      const decodedToken = jwtDecode(token);  // 안전하게 실행
+      console.log('디코딩된 토큰:', decodedToken);
+    
+      alert("로그인 성공!");
+      navigate('/');
     } catch (error) {
-      console.error("Error during login:", error);
+      console.error("로그인 중 에러 발생:", error);
       alert("로그인 중 오류가 발생했습니다.");
     }
-  };
+  }
   
 
   return (
