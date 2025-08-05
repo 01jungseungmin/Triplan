@@ -20,6 +20,7 @@ function Login() {
 
   const loginForm = async (e) => {
     e.preventDefault();
+    console.log("loginForm 시작");  // 로그 추가
   
     if (!loginInput) {
       alert("이메일, 비밀번호 모두 입력해주세요.");
@@ -27,40 +28,41 @@ function Login() {
     }
   
     try {
+      console.log("fetch 시작");  // 로그 추가
       const response = await fetch('http://13.209.211.218:8080/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email, password: pass }),
       });
-    
+  
+      console.log("fetch 응답 수신됨");  // 로그 추가
+  
       const rawText = await response.text();
       console.log('서버 응답 Raw Text:', rawText);
-    
+  
       const data = JSON.parse(rawText);
       console.log('서버 응답 JSON:', data);
-    
+  
       const token = data.accessToken;
-      console.log('accessToken:', token);
-      console.log('typeof token:', typeof token);
-    
+      console.log('accessToken:', token, 'typeof:', typeof token);
+  
       if (!token || typeof token !== 'string') {
         alert("서버 응답에 유효한 accessToken이 없습니다.");
         return;
       }
-    
+  
       localStorage.setItem('token', token);
       const decodedToken = jwtDecode(token);
       console.log('디코딩된 토큰:', decodedToken);
-    
+  
       alert("로그인 성공!");
       navigate('/');
     } catch (error) {
-      console.error("로그인 중 에러 발생:", error);
+      console.error("로그인 중 에러 발생:", error);  // catch에서 반드시 찍힘
       alert("로그인 중 오류가 발생했습니다.");
     }
-  }
+  };
+  
   
 
   return (
