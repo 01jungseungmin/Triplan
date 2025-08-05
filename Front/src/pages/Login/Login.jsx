@@ -39,10 +39,10 @@ function Login() {
         const data = await response.json();
   
         // JWT 토큰을 로컬 스토리지에 저장
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.accessToken);
   
         // JWT 토큰 디코딩하여 사용자 권한(auth) 추출
-        const decodedToken = jwtDecode(data.token);
+        const decodedToken = jwtDecode(data.accessToken);
         const userAuth = decodedToken.auth; // 'auth' 필드를 사용
   
         alert("로그인 성공!")
