@@ -69,14 +69,18 @@ public class AccountService {
     }
 
     @Transactional
-    public void logout(HttpServletRequest request){
+    public void logout(HttpServletRequest request) {
         String token = resolveToken(request);
-        Authentication authentication =SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            String email = authentication.getName();
-            tokenProvider.logout(token, email);
-        }else {
-            logger.info("토큰이 존재하지 않음. 로그인 되어 있지 않음.");
+        if (token != null) {
+            try {
+                String email = tokenProvider.getUserEmailFromToken(token);  // 토큰에서 이메일 추출
+                tokenProvider.logout(token, email);  // Redis에서 키 삭제
+                logger.info("로그아웃 성공: {}", email);
+            } catch (Exception e) {
+                logger.warn("토큰 해석 실패 또는 잘못된 토큰. 로그아웃 처리 실패.");
+            }
+        } else {
+            logger.info("요청에 토큰이 없음. 로그아웃 처리하지 않음.");
         }
     }
 

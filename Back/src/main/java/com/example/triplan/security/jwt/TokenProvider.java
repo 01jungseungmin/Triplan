@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,6 +37,8 @@ public class TokenProvider implements InitializingBean {
     private long refreshTokenValidityInSeconds;
 
     private final RedisTokenService redisTokenService;
+
+    private final RedisTemplate redisTemplate;
 
     private Key key;
 
@@ -151,9 +154,18 @@ public class TokenProvider implements InitializingBean {
                 .build();
     }
 
-    public void logout(String accessToken, String email) {
-        redisTokenService.deleteRefreshToken(email);
-        long remaining = getTokenRemainingTime(accessToken);
-        redisTokenService.blacklistAccessToken(accessToken, remaining);
+
+    public void logout(String token, String email) {
+        String redisKey = "RT:" + email;
+        redisTemplate.delete(redisKey);  // Refresh Token 삭제
+        logger.info("Redis에서 {} 삭제 완료", redisKey);
+    }
+
+    public String getUserEmailFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();  // email
     }
 }
