@@ -86,6 +86,7 @@ public class TokenProvider implements InitializingBean {
         return TokenDto.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .tokenType("Bearer")
                 .build();
     }
 
